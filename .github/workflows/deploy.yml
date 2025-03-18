@@ -1,4 +1,4 @@
-name: Deploy Next.js to Cloud Run using GitHub Container Registry (GHCR) & Google Artifact Registry (GAR)
+name: Deploy Next.js to Cloud Run using GHCR & GAR
 
 on:
   push:
@@ -30,12 +30,12 @@ jobs:
 
     - name: Login to Google Artifact Registry (GAR)
       run: |
-        gcloud auth configure-docker europe-west6-docker.pkg.dev
+        gcloud auth configure-docker europe-west1-docker.pkg.dev
 
     - name: Build and Push Docker Image
       run: |
         GHCR_IMAGE="ghcr.io/sopra-fs25-group-20/sopra-fs25-group-20-client:latest"
-        GAR_IMAGE="europe-west6-docker.pkg.dev/sopra-fs25-group-20-client/docker-repo/sopra-fs25-group-20-client:latest"
+        GAR_IMAGE="europe-west1-docker.pkg.dev/sopra-fs25-group-20-client/docker-repo/sopra-fs25-group-20-client:latest"
         docker build -f Dockerfile . \
           --tag $GHCR_IMAGE \
           --tag $GAR_IMAGE
@@ -44,9 +44,9 @@ jobs:
 
     - name: Deploy to Google Cloud Run
       run: |
-        gcloud run deploy nextjs-app \
-          --image=europe-west6-docker.pkg.dev/sopra-fs25-group-20-client/docker-repo/sopra-fs25-group-20-client:latest \
+        gcloud run deploy spyquest-app \
+          --image=europe-west1-docker.pkg.dev/sopra-fs25-group-20-client/docker-repo/sopra-fs25-group-20-client:latest \
           --platform=managed \
-          --region=europe-west6 \
+          --region=europe-west1 \
           --allow-unauthenticated \
           --port=3000
