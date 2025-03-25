@@ -1,61 +1,82 @@
+import { Client, IMessage } from "@stomp/stompjs";
 import { getChatWebsocketDomain } from "@/utils/domain";
 import { ChatMessage, isChatMessage } from "@/types/chatMessage";
+
 type MessageHandler = (data: ChatMessage) => void;
 
 export class Chat {
-  private baseURL: string;
-  private socket: WebSocket | null = null;
+  private client: Client;
   private messageHandlers: MessageHandler[] = [];
+  private connected: boolean = false;
 
   constructor() {
-    this.baseURL = getChatWebsocketDomain();
+    const brokerURL = getChatWebsocketDomain();
+
+    this.client = new Client({
+      brokerURL,
+      reconnectDelay: 5000,
+      debug: (str) => console.debug(`[STOMP] ${str}`),
+    });
+
+    this.client.onStompError = (frame) => {
+      console.error("Broker error:", frame.headers["message"]);
+      console.error("Details:", frame.body);
+    };
+
+    this.client.onWebSocketClose = () => {
+      console.log("WebSocket disconnected.");
+      this.connected = false;
+    };
+
+    this.client.onConnect = () => {
+      console.log("STOMP connected.");
+      this.connected = true;
+
+      // Call each registered message handler when receiving a message from backend
+      this.client.subscribe(`/topic/chat`, (message: IMessage) => {
+        try {
+          const body = JSON.parse(message.body);
+          if (isChatMessage(body)) {
+            this.messageHandlers.forEach((handler) => handler(body));
+          } else {
+            console.warn("Invalid chat message:", body);
+          }
+        } catch (err) {
+          console.error("Failed to parse message:", err);
+        }
+      });
+    };
   }
 
-  connect(roomCode: string) {
-    if (this.socket) return;
+  // Connect to backend using 'nickname' and game room 'code' in header
+  connect(nickname: string, code: string) {
+    if (this.connected || this.client.active) return;
 
-    this.socket = new WebSocket(this.baseURL);
-
-    this.socket.onopen = () => {
-      console.log("WebSocket connected.");
-      this.socket?.send(JSON.stringify({ type: "join", message: roomCode }));
+    this.client.connectHeaders = {
+      nickname,
+      code,
     };
 
-    // Call each registered message handler when receiving a message from backend
-    this.socket.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        if (isChatMessage(data)) {
-          this.messageHandlers.forEach((handler) => handler(data));
-        } else {
-          console.warn("Invalid message format:", data);
-        }
-      } catch (err) {
-        console.error("Failed to parse message:", err);
-      }
-    };
-
-    this.socket.onclose = () => {
-      console.log("WebSocket closed.");
-      this.socket = null;
-    };
-
-    this.socket.onerror = (err) => {
-      console.error("WebSocket error:", err);
-    };
+    this.client.activate();
   }
 
   disconnect() {
-    this.socket?.close();
-    this.socket = null;
+    if (this.client.active) {
+      this.client.deactivate();
+      this.connected = false;
+    }
   }
 
   send(message: string) {
-    if (this.socket?.readyState === WebSocket.OPEN) {
-      this.socket.send(JSON.stringify({ type: "message", message: message }));
-    } else {
-      console.warn("WebSocket is not open. Message not sent.");
+    if (!this.connected) {
+      console.warn("STOMP client not connected. Message not sent.");
+      return;
     }
+
+    this.client.publish({
+      destination: `/app/chat`,
+      body: JSON.stringify({ message }),
+    });
   }
 
   // Interface for other functions to register a function that handles the incoming data
