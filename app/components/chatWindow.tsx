@@ -10,12 +10,12 @@ export const ChatWindow = () => {
   const [input, setInput] = useState("");
 
   useEffect(() => {
-    ws.connect("EXAMPLE_ROOM_123");
+    ws.connect("Userli", "ABC123");
 
     const handleMessage = (data: any) => {
       setMessages((prev) => [
         ...prev,
-        { nickname: data.nickname, message: data.message },
+        { nickname: data.nickname, message: data.message, color: data.color },
       ]);
     };
 
@@ -30,9 +30,6 @@ export const ChatWindow = () => {
     if (!input.trim()) return;
 
     ws.send(input.trim());
-    setMessages((
-      prev,
-    ) => [...prev, { nickname: "You", message: input.trim() }]);
     setInput("");
   };
 
