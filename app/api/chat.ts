@@ -11,13 +11,14 @@ export class Chat {
     this.baseURL = getChatWebsocketDomain();
   }
 
-  connect() {
+  connect(roomCode: string) {
     if (this.socket) return;
 
     this.socket = new WebSocket(this.baseURL);
 
     this.socket.onopen = () => {
       console.log("WebSocket connected.");
+      this.socket?.send(JSON.stringify({ type: "join", message: roomCode }));
     };
 
     // Call each registered message handler when receiving a message from backend
@@ -51,13 +52,13 @@ export class Chat {
 
   send(message: string) {
     if (this.socket?.readyState === WebSocket.OPEN) {
-      this.socket.send(JSON.stringify(message));
+      this.socket.send(JSON.stringify({ type: "message", message: message }));
     } else {
       console.warn("WebSocket is not open. Message not sent.");
     }
   }
 
-  // Interface for other functions to register a function that handles the incoming data 
+  // Interface for other functions to register a function that handles the incoming data
   // when a message is being received from the backend.
   onMessage(handler: MessageHandler) {
     this.messageHandlers.push(handler);

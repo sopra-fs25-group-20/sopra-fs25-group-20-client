@@ -10,9 +10,19 @@ wss.on("connection", (ws) => {
   console.log("Frontend connected");
 
   ws.on("message", (message) => {
-    const parsed = JSON.parse(message);
-    console.log("Received:", parsed);
-    ws.send(JSON.stringify({ nickname: "Marc", message: "Hey!" }));
+    let parsed = JSON.parse(message);
+    if (parsed.type === "join") {
+      console.log(`Client joined room ${parsed.message}`);
+      ws.send(
+        JSON.stringify({
+          nickname: "Server",
+          message: `Welcome to room ${parsed.message}`,
+        }),
+      );
+    } else {
+      console.log("Received:", parsed);
+      ws.send(JSON.stringify({ nickname: "Marc", message: "Hey!" }));
+    }
   });
 
   ws.on("close", () => console.log("Frontend disconnected"));
