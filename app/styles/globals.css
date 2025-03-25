@@ -1,13 +1,11 @@
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --box: #ececec;
+  --inner-box: #d9d9d9;
+  --text: #909090;
+  --accent: #d9d9d9;
+  --user-color-1: #ff146a;
+  --user-color-2: #217852;
 }
 
 html,
@@ -17,7 +15,7 @@ body {
 }
 
 body {
-  color: var(--foreground);
+  color: var(--text);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -35,28 +33,30 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+.card-box {
+  background-color: var(--box);
+  border-radius: 10px;
+  padding: 30px;
+  margin-bottom: 30px;
 }
 
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: rgb(41, 44, 59);
+/* Bootstrap override */
+.form-control {
+  background-color: transparent;
+  border-color: transparent;
+  caret-color: var(--user-color-1);
+  color: var(--text);
 }
-
-.login-button {
-  width: 100%;
+.form-control:focus {
+  background-color: transparent;
+  border-color: transparent;
+  outline: none;
+  box-shadow: none;
+  color: var(--text);
 }
-
-.card-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: rgb(41, 44, 59);
+.form-control::placeholder {
+  color: var(--text);
+}
+.btn {
+  color: var(--text);
 }
