@@ -1,5 +1,5 @@
 import { Client, IMessage } from "@stomp/stompjs";
-import { getChatWebsocketDomain } from "@/utils/domain";
+import { getStompBrokerDomain } from "@/utils/domain";
 import { ChatMessage, isChatMessage } from "@/types/chatMessage";
 
 type MessageHandler = (data: ChatMessage) => void;
@@ -9,11 +9,11 @@ export class Chat {
   private messageHandlers: MessageHandler[] = [];
   private connected: boolean = false;
 
-  constructor() {
-    const brokerURL = getChatWebsocketDomain();
-
+  constructor(nickname: string, code: string) {
     this.client = new Client({
-      brokerURL,
+      brokerURL: `${getStompBrokerDomain()}?code=${
+        encodeURIComponent(code)
+      }&nickname=${encodeURIComponent(nickname)}`,
       reconnectDelay: 5000,
       debug: (str) => console.debug(`[STOMP] ${str}`),
     });
@@ -33,7 +33,7 @@ export class Chat {
       this.connected = true;
 
       // Call each registered message handler when receiving a message from backend
-      this.client.subscribe(`/topic/chat`, (message: IMessage) => {
+      this.client.subscribe(`/topic/chat/${code}`, (message: IMessage) => {
         try {
           const body = JSON.parse(message.body);
           if (isChatMessage(body)) {
@@ -48,15 +48,8 @@ export class Chat {
     };
   }
 
-  // Connect to backend using 'nickname' and game room 'code' in header
-  connect(nickname: string, code: string) {
+  connect() {
     if (this.connected || this.client.active) return;
-
-    this.client.connectHeaders = {
-      nickname,
-      code,
-    };
-
     this.client.activate();
   }
 

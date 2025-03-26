@@ -4,7 +4,7 @@ export type ChatMessage = {
   color: string;
 };
 
-export function isChatMessage(data: any): data is ChatMessage {
+export function isChatMessage(data: ChatMessage): data is ChatMessage {
   return (
     typeof data === "object" &&
     data !== null &&

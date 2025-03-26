@@ -12,7 +12,7 @@ docker run -p 3000:3000 ghcr.io/sopra-fs25-group-20/sopra-fs25-group-20-client:l
 ```
 
 ### **Run with a Custom Backend**
-To connect to a different backend, provide a custom `BACKEND_URL` using the `-e` flag:
+To connect to a different backend and/or a different STOMP broker, provide a custom `BACKEND_URL` and/or `BROKER_URL` using the `-e` flag:
 ```bash
-docker run -p 3000:3000 -e BACKEND_URL=https://your-backend-url.com ghcr.io/sopra-fs25-group-20/sopra-fs25-group-20-client:latest
+docker run -p 3000:3000 -e BACKEND_URL=https://your-backend-url.com -e BROKER_URL=wss://your-broker-url.com ghcr.io/sopra-fs25-group-20/sopra-fs25-group-20-client:latest
 ```
