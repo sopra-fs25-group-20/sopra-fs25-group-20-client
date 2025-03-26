@@ -9,7 +9,7 @@ export default function Home() {
       className="d-flex justify-content-center align-items-center"
       style={{ height: "100vh" }}
     >
-      <ChatWindow />
+      <ChatWindow nickname="Userli" code="ABC123" />
     </div>
   );
 }

@@ -10,11 +10,12 @@ export class Chat {
   private connected: boolean = false;
   private code: string | undefined;
 
-  constructor() {
+  constructor(nickname: string, code: string) {
     const brokerURL = getStompBrokerDomain();
 
     this.client = new Client({
-      brokerURL,
+      brokerURL: `${getStompBrokerDomain()}?code=${encodeURIComponent(code)
+        }&nickname=${encodeURIComponent(nickname)}`,
       reconnectDelay: 5000,
       debug: (str) => console.debug(`[STOMP] ${str}`),
     });
@@ -49,19 +50,8 @@ export class Chat {
     };
   }
 
-  // Connect to backend using 'nickname' and game room 'code' in header
-  connect(nickname: string, code: string) {
-    if (!code) {
-      console.error("Chat room code must be provided.");
-    }
+  connect() {
     if (this.connected || this.client.active) return;
-
-    this.code = code;
-    this.client.connectHeaders = {
-      nickname,
-      code,
-    };
-
     this.client.activate();
   }
 

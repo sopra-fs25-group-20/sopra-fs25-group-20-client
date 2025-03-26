@@ -4,13 +4,18 @@ import { useEffect, useState } from "react";
 import { useChat } from "@/hooks/useChat";
 import { ChatMessage } from "@/types/chatMessage";
 
-export const ChatWindow = () => {
-  const ws = useChat();
+interface ChatWindowProps {
+  nickname: string;
+  code: string;
+}
+
+export const ChatWindow = ({ nickname, code }: ChatWindowProps) => {
+  const ws = useChat(nickname, code);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
 
   useEffect(() => {
-    ws.connect("Userli", "ABC123");
+    ws.connect();
 
     const handleMessage = (data: any) => {
       setMessages((prev) => [
@@ -24,24 +29,23 @@ export const ChatWindow = () => {
       ws.removeMessageHandler(handleMessage);
       ws.disconnect();
     };
-  }, []);
+  }, [ws]);
 
   const sendMessage = () => {
     if (!input.trim()) return;
-
     ws.send(input.trim());
     setInput("");
   };
 
   const getColor = (from: string) =>
-    from === "You" ? "var(--user-color-1)" : "var(--user-color-2)";
+    from === nickname ? "var(--user-color-1)" : "var(--user-color-2)";
 
   return (
     <div className="card-box" style={{ maxWidth: "350px" }}>
       <div className="d-flex flex-column h-100" style={{ minHeight: "532px" }}>
         <div className="flex-grow-1 overflow-auto mb-3">
           {messages.map((msg, index) => {
-            const isYou = msg.nickname === "You";
+            const isYou = msg.nickname === nickname;
             const color = getColor(msg.nickname);
 
             return (
