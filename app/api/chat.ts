@@ -10,11 +10,10 @@ export class Chat {
   private connected: boolean = false;
 
   constructor(nickname: string, code: string) {
-    const brokerURL = getStompBrokerDomain();
-
     this.client = new Client({
-      brokerURL: `${getStompBrokerDomain()}?code=${encodeURIComponent(code)
-        }&nickname=${encodeURIComponent(nickname)}`,
+      brokerURL: `${getStompBrokerDomain()}?code=${
+        encodeURIComponent(code)
+      }&nickname=${encodeURIComponent(nickname)}`,
       reconnectDelay: 5000,
       debug: (str) => console.debug(`[STOMP] ${str}`),
     });

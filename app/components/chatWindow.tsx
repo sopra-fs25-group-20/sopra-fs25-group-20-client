@@ -17,7 +17,7 @@ export const ChatWindow = ({ nickname, code }: ChatWindowProps) => {
   useEffect(() => {
     ws.connect();
 
-    const handleMessage = (data: any) => {
+    const handleMessage = (data: ChatMessage) => {
       setMessages((prev) => [
         ...prev,
         { nickname: data.nickname, message: data.message, color: data.color },
