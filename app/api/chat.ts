@@ -1,5 +1,5 @@
 import { Client, IMessage } from "@stomp/stompjs";
-import { getChatWebsocketDomain } from "@/utils/domain";
+import { getStompBrokerDomain } from "@/utils/domain";
 import { ChatMessage, isChatMessage } from "@/types/chatMessage";
 
 type MessageHandler = (data: ChatMessage) => void;
@@ -10,7 +10,7 @@ export class Chat {
   private connected: boolean = false;
 
   constructor() {
-    const brokerURL = getChatWebsocketDomain();
+    const brokerURL = getStompBrokerDomain();
 
     this.client = new Client({
       brokerURL,
