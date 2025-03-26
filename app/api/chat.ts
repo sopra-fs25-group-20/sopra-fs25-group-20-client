@@ -8,6 +8,7 @@ export class Chat {
   private client: Client;
   private messageHandlers: MessageHandler[] = [];
   private connected: boolean = false;
+  private code: string | undefined;
 
   constructor() {
     const brokerURL = getStompBrokerDomain();
@@ -33,7 +34,7 @@ export class Chat {
       this.connected = true;
 
       // Call each registered message handler when receiving a message from backend
-      this.client.subscribe(`/topic/chat`, (message: IMessage) => {
+      this.client.subscribe(`/topic/chat/${this.code}`, (message: IMessage) => {
         try {
           const body = JSON.parse(message.body);
           if (isChatMessage(body)) {
@@ -50,8 +51,12 @@ export class Chat {
 
   // Connect to backend using 'nickname' and game room 'code' in header
   connect(nickname: string, code: string) {
+    if (!code) {
+      console.error("Chat room code must be provided.");
+    }
     if (this.connected || this.client.active) return;
 
+    this.code = code;
     this.client.connectHeaders = {
       nickname,
       code,
