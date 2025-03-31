@@ -18,10 +18,6 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
     router.push("/login");
   };
 
-  const handleGitHub = () => {
-    window.open("https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client", "_blank");
-  };
-
   return (
     <header className="app-header">
       {showLogin && (
@@ -32,12 +28,19 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
           Login <HiArrowRight size={18} />
         </button>
       )}
+
       <button onClick={onToggleTheme} className="app-header-button">
         <FaMoon size={18} />
       </button>
-      <button onClick={handleGitHub} className="app-header-button">
+
+      <a
+        href="https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="app-header-button"
+      >
         <FaGithub size={18} />
-      </button>
+      </a>
     </header>
   );
 };
