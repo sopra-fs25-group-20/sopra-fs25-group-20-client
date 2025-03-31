@@ -17,7 +17,13 @@ interface PrimaryButtonProps {
         type={type}
         onClick={onClick}
         className={`btn btn-primary fw-bold ${className}`}
-        style={{ backgroundColor: "#f23674", border: "none" }}
+        style={{
+          backgroundColor: "var(--user-color-1)",
+          color: "#fff",
+          border: "none",
+          borderRadius: "8px",
+          padding: "8px 12px",
+        }}
       >
         {label}
       </button>
