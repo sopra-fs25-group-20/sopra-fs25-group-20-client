@@ -51,7 +51,8 @@ reason).
 |                    | [date]   | [Link to Commit 2] | [Brief description of the task] | [Why this contribution is relevant] |
 | **[@githubUser4]** | [date]   | [Link to Commit 1] | [Brief description of the task] | [Why this contribution is relevant] |
 |                    | [date]   | [Link to Commit 2] | [Brief description of the task] | [Why this contribution is relevant] |
-
+| **@osmanoeztuerk** | 28.03.2025 | [Link to Commit 1](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/117) | Implemented  mock image service | Provides a testing mechanism by returning a static image, allowing frontend and backend development without using Google APIs. |
+| **@osmanoeztuerk** | 31.03.2025   | [Link to Commit 2](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/122) | Implemented metadata pre-check with StreetViewMetadataService, structured logging, and a test controller for manual verification. | Improves image retrieval by avoiding unnecessary requests and supports developers with structured logging & testing |
 ---
 
 ## Contributions Week 2 - [Begin Date] to [End Date]
