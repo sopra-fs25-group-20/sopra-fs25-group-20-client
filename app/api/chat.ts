@@ -1,32 +1,16 @@
-import { Client, IMessage } from "@stomp/stompjs";
-import { getStompBrokerDomain } from "@/utils/domain";
+import { IMessage } from "@stomp/stompjs";
 import { ChatMessage, isChatMessage } from "@/types/chatMessage";
+import { connect, disconnect, getStompClient } from "./stompConnection";
 
 type MessageHandler = (data: ChatMessage) => void;
 
 export class Chat {
-  private client: Client;
+  private client;
   private messageHandlers: MessageHandler[] = [];
   private connected: boolean = false;
 
   constructor(nickname: string, code: string) {
-    this.client = new Client({
-      brokerURL: `${getStompBrokerDomain()}?code=${
-        encodeURIComponent(code)
-      }&nickname=${encodeURIComponent(nickname)}`,
-      reconnectDelay: 5000,
-      debug: (str) => console.debug(`[STOMP] ${str}`),
-    });
-
-    this.client.onStompError = (frame) => {
-      console.error("Broker error:", frame.headers["message"]);
-      console.error("Details:", frame.body);
-    };
-
-    this.client.onWebSocketClose = () => {
-      console.log("WebSocket disconnected.");
-      this.connected = false;
-    };
+    this.client = getStompClient(nickname, code);
 
     this.client.onConnect = () => {
       console.log("STOMP connected.");
@@ -49,15 +33,12 @@ export class Chat {
   }
 
   connect() {
-    if (this.connected || this.client.active) return;
-    this.client.activate();
+    connect(this.client);
   }
 
   disconnect() {
-    if (this.client.active) {
-      this.client.deactivate();
-      this.connected = false;
-    }
+    disconnect(this.client);
+    this.connected = false;
   }
 
   send(message: string) {
