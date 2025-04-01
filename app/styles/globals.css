@@ -101,8 +101,9 @@ a {
   transition: opacity 0.2s ease;
 }
 
-button:hover {
-  opacity: 0.8;
+.btn:hover {
+  background-color: var(--user-color-1);
+  opacity: 1;
 }
 
 /* === App Header === */
@@ -154,3 +155,31 @@ body.dark #__next,
 body.dark main {
   background-color: var(--background) !important;
 }
+
+.input-group {
+  margin-bottom: 12px;
+}
+
+.button-row {
+  display: flex;
+  gap: 12px;
+}
+
+.half-button {
+  flex: 1;
+}
+
+.btn-sm {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  border-radius: 10px;
+}
+
+body.dark input,
+body.dark textarea {
+  color: var(--text) !important;
+  caret-color: var(--text);
+}
+
+
+
