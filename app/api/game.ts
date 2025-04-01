@@ -2,14 +2,23 @@ import { IMessage } from "@stomp/stompjs";
 import { connect, disconnect, getStompClient } from "./stompConnection";
 import { GameSettings } from "@/types/gameSettings";
 import { GameVoteInit } from "@/types/gameVoteInit";
+import { GamePhase } from "@/types/gamePhase";
+import { Player } from "@/types/player";
+import { GameVoteCast } from "@/types/gameVoteCast";
 
-type VoteHandler = (data: GameVoteInit) => void;
-type SettingsHandler = (data: GameSettings) => void;
+type GameVoteInitHandler = (data: GameVoteInit) => void;
+type GameSettingsHandler = (data: GameSettings) => void;
+type GamePhaseHandler = (phase: GamePhase) => void;
+type GameVoteCastHandler = (vote: GameVoteCast) => void;
+type PlayerHandler = (player: Player) => void;
 
 export class Game {
   private client;
-  private voteHandlers: VoteHandler[] = [];
-  private settingsHandlers: SettingsHandler[] = [];
+  private gameVoteInitHandlers: GameVoteInitHandler[] = [];
+  private gameSettingsHandlers: GameSettingsHandler[] = [];
+  private gamePhaseHandlers: GamePhaseHandler[] = [];
+  private gameVoteCastHandlers: GameVoteCastHandler[] = [];
+  private playerHandlers: PlayerHandler[] = [];
   private connected: boolean = false;
 
   constructor(nickname: string, code: string) {
@@ -18,66 +27,129 @@ export class Game {
     this.client.onConnect = () => {
       console.log("STOMP connected.");
       this.connected = true;
-      this.client.subscribe(`/topic/vote/init/${code}`, (message: IMessage) => {
-        try {
-          const body = JSON.parse(message.body);
-          this.voteHandlers.forEach((handler) => handler(body));
-        } catch (err) {
-          console.error("Failed to parse vote message:", err);
-        }
-      });
-
-      this.client.subscribe(`/topic/settings/${code}`, (message: IMessage) => {
-        try {
-          const body = JSON.parse(message.body);
-          this.settingsHandlers.forEach((handler) => handler(body));
-        } catch (err) {
-          console.error("Failed to parse settings message:", err);
-        }
-      });
+      this.subscribeToTopics(code);
     };
   }
 
+  private subscribeToTopics(code: string) {
+    this.subscribe(`/topic/vote/init/${code}`, this.gameVoteInitHandlers);
+    this.subscribe(`/topic/vote/cast/${code}`, this.gameVoteCastHandlers);
+    this.subscribe(`/topic/settings/${code}`, this.gameSettingsHandlers);
+    this.subscribe(`/topic/phase/${code}`, this.gamePhaseHandlers, true);
+    this.subscribe(`/topic/players/${code}`, this.playerHandlers);
+  }
+
+  private subscribe<T>(
+    destination: string,
+    handlers: ((data: T) => void)[],
+    isEnum = false,
+  ) {
+    this.client.subscribe(destination, (message: IMessage) => {
+      try {
+        const body = isEnum
+          ? JSON.parse(message.body) as T
+          : message.body as unknown as T;
+        handlers.forEach((handler) => handler(body));
+      } catch (err) {
+        console.error(`Failed to parse message from ${destination}:`, err);
+      }
+    });
+  }
+
   connect() {
-    connect(this.client);
+    if (!this.client.active) {
+      connect(this.client);
+    }
   }
 
   disconnect() {
-    disconnect(this.client);
-    this.connected = false;
+    if (this.client.active) {
+      disconnect(this.client);
+      this.connected = false;
+    }
+  }
+
+  // Check if STOMP (WebSocket) is connected
+  private ensureConnected(): boolean {
+    if (!this.connected) {
+      console.warn("STOMP client not connected. Message not sent.");
+      return false;
+    }
+    return true;
   }
 
   // Initiate a vote on another player
-  startVote(gameVote: GameVoteInit) {
-    if (!this.connected) {
-      console.warn("STOMP client not connected. Vote not sent.");
-      return;
+  sendVoteInit(gameVoteInit: GameVoteInit) {
+    if (this.ensureConnected()) {
+      this.client.publish({
+        destination: `/app/vote/init`,
+        body: JSON.stringify(gameVoteInit),
+      });
     }
-    this.client.publish({
-      destination: `/app/vote/init`,
-      body: JSON.stringify(gameVote),
-    });
   }
 
   // Publish change in game settings
   sendSettings(gameSettings: GameSettings) {
-    if (!this.connected) {
-      console.warn("STOMP client not connected. Settings not sent.");
-      return;
+    if (this.ensureConnected()) {
+      this.client.publish({
+        destination: `/app/settings`,
+        body: JSON.stringify(gameSettings),
+      });
     }
-    this.client.publish({
-      destination: `/app/settings`,
-      body: JSON.stringify(gameSettings),
-    });
   }
 
-  // Register callback on reception of votes
-  onVote(handler: VoteHandler) {
-    this.voteHandlers.push(handler);
+  // Send your vote during the voting phase (yes: True, no: False)
+  sendVoteCast(vote: boolean) {
+    if (this.ensureConnected()) {
+      this.client.publish({
+        destination: `/app/vote/cast`,
+        body: JSON.stringify({ vote }),
+      });
+    }
   }
 
-  // Register callback on reception of settings
-  onSettings(handler: SettingsHandler) {
-    this.settingsHandlers.push(handler);
+  // Start the game
+  sendStartGame() {
+    if (this.ensureConnected()) {
+      this.client.publish({
+        destination: `/app/game/start`,
+        body: JSON.stringify({ phase: GamePhase.GAME }),
+      });
+    }
+  }
+
+  // Kick a player
+  sendKickPlayer(nickname: string) {
+    if (this.ensureConnected()) {
+      this.client.publish({
+        destination: `/app/player/kick`,
+        body: JSON.stringify({ nickname }),
+      });
+    }
+  }
+
+  // Register callback on reception of voting initialisation
+  onVoteInit(handler: GameVoteInitHandler) {
+    this.gameVoteInitHandlers.push(handler);
+  }
+
+  // Register callback on reception of game settings change
+  onSettings(handler: GameSettingsHandler) {
+    this.gameSettingsHandlers.push(handler);
+  }
+
+  // Register callback on reception of game phase change
+  onPhase(handler: GamePhaseHandler) {
+    this.gamePhaseHandlers.push(handler);
+  }
+
+  // Register callback on reception of changes in players
+  onPlayers(handler: PlayerHandler) {
+    this.playerHandlers.push(handler);
+  }
+
+  // Register callback on reception of new vote casts during voting phase (to display total votes)
+  onVoteCast(handler: GameVoteCastHandler) {
+    this.gameVoteCastHandlers.push(handler);
   }
 }
