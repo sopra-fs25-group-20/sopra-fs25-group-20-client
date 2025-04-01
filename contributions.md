@@ -30,19 +30,33 @@ reason).
 
 ---
 
-## Contributions Week 1 - [Begin Date] to [End Date]
+## Contributions Week 1 - [26.03.2025] to [02.04.2025]
 
 | **Student**        | **Date** | **Link to Commit** | **Description**                 | **Relevance**                       |
 | ------------------ | -------- | ------------------ | ------------------------------- | ----------------------------------- |
-| **[@githubUser1]** | [date]   | [Link to Commit 1] | [Brief description of the task] | [Why this contribution is relevant] |
-|                    | [date]   | [Link to Commit 2] | [Brief description of the task] | [Why this contribution is relevant] |
-| **[@githubUser2]** | [date]   | [Link to Commit 1] | [Brief description of the task] | [Why this contribution is relevant] |
-|                    | [date]   | [Link to Commit 2] | [Brief description of the task] | [Why this contribution is relevant] |
-| **[@githubUser3]** | [date]   | [Link to Commit 1] | [Brief description of the task] | [Why this contribution is relevant] |
-|                    | [date]   | [Link to Commit 2] | [Brief description of the task] | [Why this contribution is relevant] |
-| **[@githubUser4]** | [date]   | [Link to Commit 1] | [Brief description of the task] | [Why this contribution is relevant] |
-|                    | [date]   | [Link to Commit 2] | [Brief description of the task] | [Why this contribution is relevant] |
-
+| **@Agravlin** | 26.03.2025 | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/103 | Created utilty function for roomCode creation | Users need to be able to send each other roomCodes when they want to invite each other. Room Code is the unique representation for the client side |
+| **@Agravlin** | 26.03.2025 | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/104 | Created Player, Room entities and PlayerRepository, RoomRepository | When users create a room and joins to the room we need to have a internal representation of them and save them into repository |
+| **@Agravlin** | 26.03.2025 | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/105 | Handled room join and player registration in service layer and added custom exceptions for duplicate usernames and invalid rooms | Validates nickname, assigns a color and adds player to the room. Custom exceptions ensure proper error handling for duplicate nicknames and invalid rooms |
+| **@Agravlin** | 26.03.2025 | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/106 | Handled room creation and automatically joined player to the room as admin | First player in a room automatically becomes the admin and is joined to the room on creation. This enables admin to manage the game session |
+| **@Agravlin** | 26.03.2025 | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/107 | Implemented POST /create endpoint | Enables users to create a room in the Frontend and start a game |
+| **@Agravlin** | 26.03.2025 | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/108 | Implemented POST /join/{code} endpoint | Enables users to join a room |
+| **@Agravlin** | 26.03.2025 | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/109 | Initial WebSocket configuration with STOMP | Prepares backend to handle real time game and chat communication |
+| **@Agravlin** | 26.03.2025 | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/110 | Custom WebSocket Handshake | Ensures player nickname and color is validated and stored during the WebSocket connection |
+| **@Agravlin** | 26.03.2025 | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/111 | Created ChatMessage model with nickname, message and color | This structures the WebSocket communication between client and server giving only the essential data to the front end |
+| **@Agravlin** | 27.03.2025 | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/112 | Created WebSocket /chat endpoint broadcasting to /topic/chat/{roomCode}  | Enables users to send chat messages and see other broadcasted messages from other players |
+| **@Agravlin** | 28.03.2025 | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/116 | Replaced POST /join/{code] with /validate | This refactoring improves the code readability and maintainability but is not related to a development task |
+| **@dreamfarer** | 26.03.2025   | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/41 | Implement Chat API for frontend | Abstraction: Components in the frontend can now use the Chat API without needing to manage networking and STOMP WebSocket connections. |
+| **@dreamfarer** | 26.03.2025   | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/42 | Create UI Chat Component | This UI component uses the Chat API and can be (re)used to chat in a game room. |
+| **@dreamfarer** | 01.04.2025   | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/47 | Implement Game API for frontend | Abstraction: Components in the frontend can now use the Game API without needing to manage networking and STOMP WebSocket connections. |
+| **@baranozgurtas** | 31.03.2025   | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/43 | Created styled and reusable UI components for buttons, inputs, and boxes using global styles and props. | Establishes a scalable and consistent design system for building the rest of the app UI efficiently.|
+|  **@baranozgurtas**                   | 31.03.2025   | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/44 | Created a reusable header component with light/dark mode toggle and Login & GitHub redirect, as specified in UI mockups.| Improves UX and provides consistent navigation and theme control throughout the app. |
+|  **@baranozgurtas**                   | 01.04.2025   | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/46 | Implemented main page for starting a new game or joining an existing game with nickname and game code. Includes error handling.| Enables users to create or join a room directly from the landing page, fulfilling core user flows.|
+|  **@baranozgurtas**                   | 01.04.2025   | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/46 |Implemented nickname input field and integrated with validation logic to join an existing room via game code.|Ensures users can enter unique nicknames before joining a game, avoiding collisions or invalid entries.|
+| **@JMischa** | 29.03.2025 | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/118 | Implemented utility for generating random player color when a player joins a room | Random color generating for newly joined players ensure that the different players are identifiable or distinguishable for the user himself |
+| **@JMischa** |  31.03.2025  | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/120 | Implement folder structure and unitTests in service layer | Enhances code maintainability and testability by organizing folder structur clearly and ensuring reliable functionality through isolated testing. |
+| **@JMischa** | 01.04.2025 | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/121 | Enable Players to start a vote against another player | Enables players to vote against another player to vote out the Spy and win the game |
+| **@osmanoeztuerk** | 28.03.2025 | [Link to Commit 1](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/117) | Implemented  mock image service | Provides a testing mechanism by returning a static image, allowing frontend and backend development without using Google APIs. |
+| **@osmanoeztuerk** | 31.03.2025   | [Link to Commit 2](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/122) | Implemented metadata pre-check with StreetViewMetadataService, structured logging, and a test controller for manual verification. | Improves image retrieval by avoiding unnecessary requests and supports developers with structured logging & testing |
 ---
 
 ## Contributions Week 2 - [Begin Date] to [End Date]
