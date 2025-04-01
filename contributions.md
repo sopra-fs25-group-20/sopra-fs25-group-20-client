@@ -45,8 +45,9 @@ reason).
 | **@Agravlin** | 26.03.2025 | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/111 | Created ChatMessage model with nickname, message and color | This structures the WebSocket communication between client and server giving only the essential data to the front end |
 | **@Agravlin** | 27.03.2025 | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/112 | Created WebSocket /chat endpoint broadcasting to /topic/chat/{roomCode}  | Enables users to send chat messages and see other broadcasted messages from other players |
 | **@Agravlin** | 28.03.2025 | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/116 | Replaced POST /join/{code] with /validate | This refactoring improves the code readability and maintainability but is not related to a development task |
-| **[@githubUser2]** | [date]   | [Link to Commit 1] | [Brief description of the task] | [Why this contribution is relevant] |
-|                    | [date]   | [Link to Commit 2] | [Brief description of the task] | [Why this contribution is relevant] |
+| **@dreamfarer** | 26.03.2025   | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/41 | Implement Chat API for frontend | Abstraction: Components in the frontend can now use the Chat API without needing to manage networking and STOMP WebSocket connections. |
+| **@dreamfarer** | 26.03.2025   | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/42 | Create UI Chat Component | This UI component uses the Chat API and can be (re)used to chat in a game room. |
+| **@dreamfarer** | 01.04.2025   | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/47 | Implement Game API for frontend | Abstraction: Components in the frontend can now use the Game API without needing to manage networking and STOMP WebSocket connections. |
 | **[@githubUser3]** | [date]   | [Link to Commit 1] | [Brief description of the task] | [Why this contribution is relevant] |
 |                    | [date]   | [Link to Commit 2] | [Brief description of the task] | [Why this contribution is relevant] |
 | **[@githubUser4]** | [date]   | [Link to Commit 1] | [Brief description of the task] | [Why this contribution is relevant] |
