@@ -5,7 +5,8 @@ import { AppHeader } from "@/components/AppHeader";
 import { Box } from "@/components/Box";
 import { PrimaryButton } from "@/components/PrimaryButton";
 import { InputField } from "@/components/InputField";
-import { getApiDomain } from "@/utils/domain";
+import { useApi } from "@/hooks/useApi";
+import { ApplicationError } from "@/types/error";
 
 export default function Home() {
   const [nickname, setNickname] = useState("");
@@ -13,6 +14,7 @@ export default function Home() {
   const [darkMode, setDarkMode] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
+  const apiService = useApi();
 
   useEffect(() => {
     document.body.classList.toggle("dark", darkMode);
@@ -24,26 +26,24 @@ export default function Home() {
       return;
     }
 
-    const res = await fetch(`${getApiDomain()}/validate`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    try {
+      await apiService.post("/validate", {
         nickname: nickname.trim(),
         code: gameCode.trim(),
-      }),
-    });
-
-    if (res.ok) {
+      });
       router.push(`/game/${gameCode.trim()}`);
-    } else if (res.status === 409) {
-      setError("Nickname is already taken in this game.");
-    } else if (res.status === 404) {
-      setError("Game room not found.");
-    } else {
-      setError("Failed to join the game.");
+    } catch (error) {
+      if (error instanceof ApplicationError) {
+        if (error.status === 409) {
+          setError("Nickname is already taken in this game.");
+        } else if (error.status === 404) {
+          setError("Game room not found.");
+        } else {
+          setError(error.message || "Failed to join the game.");
+        }
+      } else {
+        setError("Unexpected error occurred. Please try again.");
+      }
     }
   };
 
@@ -53,18 +53,11 @@ export default function Home() {
       return;
     }
 
-    const res = await fetch(`${getApiDomain()}/create`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ nickname: nickname.trim() }),
-    });
-
-    if (res.ok) {
-      const data = await res.json();
-      const code = data?.roomCode;
+    try {
+      const response = await apiService.post<{ roomCode: string }>("/create", {
+        nickname: nickname.trim(),
+      });
+      const code = response?.roomCode;
 
       if (!code) {
         setError("No game code returned from the server.");
@@ -72,9 +65,12 @@ export default function Home() {
       }
 
       router.push(`/game/${code}`);
-    } else {
-      const error = await res.json().catch(() => ({}));
-      setError(error?.error || "Failed to create a new game room.");
+    } catch (error) {
+      if (error instanceof ApplicationError) {
+        setError(error.message || "Failed to create a new game room.");
+      } else {
+        setError("Unexpected error occurred. Please try again.");
+      }
     }
   };
 
