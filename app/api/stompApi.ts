@@ -4,6 +4,7 @@ import { Client, IMessage } from "@stomp/stompjs";
 class StompAPI {
   private client: Client | null;
   private isConnecting: boolean;
+  private connectPromise: Promise<void> | null = null;
 
   constructor() {
     this.client = null;
@@ -39,19 +40,45 @@ class StompAPI {
 
   async connect(): Promise<void> {
     const client = this.getClient();
-    if (client.active || this.isConnecting) return;
+    if (client.connected) {
+      return;
+    }
+    if (this.connectPromise) {
+      return this.connectPromise;
+    }
     this.isConnecting = true;
-    return new Promise((resolve) => {
+    this.connectPromise = new Promise<void>((resolve, reject) => {
       client.onConnect = () => {
-        this.isConnecting = false;
+        console.log("Websocket connected.");
         resolve();
       };
+      client.onStompError = (frame) => {
+        console.error("Broker error:", frame.headers["message"]);
+        console.error("Details:", frame.body);
+        reject(frame);
+      };
       client.activate();
-    });
+    })
+      .finally(() => {
+        this.connectPromise = null;
+        this.isConnecting = false;
+      });
+    return this.connectPromise;
+  }
+
+  public disconnect(): void {
+    if (this.client) {
+      if (this.client.active) {
+        this.client.deactivate();
+      }
+      this.client = null;
+      this.isConnecting = false;
+    }
   }
 
   async ensureConnected(): Promise<void> {
-    if (!this.client?.active && !this.isConnecting) {
+    const client = this.getClient();
+    if (!client.connected) {
       await this.connect();
     }
   }
@@ -60,8 +87,8 @@ class StompAPI {
     destination: string,
     handlers: ((data: T) => void)[],
   ): Promise<void> {
-    await this.ensureConnected();
     const client = this.getClient();
+    await this.ensureConnected();
     client.subscribe(destination, (message: IMessage) => {
       try {
         const body = JSON.parse(message.body) as T;
@@ -73,8 +100,8 @@ class StompAPI {
   }
 
   public async send(destination: string, body: string): Promise<void> {
-    await this.ensureConnected();
     const client = this.getClient();
+    await this.ensureConnected();
     client.publish({ destination, body });
   }
 
