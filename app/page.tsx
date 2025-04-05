@@ -18,6 +18,20 @@ export default function Home() {
   const apiService = useApi();
 
   useEffect(() => {
+    const handleDisconnect = () => {
+      stompApi.disconnect();
+    };
+    handleDisconnect();
+    const handlePopState = () => {
+      handleDisconnect();
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
+
+  useEffect(() => {
     document.body.classList.toggle("dark", darkMode);
   }, [darkMode]);
 
