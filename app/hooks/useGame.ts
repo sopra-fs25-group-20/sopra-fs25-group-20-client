@@ -1,6 +1,13 @@
-import { Game } from "@/api/game";
+import { GameAPI } from "@/api/gameAPI";
 import { useMemo } from "react";
 
-export const useGame = (nickname: string, code: string) => {
-  return useMemo(() => new Game(nickname, code), [nickname, code]);
+let gameInstance: GameAPI | null = null;
+
+export const useGame = () => {
+  return useMemo(() => {
+    if (!gameInstance) {
+      gameInstance = new GameAPI();
+    }
+    return gameInstance;
+  }, []);
 };

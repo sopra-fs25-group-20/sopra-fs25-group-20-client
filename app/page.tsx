@@ -7,6 +7,7 @@ import { PrimaryButton } from "@/components/PrimaryButton";
 import { InputField } from "@/components/InputField";
 import { useApi } from "@/hooks/useApi";
 import { ApplicationError } from "@/types/error";
+import { stompApi } from "./api/stompApi";
 
 export default function Home() {
   const [nickname, setNickname] = useState("");
@@ -30,8 +31,8 @@ export default function Home() {
         nickname: nickname.trim(),
         code: code.trim(),
       });
-      localStorage.setItem("nickname", nickname.trim());
-      localStorage.setItem("code", code.trim());
+      stompApi.setCode(code);
+      stompApi.setNickname(nickname);
       router.push(`/game/${code.trim()}`);
     } catch (error) {
       if (error instanceof ApplicationError) {
@@ -62,8 +63,8 @@ export default function Home() {
         setError("No game code returned from the server.");
         return;
       }
-      localStorage.setItem("nickname", nickname.trim());
-      localStorage.setItem("code", code.trim());
+      stompApi.setCode(code);
+      stompApi.setNickname(nickname);
       router.push(`/game/${code.trim()}`);
     } catch (error) {
       if (error instanceof ApplicationError) {
