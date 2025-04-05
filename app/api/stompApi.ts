@@ -3,12 +3,10 @@ import { Client, IMessage } from "@stomp/stompjs";
 
 class StompAPI {
   private client: Client | null;
-  private isConnecting: boolean;
   private connectPromise: Promise<void> | null = null;
 
   constructor() {
     this.client = null;
-    this.isConnecting = false;
   }
 
   buildBrokerURL(): string {
@@ -46,7 +44,6 @@ class StompAPI {
     if (this.connectPromise) {
       return this.connectPromise;
     }
-    this.isConnecting = true;
     this.connectPromise = new Promise<void>((resolve, reject) => {
       client.onConnect = () => {
         console.log("Websocket connected.");
@@ -61,7 +58,6 @@ class StompAPI {
     })
       .finally(() => {
         this.connectPromise = null;
-        this.isConnecting = false;
       });
     return this.connectPromise;
   }
@@ -72,7 +68,6 @@ class StompAPI {
         this.client.deactivate();
       }
       this.client = null;
-      this.isConnecting = false;
     }
   }
 
