@@ -33,7 +33,7 @@ export default function GamePage() {
           nickname,
           code,
         });
-      } catch (err) {
+      } catch {
         router.push("/");
       } finally {
         setLoading(false);
