@@ -1,22 +1,15 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useChat } from "@/hooks/useChat";
 import { ChatMessage } from "@/types/chatMessage";
+import { stompApi } from "@/api/stompApi";
 
-interface ChatWindowProps {
-  nickname: string;
-  code: string;
-}
-
-export const ChatWindow = ({ nickname, code }: ChatWindowProps) => {
-  const ws = useChat(nickname, code);
+export const ChatWindow = () => {
+  const ws = useChat();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
 
   useEffect(() => {
-    ws.connect();
-
     const handleMessage = (data: ChatMessage) => {
       setMessages((prev) => [
         ...prev,
@@ -27,7 +20,6 @@ export const ChatWindow = ({ nickname, code }: ChatWindowProps) => {
     ws.onMessage(handleMessage);
     return () => {
       ws.removeMessageHandler(handleMessage);
-      ws.disconnect();
     };
   }, [ws]);
 
@@ -38,16 +30,17 @@ export const ChatWindow = ({ nickname, code }: ChatWindowProps) => {
   };
 
   const getColor = (from: string) =>
-    from === nickname ? "var(--user-color-1)" : "var(--user-color-2)";
+    from === stompApi.getNickname()
+      ? "var(--user-color-1)"
+      : "var(--user-color-2)";
 
   return (
     <div className="card-box" style={{ maxWidth: "350px" }}>
       <div className="d-flex flex-column h-100" style={{ minHeight: "532px" }}>
         <div className="flex-grow-1 overflow-auto mb-3">
           {messages.map((msg, index) => {
-            const isYou = msg.nickname === nickname;
+            const isYou = msg.nickname === stompApi.getNickname();
             const color = getColor(msg.nickname);
-
             return (
               <div
                 key={index}
@@ -64,8 +57,7 @@ export const ChatWindow = ({ nickname, code }: ChatWindowProps) => {
                     flexShrink: 0,
                     marginTop: "0.2em",
                   }}
-                >
-                </div>
+                />
                 <div style={{ whiteSpace: "pre-wrap" }}>{msg.message}</div>
               </div>
             );

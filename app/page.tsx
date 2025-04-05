@@ -5,45 +5,61 @@ import { AppHeader } from "@/components/AppHeader";
 import { Box } from "@/components/Box";
 import { PrimaryButton } from "@/components/PrimaryButton";
 import { InputField } from "@/components/InputField";
-import { getApiDomain } from "@/utils/domain";
+import { useApi } from "@/hooks/useApi";
+import { ApplicationError } from "@/types/error";
+import { stompApi } from "./api/stompApi";
 
 export default function Home() {
   const [nickname, setNickname] = useState("");
-  const [gameCode, setGameCode] = useState("");
+  const [code, setcode] = useState("");
   const [darkMode, setDarkMode] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
+  const apiService = useApi();
+
+  useEffect(() => {
+    const handleDisconnect = () => {
+      stompApi.disconnect();
+    };
+    handleDisconnect();
+    const handlePopState = () => {
+      handleDisconnect();
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
 
   useEffect(() => {
     document.body.classList.toggle("dark", darkMode);
   }, [darkMode]);
 
   const handleJoin = async () => {
-    if (!nickname.trim() || !gameCode.trim()) {
+    if (!nickname.trim() || !code.trim()) {
       setError("Please enter both nickname and game code.");
       return;
     }
-
-    const res = await fetch(`${getApiDomain()}/validate`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    try {
+      await apiService.post("/validate", {
         nickname: nickname.trim(),
-        code: gameCode.trim(),
-      }),
-    });
-
-    if (res.ok) {
-      router.push(`/game/${gameCode.trim()}`);
-    } else if (res.status === 409) {
-      setError("Nickname is already taken in this game.");
-    } else if (res.status === 404) {
-      setError("Game room not found.");
-    } else {
-      setError("Failed to join the game.");
+        code: code.trim(),
+      });
+      stompApi.setCode(code);
+      stompApi.setNickname(nickname);
+      router.push(`/game/${code.trim()}`);
+    } catch (error) {
+      if (error instanceof ApplicationError) {
+        if (error.status === 409) {
+          setError("Nickname is already taken in this game.");
+        } else if (error.status === 404) {
+          setError("Game room not found.");
+        } else {
+          setError(error.message || "Failed to join the game.");
+        }
+      } else {
+        setError("Unexpected error occurred. Please try again.");
+      }
     }
   };
 
@@ -52,29 +68,24 @@ export default function Home() {
       setError("Please enter a nickname to start a game.");
       return;
     }
-
-    const res = await fetch(`${getApiDomain()}/create`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ nickname: nickname.trim() }),
-    });
-
-    if (res.ok) {
-      const data = await res.json();
-      const code = data?.roomCode;
-
+    try {
+      const response = await apiService.post<{ roomCode: string }>("/create", {
+        nickname: nickname.trim(),
+      });
+      const code = response?.roomCode;
       if (!code) {
         setError("No game code returned from the server.");
         return;
       }
-
-      router.push(`/game/${code}`);
-    } else {
-      const error = await res.json().catch(() => ({}));
-      setError(error?.error || "Failed to create a new game room.");
+      stompApi.setCode(code);
+      stompApi.setNickname(nickname);
+      router.push(`/game/${code.trim()}`);
+    } catch (error) {
+      if (error instanceof ApplicationError) {
+        setError(error.message || "Failed to create a new game room.");
+      } else {
+        setError("Unexpected error occurred. Please try again.");
+      }
     }
   };
 
@@ -94,8 +105,8 @@ export default function Home() {
         <div className="input-group">
           <InputField
             placeholder="Enter game code ..."
-            value={gameCode}
-            onChange={setGameCode}
+            value={code}
+            onChange={setcode}
           />
         </div>
 
