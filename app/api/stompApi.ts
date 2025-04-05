@@ -24,7 +24,7 @@ class StompAPI {
         console.error("Details:", frame.body);
       },
       onWebSocketClose: () => {
-        console.log("WebSocket disconnected.");
+        console.warn("WebSocket disconnected.");
       },
     });
   }
@@ -46,7 +46,7 @@ class StompAPI {
     }
     this.connectPromise = new Promise<void>((resolve, reject) => {
       client.onConnect = () => {
-        console.log("Websocket connected.");
+        console.warn("Websocket connected.");
         resolve();
       };
       client.onStompError = (frame) => {

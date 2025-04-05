@@ -1,5 +1,5 @@
 "use client";
-import { useRouter, useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
 import { ChatWindow } from "@/components/chatWindow";
@@ -12,6 +12,7 @@ export default function GamePage() {
   const apiService = useApi();
   const [darkMode, setDarkMode] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [validated, setValidated] = useState(false);
   const codeFromUrl = params.code;
 
   useEffect(() => {
@@ -23,16 +24,13 @@ export default function GamePage() {
       try {
         const code = stompApi.getCode();
         const nickname = stompApi.getNickname();
-        // Make sure local game code equals URL game code
+
         if (!code || code !== codeFromUrl) {
           router.push("/");
           return;
         }
-        // Validate the game room
-        await apiService.post("/validate", {
-          nickname,
-          code,
-        });
+        await apiService.post("/validate", { nickname, code });
+        setValidated(true);
       } catch {
         router.push("/");
       } finally {
@@ -44,7 +42,13 @@ export default function GamePage() {
   }, [codeFromUrl, router, apiService]);
 
   if (loading) {
-    return <div style={{ textAlign: "center", marginTop: "2rem" }}>Loading...</div>;
+    return (
+      <div style={{ textAlign: "center", marginTop: "2rem" }}>Loading...</div>
+    );
+  }
+
+  if (!validated) {
+    return null;
   }
 
   return (
