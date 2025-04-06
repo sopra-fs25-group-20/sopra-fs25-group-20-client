@@ -1,3 +1,4 @@
+"use client";
 import { getStompBrokerDomain } from "@/utils/domain";
 import { Client, IMessage } from "@stomp/stompjs";
 

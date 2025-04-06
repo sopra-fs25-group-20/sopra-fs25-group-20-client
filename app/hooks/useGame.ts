@@ -1,3 +1,4 @@
+"use client";
 import { GameAPI } from "@/api/gameAPI";
 import { useMemo } from "react";
 

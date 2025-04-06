@@ -1,3 +1,4 @@
+"use client";
 import { ChatAPI } from "@/api/chatAPI";
 import { useMemo } from "react";
 
