@@ -95,6 +95,22 @@ a {
   color: var(--text-light);
 }
 
+.dropdown {
+  background-color: var(--inner-box-light);
+  color: var(--text-light);
+  border: none;
+  text-align: center;
+  border-radius: 5px;
+  width: 105px;
+  height: 20px;
+  outline: none;
+}
+
+.dropdown:focus {
+  outline: none;
+  border: none;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;

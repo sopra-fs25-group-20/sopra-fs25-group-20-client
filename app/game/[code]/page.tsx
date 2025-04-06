@@ -5,6 +5,7 @@ import { AppHeader } from "@/components/AppHeader";
 import { ChatWindow } from "@/components/chatWindow";
 import { useApi } from "@/hooks/useApi";
 import { stompApi } from "@/api/stompApi";
+import { GameSettingsComponent } from "@/components/gameSettingsComponent";
 
 export default function GamePage() {
   const router = useRouter();
@@ -55,6 +56,7 @@ export default function GamePage() {
     <div className="page-wrapper">
       <AppHeader onToggleTheme={() => setDarkMode((prev) => !prev)} />
       <ChatWindow />
+      <GameSettingsComponent />
     </div>
   );
 }
