@@ -10,4 +10,3 @@ export const Box = ({ children, className = "", style = {} }: BoxProps) => (
     {children}
   </div>
 );
-

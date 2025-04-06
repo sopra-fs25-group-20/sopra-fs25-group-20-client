@@ -1,17 +1,17 @@
 "use client";
 
 interface PrimaryButtonProps {
-  label: string;
   onClick?: () => void;
   type?: "button" | "submit";
   className?: string;
+  children: React.ReactNode;
 }
 
 export const PrimaryButton = ({
-  label,
   onClick,
   type = "button",
   className = "",
+  children,
 }: PrimaryButtonProps) => {
   return (
     <button
@@ -19,7 +19,7 @@ export const PrimaryButton = ({
       onClick={onClick}
       className={`btn ${className}`}
     >
-      {label}
+      {children}
     </button>
   );
 };
