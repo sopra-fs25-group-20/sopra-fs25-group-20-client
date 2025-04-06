@@ -7,31 +7,47 @@ import { PrimaryButton } from "@/components/PrimaryButton";
 import { InputField } from "@/components/InputField";
 import { useApi } from "@/hooks/useApi";
 import { ApplicationError } from "@/types/error";
+import { stompApi } from "./api/stompApi";
 
 export default function Home() {
   const [nickname, setNickname] = useState("");
-  const [gameCode, setGameCode] = useState("");
+  const [code, setcode] = useState("");
   const [darkMode, setDarkMode] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
   const apiService = useApi();
 
   useEffect(() => {
+    const handleDisconnect = () => {
+      stompApi.disconnect();
+    };
+    handleDisconnect();
+    const handlePopState = () => {
+      handleDisconnect();
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
+
+  useEffect(() => {
     document.body.classList.toggle("dark", darkMode);
   }, [darkMode]);
 
   const handleJoin = async () => {
-    if (!nickname.trim() || !gameCode.trim()) {
+    if (!nickname.trim() || !code.trim()) {
       setError("Please enter both nickname and game code.");
       return;
     }
-
     try {
       await apiService.post("/validate", {
         nickname: nickname.trim(),
-        code: gameCode.trim(),
+        code: code.trim(),
       });
-      router.push(`/game/${gameCode.trim()}`);
+      stompApi.setCode(code);
+      stompApi.setNickname(nickname);
+      router.push(`/game/${code.trim()}`);
     } catch (error) {
       if (error instanceof ApplicationError) {
         if (error.status === 409) {
@@ -52,19 +68,18 @@ export default function Home() {
       setError("Please enter a nickname to start a game.");
       return;
     }
-
     try {
       const response = await apiService.post<{ roomCode: string }>("/create", {
         nickname: nickname.trim(),
       });
       const code = response?.roomCode;
-
       if (!code) {
         setError("No game code returned from the server.");
         return;
       }
-
-      router.push(`/game/${code}`);
+      stompApi.setCode(code);
+      stompApi.setNickname(nickname);
+      router.push(`/game/${code.trim()}`);
     } catch (error) {
       if (error instanceof ApplicationError) {
         setError(error.message || "Failed to create a new game room.");
@@ -90,8 +105,8 @@ export default function Home() {
         <div className="input-group">
           <InputField
             placeholder="Enter game code ..."
-            value={gameCode}
-            onChange={setGameCode}
+            value={code}
+            onChange={setcode}
           />
         </div>
 

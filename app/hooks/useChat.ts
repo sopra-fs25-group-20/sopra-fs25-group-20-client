@@ -1,6 +1,6 @@
-import { Chat } from "@/api/chat";
+import { ChatAPI } from "@/api/chatAPI";
 import { useMemo } from "react";
 
-export const useChat = (nickname: string, code: string) => {
-  return useMemo(() => new Chat(nickname, code), [nickname, code]);
+export const useChat = () => {
+  return useMemo(() => new ChatAPI(), []);
 };
