@@ -30,7 +30,7 @@ reason).
 
 ---
 
-## Contributions Week 1 - [26.03.2025] to [02.04.2025]
+## Contributions Week 1 - [26.03.2025] to [01.04.2025]
 
 | **Student**        | **Date** | **Link to Commit** | **Description**                 | **Relevance**                       |
 | ------------------ | -------- | ------------------ | ------------------------------- | ----------------------------------- |
@@ -59,14 +59,15 @@ reason).
 | **@osmanoeztuerk** | 31.03.2025   | [Link to Commit 2](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/122) | Implemented metadata pre-check with StreetViewMetadataService, structured logging, and a test controller for manual verification. | Improves image retrieval by avoiding unnecessary requests and supports developers with structured logging & testing |
 ---
 
-## Contributions Week 2 - [Begin Date] to [End Date]
+## Contributions Week 2 - [02.04.2025] to [08.04.2025]
 
 | **Student**        | **Date** | **Link to Commit** | **Description**                 | **Relevance**                       |
 | ------------------ | -------- | ------------------ | ------------------------------- | ----------------------------------- |
 | **[@githubUser1]** | [date]   | [Link to Commit 1] | [Brief description of the task] | [Why this contribution is relevant] |
 |                    | [date]   | [Link to Commit 2] | [Brief description of the task] | [Why this contribution is relevant] |
-| **[@githubUser2]** | [date]   | [Link to Commit 1] | [Brief description of the task] | [Why this contribution is relevant] |
-|                    | [date]   | [Link to Commit 2] | [Brief description of the task] | [Why this contribution is relevant] |
+| **@dreamfarer** | 02.04.2025 | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/49 | Refactor ApiService and use this instead of raw Fetch when making requests to the backend. | The refactor helps with abstraction and generalization of the ApiService. It is better to use our ApiService than the raw Fetch, because then the components and pages do not need to handle networking. |
+| **@dreamfarer** | 05.04.2025 | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/50 | Create the Waiting Room, Refactor STOMP and Fix Bugs | This task contains a huge refactor of the whole STOMP connection setup: ChatAPI and GameAPI now communicate through the StompAPI singleton with the STOMP client, which adds abstraction. Furthermore, this task adds the waiting room containing the chat component along with many bug fixes related to the connection setup and some safeguards for when actors try to, e.g., view arbitrary game rooms etc. |
+| **@dreamfarer** | 06.04.2025 | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/51 | Create Game Settings Component and Design Refactor | This task adds the game settings component for the lobby. Furthermore, components and styling have been refactored to be more reusable and closer to the mock-ups. |
 | **[@githubUser3]** | [date]   | [Link to Commit 1] | [Brief description of the task] | [Why this contribution is relevant] |
 |                    | [date]   | [Link to Commit 2] | [Brief description of the task] | [Why this contribution is relevant] |
 | **[@githubUser4]** | [date]   | [Link to Commit 1] | [Brief description of the task] | [Why this contribution is relevant] |
