@@ -1,3 +1,4 @@
+"use client";
 import { stompApi } from "./stompApi";
 import { GameSettings } from "@/types/gameSettings";
 import { GameVoteInit } from "@/types/gameVoteInit";
