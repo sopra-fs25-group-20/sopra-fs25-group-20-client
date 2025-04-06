@@ -35,48 +35,49 @@ export const ChatWindow = () => {
       : "var(--user-color-2)";
 
   return (
-    <div className="card-box" style={{ maxWidth: "350px" }}>
-      <div className="d-flex flex-column h-100" style={{ minHeight: "532px" }}>
-        <div className="flex-grow-1 overflow-auto mb-3">
-          {messages.map((msg, index) => {
-            const isYou = msg.nickname === stompApi.getNickname();
-            const color = getColor(msg.nickname);
-            return (
+    <div
+      className="card-box d-flex flex-column"
+      style={{ width: "350px", height: "532px" }}
+    >
+      <div className="flex-grow-1 overflow-auto mb-3">
+        {messages.map((msg, index) => {
+          const isYou = msg.nickname === stompApi.getNickname();
+          const color = getColor(msg.nickname);
+          return (
+            <div
+              key={index}
+              className="d-flex align-items-start"
+              style={{ color }}
+            >
               <div
-                key={index}
-                className="d-flex align-items-start"
-                style={{ color }}
-              >
-                <div
-                  style={{
-                    backgroundColor: color,
-                    width: "1em",
-                    height: "1em",
-                    borderRadius: isYou ? "5px" : "50%",
-                    marginRight: "10px",
-                    flexShrink: 0,
-                    marginTop: "0.2em",
-                  }}
-                />
-                <div style={{ whiteSpace: "pre-wrap" }}>{msg.message}</div>
-              </div>
-            );
-          })}
-        </div>
+                style={{
+                  backgroundColor: color,
+                  width: "1em",
+                  height: "1em",
+                  borderRadius: isYou ? "5px" : "50%",
+                  marginRight: "10px",
+                  flexShrink: 0,
+                  marginTop: "0.2em",
+                }}
+              />
+              <div style={{ whiteSpace: "pre-wrap" }}>{msg.message}</div>
+            </div>
+          );
+        })}
+      </div>
 
-        <div className="input-group">
-          <input
-            type="text"
-            className="form-control"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Type to room chat ..."
-            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-          />
-          <button className="btn" onClick={sendMessage}>
-            <i className="bi bi-arrow-right"></i>
-          </button>
-        </div>
+      <div className="input-group">
+        <input
+          type="text"
+          className="form-control"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Type to room chat ..."
+          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+        />
+        <button className="btn" onClick={sendMessage}>
+          <i className="bi bi-arrow-right"></i>
+        </button>
       </div>
     </div>
   );

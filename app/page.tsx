@@ -94,7 +94,7 @@ export default function Home() {
       <AppHeader onToggleTheme={() => setDarkMode((prev) => !prev)} />
 
       <Box className="flex flex-col gap-3 w-full max-w-md">
-        <div className="input-group">
+        <div className="input-group margin-inbetween ">
           <InputField
             placeholder="Enter your nickname ..."
             value={nickname}
@@ -102,7 +102,7 @@ export default function Home() {
           />
         </div>
 
-        <div className="input-group">
+        <div className="input-group margin-inbetween ">
           <InputField
             placeholder="Enter game code ..."
             value={code}
@@ -112,15 +112,17 @@ export default function Home() {
 
         <div className="button-row">
           <PrimaryButton
-            label="Join"
             onClick={handleJoin}
-            className="btn-sm half-button"
-          />
+            className="half-button"
+          >
+            Join
+          </PrimaryButton>
           <PrimaryButton
-            label="Start new game"
             onClick={handleStart}
-            className="btn-sm half-button"
-          />
+            className="half-button"
+          >
+            Start new game
+          </PrimaryButton>
         </div>
 
         {error && (
