@@ -102,6 +102,11 @@ export class GameAPI {
     this.playerHandlers.push(handler);
   }
 
+  removePlayersHandler(callback: PlayerHandler) {
+    this.playerHandlers = this.playerHandlers.filter((h) => h !== callback);
+  }
+  
+
   onVoteCast(handler: GameVoteCastHandler) {
     this.gameVoteCastHandlers.push(handler);
   }

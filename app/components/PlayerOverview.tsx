@@ -22,14 +22,20 @@ export const PlayerOverview = () => {
       apiRef.current = new GameAPI();
     }
 
-    apiRef.current.onPlayers((players) => {
+    const handler = (players: Player[]) => {
       setPlayers(players);
-    });
+    };
+
+    apiRef.current.onPlayers(handler);
+
+    return () => {
+      apiRef.current?.removePlayersHandler(handler);
+    };
   }, []);
 
   const handleKick = (nickname: string) => {
     if (!apiRef.current) return;
-    if (nickname === currentNickname) return; // don't allow self-kick
+    if (nickname === currentNickname) return;
     apiRef.current.sendKickPlayer(nickname);
   };
 
