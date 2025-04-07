@@ -70,8 +70,8 @@ reason).
 | **@dreamfarer** | 06.04.2025 | https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/51 | Create Game Settings Component and Design Refactor | This task adds the game settings component for the lobby. Furthermore, components and styling have been refactored to be more reusable and closer to the mock-ups. |
 | **[@githubUser3]** | [date]   | [Link to Commit 1] | [Brief description of the task] | [Why this contribution is relevant] |
 |                    | [date]   | [Link to Commit 2] | [Brief description of the task] | [Why this contribution is relevant] |
-| **[@githubUser4]** | [date]   | [Link to Commit 1] | [Brief description of the task] | [Why this contribution is relevant] |
-|                    | [date]   | [Link to Commit 2] | [Brief description of the task] | [Why this contribution is relevant] |
+| **@osmanoeztuerk** | 03.04.2025   | [#125](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/125) | 	Fetch random Street View images from the external API at the start of each round | Ensures that each game round begins with a fresh and unpredictable location, improving gameplay experience |
+| **@osmanoeztuerk** | 04.04.2025  | [#126](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/126) | Limit API usage by adding retry count and handle exceptions | Makes the system more robust and prevents overuse of the external API by handling failed requests gracefully |
 
 ---
 
