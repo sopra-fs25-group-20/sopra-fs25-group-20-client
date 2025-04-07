@@ -1,11 +1,12 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
 import { ChatWindow } from "@/components/chatWindow";
+import { GameSettingsComponent } from "@/components/gameSettingsComponent";
+import { PlayerOverview } from "@/components/PlayerOverview";
 import { useApi } from "@/hooks/useApi";
 import { stompApi } from "@/api/stompApi";
-import { GameSettingsComponent } from "@/components/gameSettingsComponent";
 
 export default function GamePage() {
   const router = useRouter();
@@ -43,9 +44,7 @@ export default function GamePage() {
   }, [codeFromUrl, router, apiService]);
 
   if (loading) {
-    return (
-      <div style={{ textAlign: "center", marginTop: "2rem" }}>Loading...</div>
-    );
+    return <div style={{ textAlign: "center", marginTop: "2rem" }}>Loading...</div>;
   }
 
   if (!validated) {
@@ -55,8 +54,23 @@ export default function GamePage() {
   return (
     <div className="page-wrapper">
       <AppHeader onToggleTheme={() => setDarkMode((prev) => !prev)} />
-      <ChatWindow />
-      <GameSettingsComponent />
+
+      <div className="game-layout-container">
+        {/* Left: Chat */}
+        <div className="left-panel">
+          <ChatWindow />
+        </div>
+
+        {/* Right: PlayerOverview + Settings stacked */}
+        <div className="right-panel">
+          <div className="top-box">
+          <PlayerOverview />
+          </div>
+          <div className="bottom-box">
+          <GameSettingsComponent />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
