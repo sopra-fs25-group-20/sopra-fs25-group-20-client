@@ -72,7 +72,7 @@ a {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   width: 100%;
   max-width: 360px;
-  margin: 15px;
+  margin:0;
 }
 
 .form-control {
@@ -202,4 +202,82 @@ body.dark input,
 body.dark textarea {
   color: var(--text-light) !important;
   caret-color: var(--text-light);
+}
+
+.player-color {
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.player-name {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.player-name.you {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.ban-icon {
+  cursor: pointer;
+}
+
+
+.game-layout-container {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  height: calc(100vh - 100px);
+  box-sizing: border-box;
+}
+
+.left-panel,
+.right-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.left-panel .card-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.right-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-box {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.bottom-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.top-box .card-box,
+.bottom-box .card-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: auto;
+}
+
+
+html, body, #__next, .page-wrapper {
+  height: 100%;
+  width: 100%;
 }
