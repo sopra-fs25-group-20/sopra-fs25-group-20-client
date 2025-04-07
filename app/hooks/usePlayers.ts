@@ -10,7 +10,6 @@ type PlayerHandler = (players: Player[]) => void;
 
 interface GameMessage {
   players?: Player[];
-  [key: string]: any;
 }
 
 export const usePlayers = () => {

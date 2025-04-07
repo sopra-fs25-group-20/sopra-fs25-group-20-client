@@ -1,6 +1,6 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect,useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
 import { ChatWindow } from "@/components/chatWindow";
 import { GameSettingsComponent } from "@/components/gameSettingsComponent";
