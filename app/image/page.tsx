@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
 import { useApi } from "@/hooks/useApi";
 
-
 export default function ImagePage() {
   const apiService = useApi();
   const [darkMode, setDarkMode] = useState(false);
@@ -62,9 +61,16 @@ export default function ImagePage() {
             <div className="image-grid">
               {imageList.map((src, index) => (
                 <div
-                  key={index}
+                  key={src}
+                  role="button"
+                  tabIndex={0}
                   className={`image-container ${selectedIndex === index ? "highlighted" : ""}`}
                   onClick={() => setSelectedIndex(index)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      setSelectedIndex(index);
+                    }
+                  }}
                 >
                   <img
                     src={src}
@@ -87,4 +93,3 @@ export default function ImagePage() {
     </div>
   );
 }
-
