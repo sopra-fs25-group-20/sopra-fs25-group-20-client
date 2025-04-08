@@ -61,9 +61,15 @@ export class ApiService {
         throw new ApplicationError(res.status, res.statusText);
       }
     }
-    return res.headers.get("Content-Type")?.includes("application/json")
-      ? res.json() as Promise<T>
-      : Promise.resolve(res as T);
+    const contentType = res.headers.get("Content-Type");
+  if (contentType?.includes("application/json")) {
+    return res.json() as Promise<T>;
+  } else if (contentType?.startsWith("image/")) {
+    return res.blob() as Promise<T>;
+  } else {
+    return res.text() as unknown as Promise<T>; // fallback
+  }
+    
   }
 
   public get<T>(endpoint: string, withAuth: boolean = true): Promise<T> {
@@ -89,4 +95,6 @@ export class ApiService {
   public delete<T>(endpoint: string, withAuth: boolean = true): Promise<T> {
     return this.request("DELETE", endpoint, undefined, withAuth);
   }
+  
 }
+
