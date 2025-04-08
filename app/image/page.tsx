@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
 import { useApi } from "@/hooks/useApi";
 
+
 export default function ImagePage() {
   const apiService = useApi();
   const [darkMode, setDarkMode] = useState(false);
@@ -21,7 +22,7 @@ export default function ImagePage() {
         const blobs = await Promise.all(
           Array.from({ length: 9 }, () => apiService.get<Blob>("/image", false))
         );
-        const urls = blobs.map((blob) => URL.createObjectURL(blob as any));
+        const urls = blobs.map((blob) => URL.createObjectURL(blob));
         setImageList(urls);
       } catch (err) {
         console.error("Failed to load images", err);
@@ -36,7 +37,7 @@ export default function ImagePage() {
   const handleImageError = async (index: number) => {
     try {
       const newBlob = await apiService.get<Blob>("/image", false);
-      const newUrl = URL.createObjectURL(newBlob as any);
+      const newUrl = URL.createObjectURL(newBlob);
       setImageList((prev) => {
         const updated = [...prev];
         updated[index] = newUrl;
