@@ -1,3 +1,4 @@
+"use client";
 import { ChatMessage } from "@/types/chatMessage";
 import { stompApi } from "./stompApi";
 

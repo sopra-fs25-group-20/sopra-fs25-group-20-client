@@ -1,3 +1,4 @@
+"use client";
 import { ApplicationError } from "@/types/error";
 import { getApiDomain } from "@/utils/domain";
 

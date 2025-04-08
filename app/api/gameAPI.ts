@@ -1,3 +1,4 @@
+"use client";
 import { stompApi } from "./stompApi";
 import { GameSettings } from "@/types/gameSettings";
 import { GameVoteInit } from "@/types/gameVoteInit";
@@ -9,7 +10,8 @@ type GameVoteInitHandler = (data: GameVoteInit) => void;
 type GameSettingsHandler = (data: GameSettings) => void;
 type GamePhaseHandler = (phase: GamePhase) => void;
 type GameVoteCastHandler = (vote: GameVoteCast) => void;
-type PlayerHandler = (player: Player) => void;
+type PlayerHandler = (players: Player[]) => void;
+
 
 export class GameAPI {
   private gameVoteInitHandlers: GameVoteInitHandler[] = [];
@@ -36,7 +38,7 @@ export class GameAPI {
     stompApi.subscribe<GamePhase>(`/topic/phase/${code}`, [
       (data) => this.handlePhase(data),
     ]);
-    stompApi.subscribe<Player>(`/topic/players/${code}`, [
+    stompApi.subscribe<{ players: Player[] }>(`/topic/players/${code}`, [
       (data) => this.handlePlayers(data),
     ]);
   }
@@ -57,9 +59,12 @@ export class GameAPI {
     this.gamePhaseHandlers.forEach((handler) => handler(data));
   }
 
-  private handlePlayers(data: Player) {
-    this.playerHandlers.forEach((handler) => handler(data));
+  private handlePlayers(data: { players: Player[] }) {
+    if (Array.isArray(data.players)) {
+      this.playerHandlers.forEach((handler) => handler(data.players));
+    }
   }
+  
 
   sendVoteInit(gameVoteInit: GameVoteInit) {
     stompApi.send(`/app/vote/init`, JSON.stringify(gameVoteInit));
@@ -96,6 +101,11 @@ export class GameAPI {
   onPlayers(handler: PlayerHandler) {
     this.playerHandlers.push(handler);
   }
+
+  removePlayersHandler(callback: PlayerHandler) {
+    this.playerHandlers = this.playerHandlers.filter((h) => h !== callback);
+  }
+  
 
   onVoteCast(handler: GameVoteCastHandler) {
     this.gameVoteCastHandlers.push(handler);

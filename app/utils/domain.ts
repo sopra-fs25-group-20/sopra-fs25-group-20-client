@@ -1,3 +1,4 @@
+"use client";
 import process from "process";
 import { isProduction } from "@/utils/environment";
 
@@ -10,7 +11,7 @@ export function getApiDomain(): string {
 
 export function getStompBrokerDomain(): string {
   const prodUrl = process.env.BROKER_URL ||
-    "wss://backend.spyquest.whtvr.ch:8080/ws";
+    "wss://backend.spyquest.whtvr.ch/ws";
   const devUrl = "ws://localhost:8080/ws";
   return isProduction() ? prodUrl : devUrl;
 }
