@@ -281,3 +281,32 @@ html, body, #__next, .page-wrapper {
   height: 100%;
   width: 100%;
 }
+
+
+.image-gallery {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.image-container {
+  position: relative;
+  cursor: pointer;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.image-container.highlighted {
+  border: 3px solid #ff146a; /* Highlight selected image */
+}
+
+.image {
+  width: 100%;
+  height: auto;
+}
