@@ -39,3 +39,49 @@ main,
   height: 532px;
   flex-shrink: 0;
 }
+
+/* === CHAT === */
+
+.chat {
+  display: flex;
+  width: 350px;
+  padding: 30px;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  align-self: stretch;
+}
+
+.chat .box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  flex: 1 0 0;
+  align-self: stretch;
+}
+
+.chat .box .message {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat .box .message .you,
+.chat .box .message .else {
+  width: 18px;
+  height: 18px;
+}
+
+.chat .bar {
+  display: flex;
+  height: 30px;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+}
+
+.chat .bar .symbol {
+  width: 20px;
+  height: 20px;
+}

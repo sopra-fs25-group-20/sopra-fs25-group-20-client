@@ -15,7 +15,7 @@ export default function LobbyPage() {
   return (
     <div>
       <AppHeader onToggleTheme={() => setDarkMode((prev) => !prev)} />
-      <div className="frame">
+      <div className="lobby">
         <ChatWindow />
         <div className="right-column">
           <PlayerOverview />

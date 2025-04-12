@@ -29,55 +29,50 @@ export const ChatWindow = () => {
     setInput("");
   };
 
-  const getColor = (from: string) =>
-    from === stompApi.getNickname()
-      ? "var(--user-color-1)"
-      : "var(--user-color-2)";
+  // Submit when user presses enter
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      sendMessage();
+    }
+  };
+
+  // Get the shape of the icon in front of a message
+  const getMessageIconShape = (from: string): string => {
+    return from === stompApi.getNickname() ? "you" : "else";
+  };
 
   return (
-    <div
-      className="card-box d-flex flex-column"
-      style={{ width: "350px", height: "532px" }}
-    >
-      <div className="flex-grow-1 overflow-auto mb-3">
+    <div className="chat">
+      <div className="box overflow-auto">
         {messages.map((msg, index) => {
-          const isYou = msg.nickname === stompApi.getNickname();
-          const color = getColor(msg.nickname);
           return (
-            <div
-              key={index}
-              className="d-flex align-items-start"
-              style={{ color }}
-            >
+            <div key={index} className="message" style={{ color: msg.color }}>
               <div
-                style={{
-                  backgroundColor: color,
-                  width: "1em",
-                  height: "1em",
-                  borderRadius: isYou ? "5px" : "50%",
-                  marginRight: "10px",
-                  flexShrink: 0,
-                  marginTop: "0.2em",
-                }}
-              />
-              <div style={{ whiteSpace: "pre-wrap" }}>{msg.message}</div>
+                className={getMessageIconShape(msg.nickname)}
+                style={{ background: msg.color }}
+              ></div>
+              <div>{msg.message}</div>
             </div>
           );
         })}
       </div>
-
-      <div className="input-group">
+      <div className="bar">
         <input
           type="text"
-          className="form-control"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Type to room chat ..."
-          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+          onKeyDown={handleKeyDown}
+          placeholder="Type to chat ..."
+          className="input"
         />
-        <button className="btn" onClick={sendMessage}>
-          <i className="bi bi-arrow-right"></i>
-        </button>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="symbol"
+          viewBox="0 0 16 22"
+          onClick={sendMessage}
+        >
+          <path d="M16 11L3.57352e-08 21.5L4.26667 11L9.53674e-07 0.499999L16 11Z" />
+        </svg>
       </div>
     </div>
   );

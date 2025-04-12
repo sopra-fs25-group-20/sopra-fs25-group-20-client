@@ -1,66 +1,8 @@
-:root {
-  --background-light: #ffffff;
-  --box-light: #ececec;
-  --inner-box-light: #d9d9d9;
-  --text-light: #909090;
-  --accent-light: #d9d9d9;
-  --background-dark: #0d0d0d;
-  --box-dark: #222222;
-  --inner-box-dark: #373737;
-  --text-dark: #777777;
-  --accent-dark: #434343;
-  --user-color-1: #ff146a;
-  --user-color-2: #217852;
-}
-
-/* === Full-Screen Reset === */
-html,
-body {
-  width: 100%;
-  height: 100%;
-  max-width: 100vw;
-  overflow-x: hidden;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 15px;
-  background-color: var(--background-light);
-  color: var(--text-light);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Ensure entire layout takes full width and height */
-body,
-#__next,
-main,
-.page-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 100vh;
-  background-color: var(--background-light);
-}
 .container,
 .min-h-screen {
   width: 100%;
   min-height: 100vh;
   background-color: var(--background-light);
-}
-
-/* === Reset & Base === */
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
 }
 
 /* === Components === */
@@ -72,7 +14,7 @@ a {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   width: 100%;
   max-width: 360px;
-  margin:0;
+  margin: 0;
 }
 
 .form-control {
@@ -175,7 +117,6 @@ body.dark {
 body.dark,
 body.dark .container,
 body.dark .min-h-screen,
-body.dark .page-wrapper,
 body.dark #__next,
 body.dark main {
   background-color: var(--background-light) !important;
@@ -225,62 +166,6 @@ body.dark textarea {
   cursor: pointer;
 }
 
-
-.game-layout-container {
-  display: flex;
-  gap: 2rem;
-  padding: 2rem;
-  height: calc(100vh - 100px);
-  box-sizing: border-box;
-}
-
-.left-panel,
-.right-panel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.left-panel .card-box {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.right-panel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.top-box {
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-}
-
-.bottom-box {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
-.top-box .card-box,
-.bottom-box .card-box {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow: auto;
-}
-
-
-html, body, #__next, .page-wrapper {
-  height: 100%;
-  width: 100%;
-}
 .image-gallery {
   display: flex;
   justify-content: center;

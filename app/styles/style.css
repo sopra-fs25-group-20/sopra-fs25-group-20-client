@@ -37,3 +37,32 @@ body {
 body.dark .page-wrapper {
   background: var(--background-light) !important;
 }
+
+/* === CHAT === */
+
+.chat {
+  border-radius: 10px;
+  background: var(--box-light);
+}
+
+.chat .box .message .you {
+  border-radius: 5px;
+  background: red;
+}
+
+.chat .box .message .else {
+  border-radius: 10px;
+  background: red;
+}
+
+.chat .bar .input,
+.chat .bar .input::placeholder {
+  border: none;
+  outline: none;
+  background: none;
+  color: var(--text-light);
+}
+
+.chat .bar .symbol {
+  fill: var(--text-light);
+}
