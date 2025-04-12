@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import "@/styles/globals.css"; // override bootstrap defaults
+import "@/styles/globals.css";
+import "@/styles/style.css";
+import "@/styles/layout.css";
 
 export const metadata: Metadata = {
   title: "SpyQuest",

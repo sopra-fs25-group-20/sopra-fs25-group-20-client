@@ -1,0 +1,39 @@
+/* === GLOBAL === */
+
+:root {
+  --background-light: #ffffff;
+  --box-light: #ececec;
+  --inner-box-light: #d9d9d9;
+  --text-light: #909090;
+  --accent-light: #d9d9d9;
+  --background-dark: #0d0d0d;
+  --box-dark: #222222;
+  --inner-box-dark: #373737;
+  --text-dark: #777777;
+  --accent-dark: #434343;
+  --user-color-1: #ff146a;
+  --user-color-2: #217852;
+}
+
+html,
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  background: var(--background-light);
+  color: var(--text-light);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* === LOBBY === */
+
+.page-wrapper .chat {
+  border-radius: 10px;
+  background: var(--box-light);
+}
+
+/* === DARK MODE === */
+
+body.dark .page-wrapper {
+  background: var(--background-light) !important;
+}
