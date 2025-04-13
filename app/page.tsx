@@ -101,12 +101,18 @@ export default function Home() {
             value={nickname}
             onChange={setNickname}
           />
-          <InputField placeholder="Enter game code ..." value={code} onChange={setcode} />
+          <InputField
+            placeholder="Enter game code ..."
+            value={code}
+            onChange={setcode}
+          />
           <HorizontalFlex gap={15}>
             <Button onClick={handleJoin}>Join</Button>
             <Button onClick={handleStart}>Start new game</Button>
           </HorizontalFlex>
-          {error && <div className="text-red-500 text-sm text-center mt-2">{error}</div>}
+          {error && (
+            <div className="text-red-500 text-sm text-center mt-2">{error}</div>
+          )}
         </Frame>
       </div>
     </div>

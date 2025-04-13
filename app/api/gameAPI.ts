@@ -39,7 +39,9 @@ export class GameAPI {
     stompApi.subscribe<GameSettings>(`/topic/settings/${code}`, [
       (data) => this.handleSettings(data),
     ]);
-    stompApi.subscribe<GamePhase>(`/topic/phase/${code}`, [(data) => this.handlePhase(data)]);
+    stompApi.subscribe<GamePhase>(`/topic/phase/${code}`, [
+      (data) => this.handlePhase(data),
+    ]);
     stompApi.subscribe<{ players: Player[] }>(`/topic/players/${code}`, [
       (data) => this.handlePlayers(data),
     ]);

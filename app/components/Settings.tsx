@@ -60,13 +60,15 @@ export const Settings = () => {
         label="Duration Game"
         options={gameDurations}
         value={settings.gameTimer}
-        onChange={(value) => updateSettings("gameTimer", parseInt(value as string))}
+        onChange={(value) =>
+          updateSettings("gameTimer", parseInt(value as string))}
       />
       <Dropdown
         label="Duration Voting"
         options={votingDurations}
         value={settings.votingTimer}
-        onChange={(value) => updateSettings("votingTimer", parseInt(value as string))}
+        onChange={(value) =>
+          updateSettings("votingTimer", parseInt(value as string))}
       />
       <HorizontalFlex gap={15}>
         <Button onClick={ws.sendStartGame}>Start the Game</Button>

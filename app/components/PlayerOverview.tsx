@@ -57,8 +57,15 @@ export const PlayerOverview = () => {
     const profileClass = isSelf ? "you" : "other";
     return (
       <div className={`profile ${profileClass}`}>
-        <div className={`icon ${profileClass}`} style={{ background: player.color }}></div>
-        <div className={`player ${profileClass}`} style={{ color: player.color }}>
+        <div
+          className={`icon ${profileClass}`}
+          style={{ background: player.color }}
+        >
+        </div>
+        <div
+          className={`player ${profileClass}`}
+          style={{ color: player.color }}
+        >
           <div className="name">{player.nickname}</div>
           <div className="stats">0 Wins</div>
         </div>

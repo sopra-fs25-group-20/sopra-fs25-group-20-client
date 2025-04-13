@@ -53,7 +53,8 @@ export const Chat = () => {
               <div
                 className={getMessageIconShape(msg.nickname)}
                 style={{ background: msg.color }}
-              ></div>
+              >
+              </div>
               <div>{msg.message}</div>
             </div>
           );

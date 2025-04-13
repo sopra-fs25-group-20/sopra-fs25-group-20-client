@@ -3,5 +3,6 @@ export type GameVoteInit = {
 };
 
 export function isGameVoteInit(data: GameVoteInit): data is GameVoteInit {
-  return typeof data === "object" && data !== null && typeof data.nicknameTargeted === "string";
+  return typeof data === "object" && data !== null &&
+    typeof data.nicknameTargeted === "string";
 }

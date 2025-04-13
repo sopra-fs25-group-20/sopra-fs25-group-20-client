@@ -4,7 +4,9 @@ import { useParams, useRouter } from "next/navigation";
 import { useApi } from "@/hooks/useApi";
 import { stompApi } from "@/api/stompApi";
 
-export default function GameLayout({ children }: { children: React.ReactNode }) {
+export default function GameLayout(
+  { children }: { children: React.ReactNode },
+) {
   const params = useParams();
   const router = useRouter();
   const apiService = useApi();

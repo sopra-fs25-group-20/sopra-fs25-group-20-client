@@ -84,7 +84,10 @@ class StompAPI {
     }
   }
 
-  public async subscribe<T>(destination: string, handlers: ((data: T) => void)[]): Promise<void> {
+  public async subscribe<T>(
+    destination: string,
+    handlers: ((data: T) => void)[],
+  ): Promise<void> {
     const client = this.getClient();
     await this.ensureConnected();
     client.subscribe(destination, (message: IMessage) => {
