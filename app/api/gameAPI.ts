@@ -12,17 +12,18 @@ type GamePhaseHandler = (phase: GamePhase) => void;
 type GameVoteCastHandler = (vote: GameVoteCast) => void;
 type PlayerHandler = (players: Player[]) => void;
 
-
 export class GameAPI {
   private gameVoteInitHandlers: GameVoteInitHandler[] = [];
   private gameSettingsHandlers: GameSettingsHandler[] = [];
   private gamePhaseHandlers: GamePhaseHandler[] = [];
   private gameVoteCastHandlers: GameVoteCastHandler[] = [];
   private playerHandlers: PlayerHandler[] = [];
+  private gamePhase: GamePhase;
 
   constructor() {
     const code = stompApi.getCode();
     this.subscribeToTopics(code);
+    this.gamePhase = GamePhase.LOBBY;
   }
 
   private subscribeToTopics(code: string) {
@@ -35,9 +36,7 @@ export class GameAPI {
     stompApi.subscribe<GameSettings>(`/topic/settings/${code}`, [
       (data) => this.handleSettings(data),
     ]);
-    stompApi.subscribe<GamePhase>(`/topic/phase/${code}`, [
-      (data) => this.handlePhase(data),
-    ]);
+    stompApi.subscribe<GamePhase>(`/topic/phase/${code}`, [(data) => this.handlePhase(data)]);
     stompApi.subscribe<{ players: Player[] }>(`/topic/players/${code}`, [
       (data) => this.handlePlayers(data),
     ]);
@@ -56,6 +55,7 @@ export class GameAPI {
   }
 
   private handlePhase(data: GamePhase) {
+    this.gamePhase = data;
     this.gamePhaseHandlers.forEach((handler) => handler(data));
   }
 
@@ -64,7 +64,6 @@ export class GameAPI {
       this.playerHandlers.forEach((handler) => handler(data.players));
     }
   }
-  
 
   sendVoteInit(gameVoteInit: GameVoteInit) {
     stompApi.send(`/app/vote/init`, JSON.stringify(gameVoteInit));
@@ -105,9 +104,12 @@ export class GameAPI {
   removePlayersHandler(callback: PlayerHandler) {
     this.playerHandlers = this.playerHandlers.filter((h) => h !== callback);
   }
-  
 
   onVoteCast(handler: GameVoteCastHandler) {
     this.gameVoteCastHandlers.push(handler);
+  }
+
+  getGamePhase() {
+    return this.gamePhase;
   }
 }
