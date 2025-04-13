@@ -79,6 +79,7 @@ export default function Home() {
       }
       stompApi.setCode(code);
       stompApi.setNickname(nickname);
+      stompApi.setRoomAdmin(nickname);
       router.push(`/game/${code.trim()}`);
     } catch (error) {
       if (error instanceof ApplicationError) {
@@ -103,31 +104,19 @@ export default function Home() {
         </div>
 
         <div className="input-group margin-inbetween ">
-          <InputField
-            placeholder="Enter game code ..."
-            value={code}
-            onChange={setcode}
-          />
+          <InputField placeholder="Enter game code ..." value={code} onChange={setcode} />
         </div>
 
         <div className="button-row">
-          <PrimaryButton
-            onClick={handleJoin}
-            className="half-button"
-          >
+          <PrimaryButton onClick={handleJoin} className="half-button">
             Join
           </PrimaryButton>
-          <PrimaryButton
-            onClick={handleStart}
-            className="half-button"
-          >
+          <PrimaryButton onClick={handleStart} className="half-button">
             Start new game
           </PrimaryButton>
         </div>
 
-        {error && (
-          <div className="text-red-500 text-sm text-center mt-2">{error}</div>
-        )}
+        {error && <div className="text-red-500 text-sm text-center mt-2">{error}</div>}
       </Box>
     </div>
   );

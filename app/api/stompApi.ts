@@ -7,11 +7,13 @@ class StompAPI {
   private code: string | null;
   private nickname: string | null;
   private connectPromise: Promise<void> | null = null;
+  private roomAdmin: string;
 
   constructor() {
     this.client = null;
     this.code = null;
     this.nickname = null;
+    this.roomAdmin = "";
   }
 
   buildBrokerURL(): string {
@@ -130,6 +132,14 @@ class StompAPI {
       }
     }
     return this.code;
+  }
+
+  setRoomAdmin(nickname: string) {
+    this.roomAdmin = nickname;
+  }
+
+  getRoomAdmin() {
+    return this.roomAdmin;
   }
 }
 
