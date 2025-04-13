@@ -39,7 +39,7 @@ export class GameAPI {
     stompApi.subscribe<GameSettings>(`/topic/settings/${code}`, [
       (data) => this.handleSettings(data),
     ]);
-    stompApi.subscribe<GamePhase>(`/topic/phase/${code}`, [
+    stompApi.subscribe<{ phase: GamePhase }>(`/topic/phase/${code}`, [
       (data) => this.handlePhase(data),
     ]);
     stompApi.subscribe<{ players: Player[] }>(`/topic/players/${code}`, [
@@ -62,9 +62,9 @@ export class GameAPI {
     this.gameSettingsHandlers.forEach((handler) => handler(data));
   }
 
-  private handlePhase(data: GamePhase) {
-    this.gamePhase = data;
-    this.gamePhaseHandlers.forEach((handler) => handler(data));
+  private handlePhase(data: { phase: GamePhase }) {
+    this.gamePhase = data.phase;
+    this.gamePhaseHandlers.forEach((handler) => handler(data.phase));
   }
 
   private handlePlayers(data: { players: Player[] }) {
