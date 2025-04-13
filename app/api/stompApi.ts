@@ -4,10 +4,16 @@ import { Client, IMessage } from "@stomp/stompjs";
 
 class StompAPI {
   private client: Client | null;
+  private code: string | null;
+  private nickname: string | null;
   private connectPromise: Promise<void> | null = null;
+  private roomAdmin: string;
 
   constructor() {
     this.client = null;
+    this.code = null;
+    this.nickname = null;
+    this.roomAdmin = "";
   }
 
   buildBrokerURL(): string {
@@ -56,10 +62,9 @@ class StompAPI {
         reject(frame);
       };
       client.activate();
-    })
-      .finally(() => {
-        this.connectPromise = null;
-      });
+    }).finally(() => {
+      this.connectPromise = null;
+    });
     return this.connectPromise;
   }
 
@@ -102,27 +107,42 @@ class StompAPI {
   }
 
   setNickname(nickname: string) {
+    this.nickname = nickname;
     localStorage.setItem("clientNickname", nickname);
   }
 
   getNickname(): string {
-    const nickname: string | null = localStorage.getItem("clientNickname");
-    if (!nickname) {
-      throw new Error("Nickname not set. Call setNickname(...) first.");
+    if (!this.nickname) {
+      this.nickname = localStorage.getItem("clientNickname");
+      if (!this.nickname) {
+        throw new Error("Nickname not set. Call setNickname(...) first.");
+      }
+      console.warn("Loaded nickname and code from local storage.");
     }
-    return nickname;
+    return this.nickname;
   }
 
   setCode(code: string) {
+    this.code = code;
     localStorage.setItem("clientCode", code);
   }
 
   getCode(): string {
-    const code: string | null = localStorage.getItem("clientCode");
-    if (!code) {
-      throw new Error("Code not set. Call setCode(...) first.");
+    if (!this.code) {
+      this.code = localStorage.getItem("clientCode");
+      if (!this.code) {
+        throw new Error("Code not set. Call setCode(...) first.");
+      }
     }
-    return code;
+    return this.code;
+  }
+
+  setRoomAdmin(nickname: string) {
+    this.roomAdmin = nickname;
+  }
+
+  getRoomAdmin() {
+    return this.roomAdmin;
   }
 }
 

@@ -19,7 +19,10 @@ export default function ImagePage() {
     const fetchImages = async () => {
       try {
         const blobs = await Promise.all(
-          Array.from({ length: 9 }, () => apiService.get<Blob>("/image", false))
+          Array.from(
+            { length: 9 },
+            () => apiService.get<Blob>("/image", false),
+          ),
         );
         const urls = blobs.map((blob) => URL.createObjectURL(blob));
         setImageList(urls);
@@ -48,7 +51,11 @@ export default function ImagePage() {
   };
 
   if (loading) {
-    return <div style={{ textAlign: "center", marginTop: "2rem" }}>Loading images...</div>;
+    return (
+      <div style={{ textAlign: "center", marginTop: "2rem" }}>
+        Loading images...
+      </div>
+    );
   }
 
   return (
@@ -64,7 +71,9 @@ export default function ImagePage() {
                   key={src}
                   role="button"
                   tabIndex={0}
-                  className={`image-container ${selectedIndex === index ? "highlighted" : ""}`}
+                  className={`image-container ${
+                    selectedIndex === index ? "highlighted" : ""
+                  }`}
                   onClick={() => setSelectedIndex(index)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {

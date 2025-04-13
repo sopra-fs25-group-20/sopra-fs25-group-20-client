@@ -5,19 +5,12 @@ interface DropdownProps {
   options: string[] | number[];
   value: string | number;
   onChange: (value: string | number) => void;
-  className?: string;
-  style?: React.CSSProperties;
 }
 
-export const Dropdown = ({
-  label,
-  options,
-  value,
-  onChange,
-  className = "",
-  style = {},
-}: DropdownProps) => (
-  <div className={`button-row ${className}`} style={style}>
+export const Dropdown = (
+  { label, options, value, onChange }: DropdownProps,
+) => (
+  <div className="setting">
     <label className="half-button">{label}:</label>
     <select
       value={value}

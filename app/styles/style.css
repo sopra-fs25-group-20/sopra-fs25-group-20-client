@@ -1,0 +1,173 @@
+/* === GLOBAL === */
+
+:root {
+  --background-light: #ffffff;
+  --box-light: #ececec;
+  --inner-box-light: #d9d9d9;
+  --text-light: #909090;
+  --accent-light: #d9d9d9;
+  --background-dark: #0d0d0d;
+  --box-dark: #222222;
+  --inner-box-dark: #373737;
+  --text-dark: #777777;
+  --accent-dark: #434343;
+  --user-color-1: #ff146a;
+  --user-color-2: #217852;
+}
+
+html,
+body {
+  font-family: Roboto, sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  background: var(--background-light);
+  color: var(--text-light);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* used to wrap every component */
+.frame {
+  border-radius: 10px;
+  background: var(--box-light);
+}
+
+.button {
+  background-color: var(--user-color-1);
+  color: var(--background-light);
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+/* === LOBBY === */
+
+.page-wrapper .chat {
+  border-radius: 10px;
+  background: var(--box-light);
+}
+
+/* === DARK MODE === */
+
+body.dark {
+  --background-light: var(--background-dark);
+  --box-light: var(--box-dark);
+  --inner-box-light: var(--inner-box-dark);
+  --text-light: var(--text-dark);
+  --accent-light: var(--accent-dark);
+}
+
+/* === CHAT === */
+
+.message .you {
+  border-radius: 5px;
+  background: red;
+}
+
+.message .other {
+  border-radius: 10px;
+  background: red;
+}
+
+.chat-input,
+.chat-input::placeholder {
+  border: none;
+  outline: none;
+  background: none;
+  color: var(--text-light);
+}
+
+.chat-send-button {
+  fill: var(--text-light);
+}
+
+/* === SETTINGS === */
+
+.dropdown {
+  background-color: var(--inner-box-light);
+  color: var(--text-light);
+  border: none;
+  border-radius: 5px;
+  outline: none;
+}
+
+.dropdown:focus {
+  outline: none;
+  border: none;
+}
+
+/* === PLAYER OVERVIEW === */
+
+.profile-card .profile .player.you .name {
+  font-weight: 800;
+  font-size: 30px;
+}
+
+.profile-card .profile .player.other .name {
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.profile-card .profile.you .player .stats {
+  font-size: 15px;
+}
+
+.profile-card .profile.other .player .stats {
+  font-size: 8px;
+}
+
+/* === INPUT FIELD === */
+.form-control {
+  background-color: var(--inner-box-light);
+  border-radius: 10px;
+  border: none;
+  color: var(--text-light);
+}
+
+.form-control:focus {
+  outline: none;
+  box-shadow: none;
+  background-color: var(--inner-box-light);
+  color: var(--text-light);
+}
+
+.form-control::placeholder {
+  color: var(--text-light);
+}
+
+/* === APP HEADER === */
+
+.app-header {
+  z-index: 100;
+  font-weight: 500;
+  color: var(--user-color-1);
+}
+
+.app-header-button {
+  background: none;
+  border: none;
+  color: var(--user-color-1);
+  font-size: inherit;
+  font-weight: inherit;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.app-header-button:hover {
+  opacity: 0.8;
+}
+
+/* === IMAGE GALLERY === */
+
+.image-container {
+  cursor: pointer;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.image-container.highlighted {
+  border: 3px solid #ff146a;
+}
