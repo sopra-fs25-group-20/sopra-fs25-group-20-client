@@ -52,8 +52,12 @@ body {
 
 /* === DARK MODE === */
 
-body.dark .page-wrapper {
-  background: var(--background-light) !important;
+body.dark {
+  --background-light: var(--background-dark);
+  --box-light: var(--box-dark);
+  --inner-box-light: var(--inner-box-dark);
+  --text-light: var(--text-dark);
+  --accent-light: var(--accent-dark);
 }
 
 /* === CHAT === */
@@ -113,4 +117,57 @@ body.dark .page-wrapper {
 
 .profile-card .profile.other .player .stats {
   font-size: 8px;
+}
+
+/* === INPUT FIELD === */
+.form-control {
+  background-color: var(--inner-box-light);
+  border-radius: 10px;
+  border: none;
+  color: var(--text-light);
+}
+
+.form-control:focus {
+  outline: none;
+  box-shadow: none;
+  background-color: var(--inner-box-light);
+  color: var(--text-light);
+}
+
+.form-control::placeholder {
+  color: var(--text-light);
+}
+
+/* === APP HEADER === */
+
+.app-header {
+  z-index: 100;
+  font-weight: 500;
+  color: var(--user-color-1);
+}
+
+.app-header-button {
+  background: none;
+  border: none;
+  color: var(--user-color-1);
+  font-size: inherit;
+  font-weight: inherit;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.app-header-button:hover {
+  opacity: 0.8;
+}
+
+/* === IMAGE GALLERY === */
+
+.image-container {
+  cursor: pointer;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.image-container.highlighted {
+  border: 3px solid #ff146a;
 }

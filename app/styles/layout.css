@@ -71,6 +71,16 @@ main,
   gap: 30px;
 }
 
+/* === LANDING PAGE === */
+
+.landing-page {
+  display: flex;
+  width: 350px;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
 /* === CHAT === */
 
 .chat {
@@ -185,4 +195,49 @@ main,
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* === INPUT FIELD === */
+.form-control {
+  width: 100%;
+  height: 30px;
+}
+
+/* === HEADER === */
+
+.app-header {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  display: flex;
+  gap: 15px;
+}
+
+.app-header-button {
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* === IMAGE GALLERY === */
+
+.image-gallery {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.image-container {
+  position: relative;
+}
+
+.image {
+  width: 100%;
+  height: auto;
 }
