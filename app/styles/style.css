@@ -63,7 +63,7 @@ body.dark .page-wrapper {
   background: red;
 }
 
-.chat .box .message .else {
+.chat .box .message .other {
   border-radius: 10px;
   background: red;
 }
@@ -93,4 +93,24 @@ body.dark .page-wrapper {
 .dropdown:focus {
   outline: none;
   border: none;
+}
+
+/* === PLAYER OVERVIEW === */
+
+.profile-card .profile .player.you .name {
+  font-weight: 800;
+  font-size: 30px;
+}
+
+.profile-card .profile .player.other .name {
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.profile-card .profile.you .player .stats {
+  font-size: 15px;
+}
+
+.profile-card .profile.other .player .stats {
+  font-size: 8px;
 }

@@ -52,7 +52,6 @@ main,
 .page-wrapper .lobby {
   display: flex;
   width: 730px;
-  height: 532px;
   justify-content: center;
   align-items: flex-start;
   gap: 30px;
@@ -71,13 +70,12 @@ main,
 
 .page-wrapper .chat {
   width: 350px;
-  height: 532px;
   flex-shrink: 0;
 }
 
 /* === CHAT === */
 
-.chat {
+.frame.chat {
   width: 350px;
   padding: 30px 30px 15px 30px; /* shift the chat bar down */
 }
@@ -98,7 +96,7 @@ main,
 }
 
 .chat .box .message .you,
-.chat .box .message .else {
+.chat .box .message .other {
   width: 18px;
   height: 18px;
 }
@@ -136,4 +134,65 @@ main,
   justify-content: center;
   align-items: center;
   width: 120px;
+}
+
+/* === PLAYER OVERVIEW === */
+
+.frame.overview {
+  gap: 15px;
+}
+
+.frame.overview .others {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  align-self: stretch;
+  height: 155px;
+}
+
+.profile-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+}
+
+.profile-card .profile.you {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.profile-card .profile.other {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-card .profile .icon.you {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+}
+
+.profile-card .profile .icon.other {
+  width: 35px;
+  height: 35px;
+  border-radius: 20px;
+}
+
+.profile-card .profile .player {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: -2px;
+}
+
+.profile-card .action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

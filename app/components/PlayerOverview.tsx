@@ -1,77 +1,86 @@
-"use client";
-import { useEffect, useRef, useState } from "react";
-import { Box } from "@/components/Box";
-import { FaBan } from "react-icons/fa";
 import { stompApi } from "@/api/stompApi";
-import { GameAPI } from "@/api/gameAPI";
+import { useGame } from "@/hooks/useGame";
+import { GamePhase } from "@/types/gamePhase";
 import { Player } from "@/types/player";
+import { useEffect, useState } from "react";
+import { FaBan } from "react-icons/fa";
+
+// TO-DO: Remove temporary mockup players when backend is reaedy
+const mockPlayers: Player[] = [
+  { nickname: "Alice", color: "#ff4d4d", account: null },
+  { nickname: "Bob", color: "#4d79ff", account: null },
+  { nickname: "Charlie", color: "#4dff4d", account: null },
+  { nickname: "Diana", color: "#ffb84d", account: null },
+  { nickname: "Eve", color: "#b84dff", account: null },
+];
 
 export const PlayerOverview = () => {
-  const [players, setPlayers] = useState<Player[]>([]);
-  const apiRef = useRef<GameAPI | null>(null);
+  const gameApi = useGame();
+  const [players, setPlayers] = useState<Player[]>(mockPlayers);
 
-  const currentNickname = stompApi.getNickname();
-  const adminNickname =
-    typeof window !== "undefined"
-      ? localStorage.getItem("roomAdmin")
-      : null;
-  const isAdmin = currentNickname === adminNickname;
+  const handlePlayers = (players: Player[]) => {
+    setPlayers(players);
+  };
 
   useEffect(() => {
-    if (!apiRef.current) {
-      apiRef.current = new GameAPI();
-    }
-
-    const handler = (players: Player[]) => {
-      setPlayers(players);
-    };
-
-    apiRef.current.onPlayers(handler);
-
+    gameApi.onPlayers(handlePlayers);
     return () => {
-      apiRef.current?.removePlayersHandler(handler);
+      gameApi.removePlayersHandler(handlePlayers);
     };
-  }, []);
+  }, [gameApi]);
 
-  const handleKick = (nickname: string) => {
-    if (!apiRef.current) return;
-    if (nickname === currentNickname) return;
-    apiRef.current.sendKickPlayer(nickname);
+  const nickname = stompApi.getNickname();
+  const selfPlayer = players.find((p) => p.nickname === nickname);
+  const otherPlayers = players.filter((p) => p.nickname !== nickname);
+
+  // Get the action that is displayed besides the profile (none, kick or vote)
+  const getAction = (player: Player) => {
+    const gamePhase = gameApi.getGamePhase();
+    if (gamePhase === GamePhase.LOBBY && nickname !== player.nickname) {
+      return (
+        <div className="action">
+          <FaBan
+            className="ban-icon"
+            color={player.color}
+            onClick={() => gameApi.sendKickPlayer(player.nickname)}
+          />
+        </div>
+      );
+    }
+  };
+
+  // Get the player card for each player (either the smaller for other players or the bigger for self)
+  const getProfileCard = (player: Player) => {
+    const isSelf = nickname === player.nickname;
+    const profileClass = isSelf ? "you" : "other";
+    return (
+      <div className={`profile ${profileClass}`}>
+        <div className={`icon ${profileClass}`} style={{ background: player.color }}></div>
+        <div className={`player ${profileClass}`} style={{ color: player.color }}>
+          <div className="name">{player.nickname}</div>
+          <div className="stats">0 Wins</div>
+        </div>
+      </div>
+    );
   };
 
   return (
-    <Box className="card-box player-overview">
-      {players.map((player, index) => {
-        const isYou = player.nickname === currentNickname;
+    <div className="frame overview">
+      {selfPlayer && (
+        <div className="profile-card">
+          {getProfileCard(selfPlayer)}
+          {getAction(selfPlayer)}
+        </div>
+      )}
 
-        return (
-          <div
-            key={index}
-            className="d-flex justify-between align-items-center mb-2"
-          >
-            <div className="d-flex align-items-center gap-2">
-              <div
-                className="player-color"
-                style={{ backgroundColor: player.color }}
-              />
-              <div
-                className={`player-name ${isYou ? "you" : ""}`}
-                style={{ color: player.color }}
-              >
-                {player.nickname}
-              </div>
-            </div>
-            {isAdmin && !isYou && (
-              <FaBan
-                className="ban-icon"
-                color={player.color}
-                style={{ cursor: "pointer" }}
-                onClick={() => handleKick(player.nickname)}
-              />
-            )}
+      <div className="others overflow-auto">
+        {otherPlayers.map((player) => (
+          <div key={player.nickname} className="profile-card">
+            {getProfileCard(player)}
+            {getAction(player)}
           </div>
-        );
-      })}
-    </Box>
+        ))}
+      </div>
+    </div>
   );
 };

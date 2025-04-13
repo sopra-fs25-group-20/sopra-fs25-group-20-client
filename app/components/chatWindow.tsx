@@ -38,7 +38,7 @@ export const ChatWindow = () => {
 
   // Get the shape of the icon in front of a message
   const getMessageIconShape = (from: string): string => {
-    return from === stompApi.getNickname() ? "you" : "else";
+    return from === stompApi.getNickname() ? "you" : "other";
   };
 
   return (
