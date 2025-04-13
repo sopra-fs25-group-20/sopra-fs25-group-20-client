@@ -3,7 +3,7 @@ import { Account } from "./account";
 export type Player = {
   nickname: string;
   color: string;
-  account: Account;
+  account: Account | null;
 };
 
 export function isPlayer(data: Player): data is Player {
