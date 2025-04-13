@@ -42,7 +42,7 @@ export const ChatWindow = () => {
   };
 
   return (
-    <div className="chat">
+    <div className="frame chat">
       <div className="box overflow-auto">
         {messages.map((msg, index) => {
           return (

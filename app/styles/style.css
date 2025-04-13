@@ -28,6 +28,21 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* used to wrap every component */
+.frame {
+  border-radius: 10px;
+  background: var(--box-light);
+}
+
+.button {
+  background-color: var(--user-color-1);
+  color: var(--background-light);
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
 /* === LOBBY === */
 
 .page-wrapper .chat {
@@ -42,11 +57,6 @@ body.dark .page-wrapper {
 }
 
 /* === CHAT === */
-
-.chat {
-  border-radius: 10px;
-  background: var(--box-light);
-}
 
 .chat .box .message .you {
   border-radius: 5px;
@@ -68,4 +78,19 @@ body.dark .page-wrapper {
 
 .chat .bar .symbol {
   fill: var(--text-light);
+}
+
+/* === SETTINGS === */
+
+.dropdown {
+  background-color: var(--inner-box-light);
+  color: var(--text-light);
+  border: none;
+  border-radius: 5px;
+  outline: none;
+}
+
+.dropdown:focus {
+  outline: none;
+  border: none;
 }
