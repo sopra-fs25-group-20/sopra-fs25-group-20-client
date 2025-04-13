@@ -160,14 +160,19 @@ body.dark {
   opacity: 0.8;
 }
 
-/* === IMAGE GALLERY === */
+/* === GALLERY === */
 
 .image-container {
   cursor: pointer;
   border-radius: 10px;
   overflow: hidden;
+  background: var(--accent-light);
 }
 
 .image-container.highlighted {
   border: 3px solid #ff146a;
+}
+
+.iamge {
+  object-fit: cover;
 }
