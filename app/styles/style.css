@@ -58,25 +58,25 @@ body.dark .page-wrapper {
 
 /* === CHAT === */
 
-.chat .box .message .you {
+.message .you {
   border-radius: 5px;
   background: red;
 }
 
-.chat .box .message .other {
+.message .other {
   border-radius: 10px;
   background: red;
 }
 
-.chat .bar .input,
-.chat .bar .input::placeholder {
+.chat-input,
+.chat-input::placeholder {
   border: none;
   outline: none;
   background: none;
   color: var(--text-light);
 }
 
-.chat .bar .symbol {
+.chat-send-button {
   fill: var(--text-light);
 }
 

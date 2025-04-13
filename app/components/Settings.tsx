@@ -7,12 +7,14 @@ import { GamePhase } from "@/types/gamePhase";
 import { GameSettings } from "@/types/gameSettings";
 import { Dropdown } from "./dropdown";
 import { Button } from "./Button";
+import { Frame } from "./frame";
+import { HorizontalFlex } from "./horizontalFlex";
 
 const regions = ["Europe", "Asia", "Americas", "Africa"];
 const gameDurations = [60, 120, 180];
 const votingDurations = [15, 30, 45];
 
-export const GameSettingsComponent = () => {
+export const Settings = () => {
   const ws = useGame();
   const [settings, setSettings] = useState<GameSettings>({
     votingTimer: 15,
@@ -47,7 +49,7 @@ export const GameSettingsComponent = () => {
   };
 
   return (
-    <div className="frame settings">
+    <Frame className="settings">
       <Dropdown
         label="Region Restrictions"
         options={regions}
@@ -66,12 +68,12 @@ export const GameSettingsComponent = () => {
         value={settings.votingTimer}
         onChange={(value) => updateSettings("votingTimer", parseInt(value as string))}
       />
-      <div className="button-row">
+      <HorizontalFlex gap={15}>
         <Button onClick={ws.sendStartGame}>Start the Game</Button>
         <Button onClick={handleShareGameCode} className="hug">
           <FaShareAlt size={18} />
         </Button>
-      </div>
-    </div>
+      </HorizontalFlex>
+    </Frame>
   );
 };

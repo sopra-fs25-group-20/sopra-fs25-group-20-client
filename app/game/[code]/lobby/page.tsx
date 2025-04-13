@@ -1,9 +1,10 @@
 "use client";
 import { AppHeader } from "@/components/AppHeader";
-import { ChatWindow } from "@/components/chatWindow";
-import { GameSettingsComponent } from "@/components/gameSettingsComponent";
+import { Chat } from "@/components/chat";
+import { Settings } from "@/components/Settings";
 import { PlayerOverview } from "@/components/PlayerOverview";
 import { useEffect, useState } from "react";
+import { VerticalFlex } from "@/components/verticalFlex";
 
 export default function LobbyPage() {
   const [darkMode, setDarkMode] = useState(false);
@@ -16,11 +17,13 @@ export default function LobbyPage() {
     <div>
       <AppHeader onToggleTheme={() => setDarkMode((prev) => !prev)} />
       <div className="lobby">
-        <ChatWindow />
-        <div className="right-column">
+        <VerticalFlex>
+          <Chat />
+        </VerticalFlex>
+        <VerticalFlex>
           <PlayerOverview />
-          <GameSettingsComponent />
-        </div>
+          <Settings />
+        </VerticalFlex>
       </div>
     </div>
   );

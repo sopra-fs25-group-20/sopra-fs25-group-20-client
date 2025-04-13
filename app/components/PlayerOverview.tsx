@@ -4,6 +4,8 @@ import { GamePhase } from "@/types/gamePhase";
 import { Player } from "@/types/player";
 import { useEffect, useState } from "react";
 import { FaBan } from "react-icons/fa";
+import { Frame } from "./frame";
+import { OverflowContainer } from "./overflowContainer";
 
 // TO-DO: Remove temporary mockup players when backend is reaedy
 const mockPlayers: Player[] = [
@@ -65,22 +67,21 @@ export const PlayerOverview = () => {
   };
 
   return (
-    <div className="frame overview">
+    <Frame className="overview">
       {selfPlayer && (
         <div className="profile-card">
           {getProfileCard(selfPlayer)}
           {getAction(selfPlayer)}
         </div>
       )}
-
-      <div className="others overflow-auto">
+      <OverflowContainer>
         {otherPlayers.map((player) => (
           <div key={player.nickname} className="profile-card">
             {getProfileCard(player)}
             {getAction(player)}
           </div>
         ))}
-      </div>
-    </div>
+      </OverflowContainer>
+    </Frame>
   );
 };

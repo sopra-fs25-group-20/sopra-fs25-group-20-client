@@ -3,8 +3,11 @@ import { useEffect, useState } from "react";
 import { useChat } from "@/hooks/useChat";
 import { ChatMessage } from "@/types/chatMessage";
 import { stompApi } from "@/api/stompApi";
+import { Frame } from "./frame";
+import { OverflowContainer } from "./overflowContainer";
+import { HorizontalFlex } from "./horizontalFlex";
 
-export const ChatWindow = () => {
+export const Chat = () => {
   const ws = useChat();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
@@ -42,8 +45,8 @@ export const ChatWindow = () => {
   };
 
   return (
-    <div className="frame chat">
-      <div className="box overflow-auto">
+    <Frame className="chat">
+      <OverflowContainer>
         {messages.map((msg, index) => {
           return (
             <div key={index} className="message" style={{ color: msg.color }}>
@@ -55,25 +58,25 @@ export const ChatWindow = () => {
             </div>
           );
         })}
-      </div>
-      <div className="bar">
+      </OverflowContainer>
+      <HorizontalFlex>
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Type to chat ..."
-          className="input"
+          className="chat-input"
         />
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="symbol"
+          className="chat-send-button"
           viewBox="0 0 16 22"
           onClick={sendMessage}
         >
           <path d="M16 11L3.57352e-08 21.5L4.26667 11L9.53674e-07 0.499999L16 11Z" />
         </svg>
-      </div>
-    </div>
+      </HorizontalFlex>
+    </Frame>
   );
 };

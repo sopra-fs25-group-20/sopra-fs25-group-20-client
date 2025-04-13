@@ -12,7 +12,7 @@ main,
   align-items: center;
 }
 
-/* used to wrap every component */
+/* the grey, rounded frame used for every component */
 .frame {
   display: flex;
   padding: 30px;
@@ -20,67 +20,65 @@ main,
   justify-content: center;
   align-items: center;
   gap: 15px;
+  flex: 1 0 0;
   align-self: stretch;
 }
 
-/* places buttons horizontally besides each other with a gap of 15px */
-.button-row {
+/* places frames (.frame) vertically on top of each other */
+.vertical-flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  gap: 30px;
+  align-self: stretch;
+}
+
+.horizontal-flex {
   display: flex;
   height: 30px;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: 30px;
   align-self: stretch;
 }
 
+/* places buttons horizontally besides each other with a gap of 15px */
 .button {
   display: flex;
   justify-content: center;
   align-items: center;
   align-self: stretch;
+  height: 30px;
   gap: 10px;
   flex: 1 0 0;
 }
 
-/* overwrite the button to hug its content instead of stretch */
+/* overwrite the button to hug its content instead of stretching to full width */
 .button.hug {
   flex: 0 0 auto;
 }
 
 /* === LOBBY === */
 
-.page-wrapper .lobby {
+.lobby {
   display: flex;
-  width: 730px;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 30px;
-  flex-shrink: 0;
-}
-
-.page-wrapper .lobby .right-column {
-  display: flex;
-  width: 350px;
-  flex-direction: column;
+  width: 800px;
+  min-height: 520px;
   justify-content: center;
   align-items: center;
   gap: 30px;
-  flex-shrink: 0;
-}
-
-.page-wrapper .chat {
-  width: 350px;
-  flex-shrink: 0;
 }
 
 /* === CHAT === */
 
-.frame.chat {
-  width: 350px;
+.chat {
   padding: 30px 30px 15px 30px; /* shift the chat bar down */
+  flex: 1;
 }
 
-.chat .box {
+.overflow-container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -89,27 +87,28 @@ main,
   align-self: stretch;
 }
 
-.chat .box .message {
+.message {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.chat .box .message .you,
-.chat .box .message .other {
+.message .you,
+.message .other {
   width: 18px;
   height: 18px;
 }
 
-.chat .bar {
+.chat-input {
   display: flex;
   height: 30px;
   justify-content: space-between;
   align-items: center;
   align-self: stretch;
+  flex: 1;
 }
 
-.chat .bar .symbol {
+.chat-send-button {
   width: 20px;
   height: 20px;
 }
@@ -117,7 +116,7 @@ main,
 /* === SETTINGS === */
 
 .settings {
-  width: 350px;
+  flex: 0;
 }
 
 .setting {
@@ -125,6 +124,7 @@ main,
   justify-content: space-between;
   align-items: center;
   align-self: stretch;
+  flex: 0;
 }
 
 .dropdown {
@@ -138,18 +138,8 @@ main,
 
 /* === PLAYER OVERVIEW === */
 
-.frame.overview {
+.overview {
   gap: 15px;
-}
-
-.frame.overview .others {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  align-self: stretch;
-  height: 155px;
 }
 
 .profile-card {
