@@ -42,8 +42,8 @@ export class GameAPI {
     stompApi.subscribe<{ phase: GamePhase }>(`/topic/phase/${code}`, [
       (data) => this.handlePhase(data),
     ]);
-    stompApi.subscribe<{ players: Player[] }>(`/topic/players/${code}`, [
-      (data) => this.handlePlayers(data),
+    stompApi.subscribe<Player[]>(`/topic/players/${code}`, [
+      (players) => this.handlePlayers(players),
     ]);
     stompApi.subscribe<GameStart>(`/user/queue/game/start${code}`, [
       (data) => this.handleGameStart(data),
@@ -67,9 +67,9 @@ export class GameAPI {
     this.gamePhaseHandlers.forEach((handler) => handler(data.phase));
   }
 
-  private handlePlayers(data: { players: Player[] }) {
-    if (Array.isArray(data.players)) {
-      this.playerHandlers.forEach((handler) => handler(data.players));
+  private handlePlayers(players: Player[]) {
+    if (Array.isArray(players)) {
+      this.playerHandlers.forEach((handler) => handler(players));
     }
   }
 
