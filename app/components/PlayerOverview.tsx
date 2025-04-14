@@ -7,6 +7,7 @@ import { FaBan } from "react-icons/fa";
 import { Frame } from "./frame";
 import { OverflowContainer } from "./overflowContainer";
 import { useApi } from "@/hooks/useApi";
+import { Button } from "./Button";
 
 export const PlayerOverview = () => {
   const gameApi = useGame();
@@ -98,13 +99,18 @@ export const PlayerOverview = () => {
         return null;
 
       case GamePhase.GAME:
-        // TO-DO: Implement proper voting button
-        return (<div>Vote Out</div>)
-
+        return (
+          <Button
+            onClick={() =>
+              gameApi.sendVoteInit({ nicknameTargeted: player.nickname })}
+            className="hug"
+          >
+            Vote Out
+          </Button>
+        );
       default:
         return null;
     }
-
   };
 
   /**
