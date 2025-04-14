@@ -22,7 +22,8 @@ export const HUD = () => {
    * Handles receptions of changed game role.
    */
   const handleRole = (data: Role) => {
-    setRole(data.role);
+    console.warn(data.playerRole)
+    setRole(data.playerRole);
   };
 
   /**
