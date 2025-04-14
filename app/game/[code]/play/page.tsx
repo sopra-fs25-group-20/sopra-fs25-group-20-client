@@ -6,16 +6,14 @@ import { VerticalFlex } from "@/components/verticalFlex";
 
 export default function PlayPage() {
   return (
-    <div>
-      <div className="play-page">
-        <VerticalFlex width={350}>
-          <PlayerOverview />
-          <Chat />
-        </VerticalFlex>
-        <VerticalFlex>
-          <Gallery />
-        </VerticalFlex>
-      </div>
+    <div className="play-page">
+      <VerticalFlex width={350}>
+        <PlayerOverview />
+        <Chat />
+      </VerticalFlex>
+      <VerticalFlex>
+        <Gallery />
+      </VerticalFlex>
     </div>
   );
 }
