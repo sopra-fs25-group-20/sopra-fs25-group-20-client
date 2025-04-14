@@ -89,7 +89,7 @@ main,
   width: 1920;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  gap: 2rem;
 }
 
 /* === CHAT === */
