@@ -97,10 +97,16 @@ export const Settings = () => {
           updateSettings("votingTimer", parseInt(value as string))}
       />
       <HorizontalFlex gap={15}>
-        <Button onClick={handleStartGame}>Start the Game</Button>
-        <Button onClick={handleShareGameCode} className="hug">
-          <FaShareAlt size={18} />
-        </Button>
+        {stompApi.isRoomAdmin() ? (
+          <>
+            <Button onClick={handleStartGame}>Start the Game</Button>
+            <Button onClick={handleShareGameCode} className="hug">
+              <FaShareAlt size={18} />
+            </Button>
+          </>
+        ) : (
+          <Button onClick={handleShareGameCode}>Share the Game</Button>
+        )}
       </HorizontalFlex>
     </Frame>
   );
