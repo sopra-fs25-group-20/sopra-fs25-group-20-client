@@ -15,11 +15,11 @@ main,
 /* the grey, rounded frame used for every component */
 .frame {
   display: flex;
-  padding: 30px;
+  padding: 2rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: 1rem;
   flex: 1 0 0;
   align-self: stretch;
 }
@@ -31,16 +31,16 @@ main,
   justify-content: center;
   align-items: center;
   flex: 1;
-  gap: 30px;
+  gap: 2rem;
   align-self: stretch;
 }
 
 .horizontal-flex {
   display: flex;
-  height: 30px;
+  height: 2rem;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  gap: 2rem;
   align-self: stretch;
 }
 
@@ -50,8 +50,8 @@ main,
   justify-content: center;
   align-items: center;
   align-self: stretch;
-  height: 30px;
-  gap: 10px;
+  height: 2rem;
+  gap: 0.66rem;
   flex: 1 0 0;
 }
 
@@ -64,27 +64,27 @@ main,
 
 .lobby {
   display: flex;
-  width: 800px;
-  min-height: 520px;
+  width: 53.6rem;
+  min-height: 34.6rem;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  gap: 2rem;
 }
 
 /* === LANDING PAGE === */
 
 .landing-page {
   display: flex;
-  width: 350px;
+  width: 23.3rem;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  gap: 2rem;
 }
 
 /* === CHAT === */
 
 .chat {
-  padding: 30px 30px 15px 30px; /* shift the chat bar down */
+  padding: 2rem 2rem 1rem 2rem; /* shift the chat bar down */
   flex: 1;
 }
 
@@ -92,7 +92,7 @@ main,
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 5px;
+  gap: 0.33rem;
   flex: 1 0 0;
   align-self: stretch;
 }
@@ -100,18 +100,18 @@ main,
 .message {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0.66rem;
 }
 
 .message .you,
 .message .other {
-  width: 18px;
-  height: 18px;
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 .chat-input {
   display: flex;
-  height: 30px;
+  height: 2rem;
   justify-content: space-between;
   align-items: center;
   align-self: stretch;
@@ -119,8 +119,8 @@ main,
 }
 
 .chat-send-button {
-  width: 20px;
-  height: 20px;
+  width: 1.33rem;
+  height: 1.33rem;
 }
 
 /* === SETTINGS === */
@@ -140,16 +140,16 @@ main,
 .dropdown {
   display: flex;
   text-align: center;
-  border-radius: 5px;
+  border-radius: 0.33rem;
   justify-content: center;
   align-items: center;
-  width: 120px;
+  width: 8rem;
 }
 
 /* === PLAYER OVERVIEW === */
 
 .overview {
-  gap: 15px;
+  gap: 1rem;
 }
 
 .profile-card {
@@ -162,25 +162,25 @@ main,
 .profile-card .profile.you {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 1rem;
 }
 
 .profile-card .profile.other {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0.66rem;
 }
 
 .profile-card .profile .icon.you {
-  width: 60px;
-  height: 60px;
-  border-radius: 10px;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 0.66rem;
 }
 
 .profile-card .profile .icon.other {
-  width: 35px;
-  height: 35px;
-  border-radius: 20px;
+  width: 2.33rem;
+  height: 2.33rem;
+  border-radius: 1.33rem;
 }
 
 .profile-card .profile .player {
@@ -188,7 +188,7 @@ main,
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: -2px;
+  gap: 0;
 }
 
 .profile-card .action {
@@ -200,17 +200,17 @@ main,
 /* === INPUT FIELD === */
 .form-control {
   width: 100%;
-  height: 30px;
+  height: 2rem;
 }
 
 /* === HEADER === */
 
 .app-header {
   position: absolute;
-  top: 24px;
-  right: 32px;
+  top: 1.6rem;
+  right: 2.13rem;
   display: flex;
-  gap: 15px;
+  gap: 1rem;
 }
 
 .app-header-button {
@@ -240,4 +240,188 @@ main,
 .image {
   width: 100%;
   height: auto;
+}
+
+
+/* === RESPONSIVE DESIGN === */
+
+@media (max-width: 1024px) {
+  .lobby {
+    width: 100%;
+    max-width: 90%;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .landing-page {
+    width: 90%;
+    gap: 1.5rem;
+  }
+
+  .app-header {
+    top: 1rem;
+    right: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .frame {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .horizontal-flex {
+    flex-direction: column;
+    height: auto;
+    gap: 1rem;
+  }
+
+  .chat {
+    padding: 1rem;
+  }
+
+  .chat-input {
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    height: auto;
+    gap: 0;
+    padding-right: 2.5rem;
+  }
+
+  .chat-input input {
+    width: 100%;
+    padding-right: 2.5rem;
+  }
+
+  .chat-send-button {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .dropdown {
+    width: 100%;
+  }
+
+  .button {
+    flex: 1 1 100%;
+    height: auto;
+    font-size: 1rem;
+  }
+
+  .app-header {
+    position: relative;
+    top: auto;
+    right: auto;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .app-header-button {
+    font-size: 1rem;
+    padding: 0.5rem;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-card {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .profile-card .profile {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    display: flex;
+  }
+
+  .profile-card .profile .icon.you,
+  .profile-card .profile .icon.other {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .profile-card .profile .player.you .name,
+  .profile-card .profile .player.other .name {
+    font-size: 1.2rem;
+  }
+
+  .profile-card .profile .player.you .stats,
+  .profile-card .profile .player.other .stats {
+    font-size: 0.8rem;
+  }
+
+  .profile-card .action {
+    margin-left: auto;
+  }
+
+  .image-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .app-header {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 10;
+  }
+
+  .app-header-button {
+    padding: 0.25rem 0.5rem;
+    min-width: auto;
+    min-height: auto;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .app-header-button svg {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  .chat-input {
+    flex-direction: row;
+    gap: 0;
+    align-items: center;
+    position: relative;
+    padding-right: 2.5rem;
+  }
+
+  .chat-input input {
+    width: 100%;
+    padding-right: 2.5rem;
+  }
+
+  .chat-send-button {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .dropdown {
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .button {
+    font-size: 1rem;
+  }
 }
