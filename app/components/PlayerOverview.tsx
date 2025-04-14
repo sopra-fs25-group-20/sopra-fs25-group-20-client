@@ -14,20 +14,6 @@ export const PlayerOverview = () => {
   const [players, setPlayers] = useState<Player[]>([]);
 
   /**
-   * Manually request all players of a game room.
-   */
-  const requestPlayers = async () => {
-    try {
-      const response = await apiService.get<Player[]>(
-        `/players/${stompApi.getCode()}`,
-      );
-      setPlayers(response);
-    } catch (error) {
-      console.error("Failed to fetch players:", error);
-    }
-  };
-
-  /**
    * Handles receptions of change in players (e.g. joining / leaving).
    */
   const handlePlayers = (players: Player[]) => {
@@ -38,12 +24,26 @@ export const PlayerOverview = () => {
    * Manually request players when initializing the room and then rely on STOMP for player updates.
    */
   useEffect(() => {
+    /**
+     * Manually request all players of a game room.
+     */
+    const requestPlayers = async () => {
+      try {
+        const response = await apiService.get<Player[]>(
+          `/players/${stompApi.getCode()}`,
+        );
+        setPlayers(response);
+      } catch (error) {
+        console.error("Failed to fetch players:", error);
+      }
+    };
+
     requestPlayers();
     gameApi.onPlayers(handlePlayers);
     return () => {
       gameApi.removePlayersHandler(handlePlayers);
     };
-  }, [gameApi]);
+  }, [apiService, gameApi]);
 
   const nickname = stompApi.getNickname();
   const selfPlayer = players.find((p) => p.nickname === nickname);

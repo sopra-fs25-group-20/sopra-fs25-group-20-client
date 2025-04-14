@@ -26,22 +26,6 @@ export const Settings = () => {
   });
 
   /**
-   * Handles receptions of changed game phase.
-   */
-  const handlePhase = (phase: GamePhase) => {
-    if (phase === GamePhase.GAME) {
-      router.push(`/game/${stompApi.getCode()}/play`);
-    }
-  };
-
-  /**
-   * Handles receptions of changed game settings.
-   */
-  const handleSettings = (data: GameSettings) => {
-    setSettings(data);
-  };
-
-  /**
    * Share game code to clipboard.
    */
   const handleShareGameCode = () => {
@@ -70,9 +54,25 @@ export const Settings = () => {
    * Register handlers in game api.
    */
   useEffect(() => {
+    /**
+     * Handles receptions of changed game phase.
+     */
+    const handlePhase = (phase: GamePhase) => {
+      if (phase === GamePhase.GAME) {
+        router.push(`/game/${stompApi.getCode()}/play`);
+      }
+    };
+
+    /**
+     * Handles receptions of changed game settings.
+     */
+    const handleSettings = (data: GameSettings) => {
+      setSettings(data);
+    };
+
     gameApi.onPhase(handlePhase);
     gameApi.onSettings(handleSettings);
-  }, [gameApi]);
+  }, [gameApi, router]);
 
   return (
     <Frame className="settings">

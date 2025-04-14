@@ -19,57 +19,57 @@ export const HUD = () => {
   const [timer, setTimer] = useState<number | null>(null);
 
   /**
-   * Handles receptions of changed game role.
-   */
-  const handleRole = (data: Role) => {
-    console.warn(data.playerRole);
-    setRole(data.playerRole);
-  };
-
-  /**
-   * Request broadcasting of role.
-   */
-  const requestRole = async () => {
-    gameApi.requestRole();
-  };
-
-  /**
-   * Request phase.
-   */
-  const requestPhase = async () => {
-    try {
-      const response = await apiService.get<{ phase: GamePhase }>(
-        `/phase/${stompApi.getCode()}`,
-      );
-      setPhase(response.phase);
-    } catch (error) {
-      console.error("Failed to fetch phase:", error);
-    }
-  };
-
-  /**
-   * Request settings for timer.
-   */
-  const requestTimer = async () => {
-    try {
-      const response = await apiService.get<GameSettings>(
-        `/settings/${stompApi.getCode()}`,
-      );
-      setTimer(response.gameTimer);
-    } catch (error) {
-      console.error("Failed to fetch timer:", error);
-    }
-  };
-
-  /**
    * Register handlers in game api and request initial values.
    */
   useEffect(() => {
+    /**
+     * Handles receptions of changed game role.
+     */
+    const handleRole = (data: Role) => {
+      console.warn(data.playerRole);
+      setRole(data.playerRole);
+    };
+
+    /**
+     * Request broadcasting of role.
+     */
+    const requestRole = async () => {
+      gameApi.requestRole();
+    };
+
+    /**
+     * Request phase.
+     */
+    const requestPhase = async () => {
+      try {
+        const response = await apiService.get<{ phase: GamePhase }>(
+          `/phase/${stompApi.getCode()}`,
+        );
+        setPhase(response.phase);
+      } catch (error) {
+        console.error("Failed to fetch phase:", error);
+      }
+    };
+
+    /**
+     * Request settings for timer.
+     */
+    const requestTimer = async () => {
+      try {
+        const response = await apiService.get<GameSettings>(
+          `/settings/${stompApi.getCode()}`,
+        );
+        setTimer(response.gameTimer);
+      } catch (error) {
+        console.error("Failed to fetch timer:", error);
+      }
+    };
+
     gameApi.onRole(handleRole);
     requestRole();
     requestPhase();
     requestTimer();
-  }, [gameApi]);
+  }, [gameApi, apiService]);
 
   return (
     <HorizontalFlex>
