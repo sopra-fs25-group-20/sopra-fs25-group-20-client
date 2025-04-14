@@ -7,7 +7,6 @@ import { stompApi } from "@/api/stompApi";
 import { Role } from "@/types/role";
 import { useGame } from "@/hooks/useGame";
 import { HighlightedImage } from "@/types/highlightedImage";
-import Image from "next/image";
 
 export const Gallery = () => {
   const apiService = useApi();
@@ -95,14 +94,13 @@ export const Gallery = () => {
         {imageList.map((url, index) => (
           <div
             key={index}
-            className={`image-container ${
-              role === "innocent" && highlightedImage === index
+            className={`image-container ${role === "innocent" && highlightedImage === index
                 ? "highlight"
                 : ""
-            }`}
+              }`}
           >
             {url && (
-              <Image
+              <img
                 src={url}
                 alt={`Image ${index}`}
                 className="image"
