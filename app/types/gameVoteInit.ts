@@ -1,5 +1,5 @@
 export type GameVoteInit = {
-  target: string; // the player who is targeted by the vote
+  target: string;
 };
 
 export function isGameVoteInit(data: GameVoteInit): data is GameVoteInit {

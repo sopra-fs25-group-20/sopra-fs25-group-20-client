@@ -44,7 +44,6 @@ export const Gallery = () => {
      * Handles reception of the highlighted image
      */
     const handleHighlightedImage = (data: HighlightedImage) => {
-      console.warn(data.index);
       if (data.index >= 0) {
         setHighlightedImage(data.index);
       }

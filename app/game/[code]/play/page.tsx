@@ -4,6 +4,7 @@ import { Gallery } from "@/components/gallery";
 import { HUD } from "@/components/hud";
 import { PlayerOverview } from "@/components/PlayerOverview";
 import { VerticalFlex } from "@/components/verticalFlex";
+import { Voting } from "@/components/voting";
 
 export default function PlayPage() {
   return (
@@ -11,6 +12,7 @@ export default function PlayPage() {
       <VerticalFlex width={350}>
         <PlayerOverview />
         <HUD />
+        <Voting />
         <Chat />
       </VerticalFlex>
       <VerticalFlex>

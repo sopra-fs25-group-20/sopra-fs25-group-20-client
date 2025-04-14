@@ -148,7 +148,20 @@ export class GameAPI {
   }
 
   removePhaseHanlder(callback: GamePhaseHandler) {
-    this.gamePhaseHandlers = this.gamePhaseHandlers.filter((h) => h !== callback);
+    this.gamePhaseHandlers = this.gamePhaseHandlers.filter((h) =>
+      h !== callback
+    );
   }
 
+  removeVoteCastHandler(callback: GameVoteCastHandler) {
+    this.gameVoteCastHandlers = this.gameVoteCastHandlers.filter((h) =>
+      h !== callback
+    );
+  }
+
+  removeVoteInitHandler(callback: GameVoteInitHandler) {
+    this.gameVoteInitHandlers = this.gameVoteInitHandlers.filter((h) =>
+      h !== callback
+    );
+  }
 }

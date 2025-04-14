@@ -101,8 +101,7 @@ export const PlayerOverview = () => {
       case GamePhase.GAME:
         return (
           <Button
-            onClick={() =>
-              gameApi.sendVoteInit({ target: player.nickname })}
+            onClick={() => gameApi.sendVoteInit({ target: player.nickname })}
             className="hug"
           >
             Vote Out
