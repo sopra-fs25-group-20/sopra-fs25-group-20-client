@@ -5,14 +5,16 @@ import { GameVoteInit } from "@/types/gameVoteInit";
 import { GamePhase } from "@/types/gamePhase";
 import { Player } from "@/types/player";
 import { GameVoteCast } from "@/types/gameVoteCast";
-import { GameStart } from "@/types/gameStart";
+import { Role } from "@/types/role";
+import { HighlightedImage } from "@/types/highlightedImage";
 
 type GameVoteInitHandler = (data: GameVoteInit) => void;
 type GameSettingsHandler = (data: GameSettings) => void;
 type GamePhaseHandler = (phase: GamePhase) => void;
 type GameVoteCastHandler = (vote: GameVoteCast) => void;
 type PlayerHandler = (players: Player[]) => void;
-type GameStartHandler = (data: GameStart) => void;
+type RoleHandler = (data: Role) => void;
+type HighlightedImageHandler = (data: HighlightedImage) => void;
 
 export class GameAPI {
   private gameVoteInitHandlers: GameVoteInitHandler[] = [];
@@ -20,7 +22,8 @@ export class GameAPI {
   private gamePhaseHandlers: GamePhaseHandler[] = [];
   private gameVoteCastHandlers: GameVoteCastHandler[] = [];
   private playerHandlers: PlayerHandler[] = [];
-  private gameStartHandlers: GameStartHandler[] = [];
+  private roleHandlers: RoleHandler[] = [];
+  private highlightedImageHandlers: HighlightedImageHandler[] = [];
   private gamePhase: GamePhase;
 
   constructor() {
@@ -45,8 +48,11 @@ export class GameAPI {
     stompApi.subscribe<Player[]>(`/topic/players/${code}`, [
       (players) => this.handlePlayers(players),
     ]);
-    stompApi.subscribe<GameStart>(`/user/queue/game/start${code}`, [
-      (data) => this.handleGameStart(data),
+    stompApi.subscribe<Role>(`/user/queue/role/${code}`, [
+      (data) => this.handleRole(data),
+    ]);
+    stompApi.subscribe<HighlightedImage>(`/user/queue/highlighted/${code}`, [
+      (data) => this.handleHighlightedImage(data),
     ]);
   }
 
@@ -73,8 +79,12 @@ export class GameAPI {
     }
   }
 
-  private handleGameStart(data: GameStart) {
-    this.gameStartHandlers.forEach((handler) => handler(data));
+  private handleRole(data: Role) {
+    this.roleHandlers.forEach((handler) => handler(data));
+  }
+
+  private handleHighlightedImage(data: HighlightedImage) {
+    this.highlightedImageHandlers.forEach((handler) => handler(data));
   }
 
   sendVoteInit(gameVoteInit: GameVoteInit) {
@@ -101,6 +111,14 @@ export class GameAPI {
     stompApi.send(`/app/settings`, JSON.stringify(imageId));
   }
 
+  requestRole() {
+    stompApi.send(`/app/role`, "");
+  }
+
+  requestHighlightedImage() {
+    stompApi.send(`/app/highlighted`, "");
+  }
+
   onVoteInit(handler: GameVoteInitHandler) {
     this.gameVoteInitHandlers.push(handler);
   }
@@ -117,8 +135,12 @@ export class GameAPI {
     this.playerHandlers.push(handler);
   }
 
-  onGameStart(handler: GameStartHandler) {
-    this.gameStartHandlers.push(handler);
+  onRole(handler: RoleHandler) {
+    this.roleHandlers.push(handler);
+  }
+
+  onHighlightedImage(handler: HighlightedImageHandler) {
+    this.highlightedImageHandlers.push(handler);
   }
 
   removePlayersHandler(callback: PlayerHandler) {
