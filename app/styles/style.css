@@ -43,6 +43,14 @@ body {
   font-weight: 600;
 }
 
+.display {
+  background-color: var(--box-light);
+  border: none;
+  outline: none;
+  border-radius: 0.66rem;
+  font-weight: 400;
+}
+
 /* === LOBBY === */
 
 .page-wrapper .chat {
@@ -160,14 +168,15 @@ body.dark {
   opacity: 0.8;
 }
 
-/* === IMAGE GALLERY === */
+/* === GALLERY === */
 
 .image-container {
   cursor: pointer;
   border-radius: 0.66rem;
   overflow: hidden;
+  background: var(--accent-light);
 }
 
-.image-container.highlighted {
-  border: 0.2rem  solid #ff146a;
+.image-container.highlight {
+  border: 0.2rem solid #ff146a;
 }

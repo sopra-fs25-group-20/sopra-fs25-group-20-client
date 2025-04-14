@@ -6,36 +6,52 @@ import { useEffect, useState } from "react";
 import { FaBan } from "react-icons/fa";
 import { Frame } from "./frame";
 import { OverflowContainer } from "./overflowContainer";
-
-// TO-DO: Remove temporary mockup players when backend is reaedy
-const mockPlayers: Player[] = [
-  { nickname: "Alice", color: "#ff4d4d", account: null },
-  { nickname: "Bob", color: "#4d79ff", account: null },
-  { nickname: "Charlie", color: "#4dff4d", account: null },
-  { nickname: "Diana", color: "#ffb84d", account: null },
-  { nickname: "Eve", color: "#b84dff", account: null },
-];
+import { useApi } from "@/hooks/useApi";
 
 export const PlayerOverview = () => {
   const gameApi = useGame();
-  const [players, setPlayers] = useState<Player[]>(mockPlayers);
+  const apiService = useApi();
+  const [players, setPlayers] = useState<Player[]>([]);
 
+  /**
+   * Handles receptions of change in players (e.g. joining / leaving).
+   */
   const handlePlayers = (players: Player[]) => {
     setPlayers(players);
   };
 
+  /**
+   * Manually request players when initializing the room and then rely on STOMP for player updates.
+   */
   useEffect(() => {
+    /**
+     * Manually request all players of a game room.
+     */
+    const requestPlayers = async () => {
+      try {
+        const response = await apiService.get<Player[]>(
+          `/players/${stompApi.getCode()}`,
+        );
+        setPlayers(response);
+      } catch (error) {
+        console.error("Failed to fetch players:", error);
+      }
+    };
+
+    requestPlayers();
     gameApi.onPlayers(handlePlayers);
     return () => {
       gameApi.removePlayersHandler(handlePlayers);
     };
-  }, [gameApi]);
+  }, [apiService, gameApi]);
 
   const nickname = stompApi.getNickname();
   const selfPlayer = players.find((p) => p.nickname === nickname);
   const otherPlayers = players.filter((p) => p.nickname !== nickname);
 
-  // Get the action that is displayed besides the profile (none, kick or vote)
+  /**
+   * Get the action that is displayed besides the profile (none, kick or vote)
+   */
   const getAction = (player: Player) => {
     const gamePhase = gameApi.getGamePhase();
     if (gamePhase === GamePhase.LOBBY && nickname !== player.nickname) {
@@ -51,7 +67,9 @@ export const PlayerOverview = () => {
     }
   };
 
-  // Get the player card for each player (either the smaller for other players or the bigger for self)
+  /**
+   * Get the player card for each player (either the smaller for other players or the bigger for self)
+   */
   const getProfileCard = (player: Player) => {
     const isSelf = nickname === player.nickname;
     const profileClass = isSelf ? "you" : "other";
