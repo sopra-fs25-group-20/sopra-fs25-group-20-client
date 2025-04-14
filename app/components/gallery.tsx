@@ -61,7 +61,7 @@ export const Gallery = () => {
      * Fetch all 9 images and store them in a list.
      */
     const fetchImages = async () => {
-      const newImageList: (string | null)[] = [...imageList];
+      const newImageList: (string | null)[] = Array(9).fill(null);
 
       await Promise.all(
         Array.from({ length: 9 }, async (_, i) => {
@@ -86,7 +86,7 @@ export const Gallery = () => {
     requestRole();
     requestHighlightedImage();
     fetchImages();
-  }, [gameApi, apiService, imageList, roomCode]);
+  }, [gameApi, apiService, roomCode]);
 
   return (
     <Frame className="gallery">
