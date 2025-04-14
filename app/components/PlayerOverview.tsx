@@ -102,7 +102,7 @@ export const PlayerOverview = () => {
         return (
           <Button
             onClick={() =>
-              gameApi.sendVoteInit({ nicknameTargeted: player.nickname })}
+              gameApi.sendVoteInit({ target: player.nickname })}
             className="hug"
           >
             Vote Out
