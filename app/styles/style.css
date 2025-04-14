@@ -18,7 +18,7 @@
 html,
 body {
   font-family: Roboto, sans-serif;
-  font-size: 15px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -30,7 +30,7 @@ body {
 
 /* used to wrap every component */
 .frame {
-  border-radius: 10px;
+  border-radius: 0.66rem;
   background: var(--box-light);
 }
 
@@ -39,14 +39,14 @@ body {
   color: var(--background-light);
   border: none;
   outline: none;
-  border-radius: 10px;
+  border-radius: 0.66rem;
   font-weight: 600;
 }
 
 /* === LOBBY === */
 
 .page-wrapper .chat {
-  border-radius: 10px;
+  border-radius: 0.66rem;
   background: var(--box-light);
 }
 
@@ -63,12 +63,12 @@ body.dark {
 /* === CHAT === */
 
 .message .you {
-  border-radius: 5px;
+  border-radius: 0.33rem;
   background: red;
 }
 
 .message .other {
-  border-radius: 10px;
+  border-radius: 0.66rem;
   background: red;
 }
 
@@ -90,7 +90,7 @@ body.dark {
   background-color: var(--inner-box-light);
   color: var(--text-light);
   border: none;
-  border-radius: 5px;
+  border-radius: 0.33rem;
   outline: none;
 }
 
@@ -103,26 +103,26 @@ body.dark {
 
 .profile-card .profile .player.you .name {
   font-weight: 800;
-  font-size: 30px;
+  font-size: 2rem;
 }
 
 .profile-card .profile .player.other .name {
   font-weight: 800;
-  font-size: 15px;
+  font-size: 1rem;
 }
 
 .profile-card .profile.you .player .stats {
-  font-size: 15px;
+  font-size: 1rem;
 }
 
 .profile-card .profile.other .player .stats {
-  font-size: 8px;
+  font-size: 0.53rem;
 }
 
 /* === INPUT FIELD === */
 .form-control {
   background-color: var(--inner-box-light);
-  border-radius: 10px;
+  border-radius: 0.66rem;
   border: none;
   color: var(--text-light);
 }
@@ -164,13 +164,13 @@ body.dark {
 
 .image-container {
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 0.66rem;
   overflow: hidden;
   background: var(--accent-light);
 }
 
 .image-container.highlighted {
-  border: 3px solid #ff146a;
+  border: 0.2rem  solid #ff146a;
 }
 
 .iamge {
