@@ -177,10 +177,6 @@ body.dark {
   background: var(--accent-light);
 }
 
-.image-container.highlighted {
+.image-container.highlight {
   border: 0.2rem  solid #ff146a;
-}
-
-.iamge {
-  object-fit: cover;
 }
