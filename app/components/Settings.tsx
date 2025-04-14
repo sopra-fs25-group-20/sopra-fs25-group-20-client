@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { stompApi } from "@/api/stompApi";
 import { FaShareAlt } from "react-icons/fa";
 import { useGame } from "@/hooks/useGame";
+import { useRouter } from "next/navigation";
 import { GamePhase } from "@/types/gamePhase";
 import { GameSettings } from "@/types/gameSettings";
 import { Dropdown } from "./dropdown";
@@ -15,7 +16,8 @@ const gameDurations = [60, 120, 180];
 const votingDurations = [15, 30, 45];
 
 export const Settings = () => {
-  const ws = useGame();
+  const gameApi = useGame();
+  const router = useRouter();
   const [settings, setSettings] = useState<GameSettings>({
     votingTimer: 15,
     gameTimer: 60,
@@ -23,30 +25,54 @@ export const Settings = () => {
     imageRegion: "Europe",
   });
 
-  const handlePhase = (data: GamePhase) => {
-    // TO-DO: Redirect to game page when phase changes
-    console.warn(`TO-DO: Redirect to ${data}`);
+  /**
+   * Handles receptions of changed game phase.
+   */
+  const handlePhase = (phase: GamePhase) => {
+    if (phase === GamePhase.GAME) {
+      router.push(`/game/${stompApi.getCode()}/play`);
+    }
   };
 
+  /**
+   * Handles receptions of changed game settings.
+   */
   const handleSettings = (data: GameSettings) => {
     setSettings(data);
   };
 
-  useEffect(() => {
-    ws.onPhase(handlePhase);
-    ws.onSettings(handleSettings);
-  }, [ws]);
-
+  /**
+   * Share game code to clipboard.
+   */
   const handleShareGameCode = () => {
     const code = stompApi.getCode();
     navigator.clipboard.writeText(code);
   };
 
+  /**
+   * Send game start to backend and redirect to play page.
+   */
+  const handleStartGame = () => {
+    gameApi.sendStartGame()
+    router.push(`/game/${stompApi.getCode()}/play`);
+  }
+
+  /**
+   * Send updated game settings to backend.
+   */
   const updateSettings = (key: keyof GameSettings, value: string | number) => {
-    const newSettings = { ...settings, [key]: value };
-    setSettings(newSettings);
-    ws.sendSettings(newSettings);
+    const negameApiettings = { ...settings, [key]: value };
+    setSettings(negameApiettings);
+    gameApi.sendSettings(negameApiettings);
   };
+
+  /**
+   * Register handlers in game api.
+   */
+  useEffect(() => {
+    gameApi.onPhase(handlePhase);
+    gameApi.onSettings(handleSettings);
+  }, [gameApi]);
 
   return (
     <Frame className="settings">
@@ -71,7 +97,7 @@ export const Settings = () => {
           updateSettings("votingTimer", parseInt(value as string))}
       />
       <HorizontalFlex gap={15}>
-        <Button onClick={ws.sendStartGame}>Start the Game</Button>
+        <Button onClick={handleStartGame}>Start the Game</Button>
         <Button onClick={handleShareGameCode} className="hug">
           <FaShareAlt size={18} />
         </Button>
