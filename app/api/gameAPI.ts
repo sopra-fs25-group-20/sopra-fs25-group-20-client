@@ -24,12 +24,10 @@ export class GameAPI {
   private playerHandlers: PlayerHandler[] = [];
   private roleHandlers: RoleHandler[] = [];
   private highlightedImageHandlers: HighlightedImageHandler[] = [];
-  private gamePhase: GamePhase;
 
   constructor() {
     const code = stompApi.getCode();
     this.subscribeToTopics(code);
-    this.gamePhase = GamePhase.LOBBY;
   }
 
   private subscribeToTopics(code: string) {
@@ -69,7 +67,6 @@ export class GameAPI {
   }
 
   private handlePhase(data: { phase: GamePhase }) {
-    this.gamePhase = data.phase;
     this.gamePhaseHandlers.forEach((handler) => handler(data.phase));
   }
 
@@ -142,16 +139,16 @@ export class GameAPI {
   onHighlightedImage(handler: HighlightedImageHandler) {
     this.highlightedImageHandlers.push(handler);
   }
+  onVoteCast(handler: GameVoteCastHandler) {
+    this.gameVoteCastHandlers.push(handler);
+  }
 
   removePlayersHandler(callback: PlayerHandler) {
     this.playerHandlers = this.playerHandlers.filter((h) => h !== callback);
   }
 
-  onVoteCast(handler: GameVoteCastHandler) {
-    this.gameVoteCastHandlers.push(handler);
+  removePhaseHanlder(callback: GamePhaseHandler) {
+    this.gamePhaseHandlers = this.gamePhaseHandlers.filter((h) => h !== callback);
   }
 
-  getGamePhase() {
-    return this.gamePhase;
-  }
 }
