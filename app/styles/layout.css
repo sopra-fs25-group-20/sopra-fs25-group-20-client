@@ -439,3 +439,187 @@ main,
     font-size: 1rem;
   }
 }
+
+
+/* === RESPONSIVE DESIGN === */
+
+@media (max-width: 1024px) {
+  .lobby {
+    width: 100%;
+    max-width: 90%;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .landing-page {
+    width: 90%;
+    gap: 1.5rem;
+  }
+
+  .frame {
+    padding: 1.5rem;
+  }
+
+  .app-header {
+    top: 1rem;
+    right: 1rem;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .horizontal-flex {
+    flex-direction: column;
+    height: auto;
+    gap: 1rem;
+  }
+
+  .chat {
+    padding: 1rem;
+  }
+
+  .chat-input {
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    height: auto;
+    gap: 0;
+    padding-right: 2.5rem;
+  }
+
+  .chat-input input {
+    width: 100%;
+    padding-right: 2.5rem;
+  }
+
+  .chat-send-button {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .dropdown {
+    width: 100%;
+  }
+
+  .button {
+    flex: 1 1 100%;
+    height: auto;
+    font-size: 1rem;
+  }
+
+  .app-header {
+    position: relative;
+    top: auto;
+    right: auto;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .app-header-button {
+    font-size: 1rem;
+    padding: 0.5rem;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-card {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .profile-card .profile {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    display: flex;
+  }
+
+  .profile-card .profile .icon.you,
+  .profile-card .profile .icon.other {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .profile-card .profile .player.you .name,
+  .profile-card .profile .player.other .name {
+    font-size: 1.2rem;
+  }
+
+  .profile-card .profile .player.you .stats,
+  .profile-card .profile .player.other .stats {
+    font-size: 0.8rem;
+  }
+
+  .profile-card .action {
+    margin-left: auto;
+  }
+
+  .image-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .app-header {
+    position: relative;
+    top: auto;
+    right: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .app-header-button {
+    padding: 0.25rem 0.5rem;
+    min-width: auto;
+    min-height: auto;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .app-header-button svg {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  .chat-input {
+    flex-direction: row;
+    gap: 0;
+    align-items: center;
+    position: relative;
+    padding-right: 2.5rem;
+  }
+
+  .chat-input input {
+    width: 100%;
+    padding-right: 2.5rem;
+  }
+
+  .chat-send-button {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .dropdown {
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .button {
+    font-size: 1rem;
+  }
+}
