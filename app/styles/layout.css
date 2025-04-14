@@ -45,8 +45,7 @@ main,
   align-self: stretch;
 }
 
-/* places buttons horizontally besides each other with a gap of 15px */
-.button {
+.button, .display {
   display: flex;
   justify-content: center;
   align-items: center;
