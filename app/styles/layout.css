@@ -4,6 +4,7 @@ body,
 #__next,
 main,
 .page-wrapper {
+  position: relative;
   display: flex;
   width: 100%;
   height: 100%;
@@ -258,14 +259,14 @@ main,
     gap: 1.5rem;
   }
 
+  .frame {
+    padding: 1.5rem;
+  }
+
   .app-header {
     top: 1rem;
     right: 1rem;
     flex-wrap: wrap;
-  }
-
-  .frame {
-    padding: 1.5rem;
   }
 }
 
@@ -370,15 +371,15 @@ main,
   }
 
   .app-header {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
+    position: relative;
+    top: auto;
+    right: auto;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
     gap: 0.5rem;
-    z-index: 10;
+    margin-bottom: 1rem;
   }
 
   .app-header-button {
