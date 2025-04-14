@@ -94,10 +94,11 @@ export const Gallery = () => {
         {imageList.map((url, index) => (
           <div
             key={index}
-            className={`image-container ${role === "innocent" && highlightedImage === index
+            className={`image-container ${
+              role === "innocent" && highlightedImage === index
                 ? "highlight"
                 : ""
-              }`}
+            }`}
           >
             {url && (
               <img
@@ -105,6 +106,12 @@ export const Gallery = () => {
                 alt={`Image ${index}`}
                 className="image"
                 onClick={() => handleImageClick(index)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleImageClick(index);
+                  }
+                }}
+                tabIndex={0}
               />
             )}
           </div>
