@@ -53,9 +53,9 @@ export const Settings = () => {
    * Send game start to backend and redirect to play page.
    */
   const handleStartGame = () => {
-    gameApi.sendStartGame()
+    gameApi.sendStartGame();
     router.push(`/game/${stompApi.getCode()}/play`);
-  }
+  };
 
   /**
    * Send updated game settings to backend.
@@ -97,16 +97,16 @@ export const Settings = () => {
           updateSettings("votingTimer", parseInt(value as string))}
       />
       <HorizontalFlex gap={15}>
-        {stompApi.isRoomAdmin() ? (
-          <>
-            <Button onClick={handleStartGame}>Start the Game</Button>
-            <Button onClick={handleShareGameCode} className="hug">
-              <FaShareAlt size={18} />
-            </Button>
-          </>
-        ) : (
-          <Button onClick={handleShareGameCode}>Share the Game</Button>
-        )}
+        {stompApi.isRoomAdmin()
+          ? (
+            <>
+              <Button onClick={handleStartGame}>Start the Game</Button>
+              <Button onClick={handleShareGameCode} className="hug">
+                <FaShareAlt size={18} />
+              </Button>
+            </>
+          )
+          : <Button onClick={handleShareGameCode}>Share the Game</Button>}
       </HorizontalFlex>
     </Frame>
   );

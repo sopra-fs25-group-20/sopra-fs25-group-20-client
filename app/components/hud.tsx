@@ -22,7 +22,7 @@ export const HUD = () => {
    * Handles receptions of changed game role.
    */
   const handleRole = (data: Role) => {
-    console.warn(data.playerRole)
+    console.warn(data.playerRole);
     setRole(data.playerRole);
   };
 
@@ -38,7 +38,9 @@ export const HUD = () => {
    */
   const requestPhase = async () => {
     try {
-      const response = await apiService.get<{ phase: GamePhase }>(`/phase/${stompApi.getCode()}`);
+      const response = await apiService.get<{ phase: GamePhase }>(
+        `/phase/${stompApi.getCode()}`,
+      );
       setPhase(response.phase);
     } catch (error) {
       console.error("Failed to fetch phase:", error);
@@ -50,7 +52,9 @@ export const HUD = () => {
    */
   const requestTimer = async () => {
     try {
-      const response = await apiService.get<GameSettings>(`/settings/${stompApi.getCode()}`);
+      const response = await apiService.get<GameSettings>(
+        `/settings/${stompApi.getCode()}`,
+      );
       setTimer(response.gameTimer);
     } catch (error) {
       console.error("Failed to fetch timer:", error);

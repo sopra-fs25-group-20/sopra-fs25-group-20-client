@@ -6,16 +6,18 @@ interface VerticalFlexProps {
   width?: number;
 }
 
-export const VerticalFlex = ({ children, gap = 30, width }: VerticalFlexProps) => (
+export const VerticalFlex = (
+  { children, gap = 30, width }: VerticalFlexProps,
+) => (
   <div
     className="vertical-flex"
     style={{
       gap: `${gap}px`,
       ...(width !== undefined
         ? {
-            width: `${width}px`,
-            flex: "unset",
-          }
+          width: `${width}px`,
+          flex: "unset",
+        }
         : {}),
     }}
   >

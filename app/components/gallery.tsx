@@ -14,7 +14,9 @@ export const Gallery = () => {
   const roomCode = stompApi.getCode();
   const [role, setRole] = useState<string | null>(null);
   const [highlightedImage, setHighlightedImage] = useState<number | null>(null);
-  const [imageList, setImageList] = useState<(string | null)[]>(Array(9).fill(null));
+  const [imageList, setImageList] = useState<(string | null)[]>(
+    Array(9).fill(null),
+  );
 
   /**
    * Handles receptions of changed game role.
@@ -34,7 +36,7 @@ export const Gallery = () => {
    * Handles reception of the highlighted image
    */
   const handleHighlightedImage = (data: HighlightedImage) => {
-    console.warn(data.index)
+    console.warn(data.index);
     if (data.index >= 0) {
       setHighlightedImage(data.index);
     }
@@ -56,13 +58,16 @@ export const Gallery = () => {
     await Promise.all(
       Array.from({ length: 9 }, async (_, i) => {
         try {
-          const blob = await apiService.get<Blob>(`/image/${roomCode}/${i}`, false);
+          const blob = await apiService.get<Blob>(
+            `/image/${roomCode}/${i}`,
+            false,
+          );
           newImageList[i] = URL.createObjectURL(blob);
         } catch (err) {
           console.error(`Failed to load image at index ${i}`, err);
           newImageList[i] = null;
         }
-      })
+      }),
     );
 
     setImageList(newImageList);
@@ -77,9 +82,9 @@ export const Gallery = () => {
    */
   useEffect(() => {
     gameApi.onRole(handleRole);
-    gameApi.onHighlightedImage(handleHighlightedImage)
+    gameApi.onHighlightedImage(handleHighlightedImage);
     requestRole();
-    requestHighlightedImage()
+    requestHighlightedImage();
     fetchImages();
   }, [gameApi]);
 
@@ -89,7 +94,11 @@ export const Gallery = () => {
         {imageList.map((url, index) => (
           <div
             key={index}
-            className={`image-container ${role === "innocent" && highlightedImage === index ? "highlight" : ""}`}
+            className={`image-container ${
+              role === "innocent" && highlightedImage === index
+                ? "highlight"
+                : ""
+            }`}
           >
             {url && (
               <img
@@ -100,7 +109,6 @@ export const Gallery = () => {
               />
             )}
           </div>
-
         ))}
       </div>
     </Frame>

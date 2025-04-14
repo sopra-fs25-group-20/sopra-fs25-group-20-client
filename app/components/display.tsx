@@ -1,11 +1,9 @@
 "use client";
 
 interface DisplayProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 export const Display = ({ children }: DisplayProps) => {
-    return (
-        <div className="display">{children}</div>
-    );
+  return <div className="display">{children}</div>;
 };

@@ -1,3 +1,3 @@
 export type HighlightedImage = {
-    index: number;
+  index: number;
 };

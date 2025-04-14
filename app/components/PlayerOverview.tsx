@@ -18,7 +18,9 @@ export const PlayerOverview = () => {
    */
   const requestPlayers = async () => {
     try {
-      const response = await apiService.get<Player[]>(`/players/${stompApi.getCode()}`);
+      const response = await apiService.get<Player[]>(
+        `/players/${stompApi.getCode()}`,
+      );
       setPlayers(response);
     } catch (error) {
       console.error("Failed to fetch players:", error);

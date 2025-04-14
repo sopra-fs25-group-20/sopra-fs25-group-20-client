@@ -1,3 +1,3 @@
 export type Role = {
-    playerRole: string;
+  playerRole: string;
 };
