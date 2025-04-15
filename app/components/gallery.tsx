@@ -10,16 +10,19 @@ import { HighlightedImage } from "@/types/highlightedImage";
 type Props = {
   role: Role;
   highlightedImage: HighlightedImage;
+  selectedIndex: number | null;
+  onSelectImage: (index: number) => void;
 };
 
-export const Gallery = ({ role, highlightedImage }: Props) => {
+export const Gallery = ({ role, highlightedImage, selectedIndex,
+  onSelectImage, }: Props) => {
   const apiService = useApi();
   const [imageList, setImageList] = useState<(string | null)[]>(
     Array(9).fill(null),
   );
 
   const handleImageClick = (index: number) => {
-    console.log("Image clicked:", index);
+    onSelectImage(index);
   };
 
   useEffect(() => {
