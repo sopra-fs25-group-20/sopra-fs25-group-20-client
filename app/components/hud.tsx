@@ -7,14 +7,16 @@ import { useApi } from "@/hooks/useApi";
 import { GamePhase } from "@/types/gamePhase";
 import { stompApi } from "@/api/stompApi";
 import { useEffect, useState } from "react";
-import { Role } from "@/types/role";
 import { GameSettings } from "@/types/gameSettings";
+import { Role } from "@/types/role";
 
-export const HUD = () => {
+type Props = {
+  role: Role;
+};
+
+export const HUD = ({ role }: Props) => {
   const gameApi = useGame();
   const apiService = useApi();
-
-  const [role, setRole] = useState<string | null>(null);
   const [phase, setPhase] = useState<GamePhase | null>(null);
   const [timer, setTimer] = useState<number | null>(null);
 
@@ -22,19 +24,6 @@ export const HUD = () => {
    * Register handlers in game api and request initial values.
    */
   useEffect(() => {
-    /**
-     * Handles receptions of changed game role.
-     */
-    const handleRole = (data: Role) => {
-      setRole(data.playerRole);
-    };
-
-    /**
-     * Request broadcasting of role.
-     */
-    const requestRole = async () => {
-      gameApi.requestRole();
-    };
 
     /**
      * Request phase.
@@ -64,15 +53,13 @@ export const HUD = () => {
       }
     };
 
-    gameApi.onRole(handleRole);
-    requestRole();
     requestPhase();
     requestTimer();
   }, [gameApi, apiService]);
 
   return (
     <HorizontalFlex>
-      <Display>{role ?? "No Role"}</Display>
+      <Display>{role.playerRole ?? "No Role"}</Display>
       <Display>{phase ?? "No Phase"}</Display>
       <Display>{timer !== null ? `${timer}s` : "No Timer"}</Display>
     </HorizontalFlex>
