@@ -89,7 +89,7 @@ export class GameAPI {
   }
 
   sendSettings(gameSettings: GameSettings) {
-    stompApi.send(`/app/settings`, JSON.stringify(gameSettings));
+    stompApi.send(`/app/game/settings`, JSON.stringify(gameSettings));
   }
 
   sendVoteCast(vote: boolean) {
@@ -105,7 +105,7 @@ export class GameAPI {
   }
 
   sendGuess(imageId: number) {
-    stompApi.send(`/app/game/settings`, JSON.stringify(imageId));
+    stompApi.send(`/app/game/guess`, JSON.stringify(imageId));
   }
 
   requestRole() {
