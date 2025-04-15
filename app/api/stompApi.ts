@@ -141,6 +141,11 @@ class StompAPI {
     this.roomAdmin = nickname;
   }
 
+  public getRoomAdmin(): string | null {
+    return this.roomAdmin ?? null;
+  }
+  
+
   /**
    * Check if the current 'owner' of this STOMP connection is also the room admin.
    */

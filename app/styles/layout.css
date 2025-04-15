@@ -632,3 +632,42 @@ main,
     font-size: 1rem;
   }
 }
+
+
+.summary-card {
+  width: 18rem;
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.summary-subtitle {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.summary-image {
+  width: 100%;
+  height: 10rem;
+  border-radius: 0.5rem;
+  object-fit: cover;
+  background-color: #d9d9d9;
+}
+
+.summary-error {
+  color: red;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.summary-placeholder {
+  font-style: italic;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
