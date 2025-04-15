@@ -25,6 +25,11 @@ main,
   align-self: stretch;
 }
 
+.frame.hug {
+  flex: 0 0 auto;
+  align-self: stretch;
+}
+
 /* places frames (.frame) vertically on top of each other */
 .vertical-flex {
   display: flex;
@@ -33,6 +38,11 @@ main,
   align-items: stretch;
   flex: 1;
   gap: 2rem;
+  align-self: stretch;
+}
+
+.vertical-flex.hug{
+  flex: 0 0 auto;
   align-self: stretch;
 }
 

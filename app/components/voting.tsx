@@ -81,9 +81,9 @@ export const Voting = () => {
   }
 
   return (
-    <Frame>
-      <VerticalFlex>
-        <div>Would you like to vote {target ?? "unknown"} out?</div>
+    <Frame hug={true}>
+      <VerticalFlex hug={true}>
+        <HorizontalFlex>Would you like to vote {target ?? "unknown"} out?</HorizontalFlex>
         <HorizontalFlex>
           <Button onClick={voteYes}>Yes ({votes?.numberVotesTrue ?? 0})</Button>
           <Button onClick={voteNo}>No ({votes?.numberVotesFalse ?? 0})</Button>

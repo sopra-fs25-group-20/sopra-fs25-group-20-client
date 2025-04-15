@@ -2,15 +2,16 @@
 
 interface VerticalFlexProps {
   children: React.ReactNode;
+  hug?: boolean;
   gap?: number;
   width?: number;
 }
 
 export const VerticalFlex = (
-  { children, gap = 30, width }: VerticalFlexProps,
+  { children, hug, gap = 30, width }: VerticalFlexProps,
 ) => (
   <div
-    className="vertical-flex"
+    className={`vertical-flex${hug ? " hug" : ""}`}
     style={{
       gap: `${gap}px`,
       ...(width !== undefined
