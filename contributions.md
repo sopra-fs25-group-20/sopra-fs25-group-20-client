@@ -78,7 +78,18 @@ reason).
 
 ## Contributions Week 3 - [Begin Date] to [End Date]
 
-_Continue with the same table format as above._
+| **Student**        | **Date** | **Link to Commit** | **Description**                 | **Relevance**                       |
+| ------------------ | -------- | ------------------ | ------------------------------- | ----------------------------------- |
+| **[@githubUser1]** | [date]   | [Link to Commit 1] | [Brief description of the task] | [Why this contribution is relevant] |
+|                    | [date]   | [Link to Commit 2] | [Brief description of the task] | [Why this contribution is relevant] |
+| **[@githubUser2]** | [date]   | [Link to Commit 1] | [Brief description of the task] | [Why this contribution is relevant] |
+|                    | [date]   | [Link to Commit 2] | [Brief description of the task] | [Why this contribution is relevant] |
+| **@JMischa** | 12.04.2025 | [#137](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/137) | Introduced the core in-memory game state by implementing the Game class and GamePhase enum to manage per-room gameplay lifecycle and role assignments. | Enables managing the live state and flow of each game room independently, therefore supporting real-time multiplayer logic. |
+| **@JMischa** | 12.04.2025   | [#138](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/138) | Implemented the GameSessionManager to manage active game instances in memory and added a utility function in RoleUtil to assign player roles dynamically. | Ensures efficient tracking of active game sessions and enables randomized role distribution which are essential for the gameplay functionality. |
+| **@JMischa** | 13.04.2025 | [#139](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/139) | Implemented unit tests for Voting functionality. | Relevant to test the reliability of voting functionality in service layer. |
+| **@JMischa** | 15.04.2025 | [#143](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/143) | Added functionality to manage players in a game room, including showing the player list in real-time and allowing the admin to remove players. | Ensures smooth game coordination by keeping all players updated and giving the admin of a game room control to manage disruptions. |
+| **[@githubUser4]** | [date]   | [Link to Commit 1] | [Brief description of the task] | [Why this contribution is relevant] |
+|                    | [date]   | [Link to Commit 2] | [Brief description of the task] | [Why this contribution is relevant] |
 
 ---
 
