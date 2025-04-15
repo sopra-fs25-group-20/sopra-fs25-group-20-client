@@ -93,7 +93,7 @@ export class GameAPI {
   }
 
   sendVoteCast(vote: boolean) {
-    stompApi.send(`/app/vote/cast`, JSON.stringify(vote));
+    stompApi.send(`/app/vote/cast`, JSON.stringify({ voteYes: vote }));
   }
 
   sendStartGame() {
