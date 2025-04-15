@@ -24,12 +24,10 @@ export class GameAPI {
   private playerHandlers: PlayerHandler[] = [];
   private roleHandlers: RoleHandler[] = [];
   private highlightedImageHandlers: HighlightedImageHandler[] = [];
-  private gamePhase: GamePhase;
 
   constructor() {
     const code = stompApi.getCode();
     this.subscribeToTopics(code);
-    this.gamePhase = GamePhase.LOBBY;
   }
 
   private subscribeToTopics(code: string) {
@@ -39,7 +37,7 @@ export class GameAPI {
     stompApi.subscribe<GameVoteCast>(`/topic/vote/cast/${code}`, [
       (data) => this.handleVoteCast(data),
     ]);
-    stompApi.subscribe<GameSettings>(`/topic/settings/${code}`, [
+    stompApi.subscribe<GameSettings>(`/topic/game/settings/${code}`, [
       (data) => this.handleSettings(data),
     ]);
     stompApi.subscribe<{ phase: GamePhase }>(`/topic/phase/${code}`, [
@@ -69,7 +67,6 @@ export class GameAPI {
   }
 
   private handlePhase(data: { phase: GamePhase }) {
-    this.gamePhase = data.phase;
     this.gamePhaseHandlers.forEach((handler) => handler(data.phase));
   }
 
@@ -92,11 +89,11 @@ export class GameAPI {
   }
 
   sendSettings(gameSettings: GameSettings) {
-    stompApi.send(`/app/settings`, JSON.stringify(gameSettings));
+    stompApi.send(`/app/game/settings`, JSON.stringify(gameSettings));
   }
 
   sendVoteCast(vote: boolean) {
-    stompApi.send(`/app/vote/cast`, JSON.stringify(vote));
+    stompApi.send(`/app/vote/cast`, JSON.stringify({ voteYes: vote }));
   }
 
   sendStartGame() {
@@ -108,7 +105,7 @@ export class GameAPI {
   }
 
   sendGuess(imageId: number) {
-    stompApi.send(`/app/settings`, JSON.stringify(imageId));
+    stompApi.send(`/app/game/guess`, JSON.stringify(imageId));
   }
 
   requestRole() {
@@ -142,16 +139,29 @@ export class GameAPI {
   onHighlightedImage(handler: HighlightedImageHandler) {
     this.highlightedImageHandlers.push(handler);
   }
+  onVoteCast(handler: GameVoteCastHandler) {
+    this.gameVoteCastHandlers.push(handler);
+  }
 
   removePlayersHandler(callback: PlayerHandler) {
     this.playerHandlers = this.playerHandlers.filter((h) => h !== callback);
   }
 
-  onVoteCast(handler: GameVoteCastHandler) {
-    this.gameVoteCastHandlers.push(handler);
+  removePhaseHanlder(callback: GamePhaseHandler) {
+    this.gamePhaseHandlers = this.gamePhaseHandlers.filter((h) =>
+      h !== callback
+    );
   }
 
-  getGamePhase() {
-    return this.gamePhase;
+  removeVoteCastHandler(callback: GameVoteCastHandler) {
+    this.gameVoteCastHandlers = this.gameVoteCastHandlers.filter((h) =>
+      h !== callback
+    );
+  }
+
+  removeVoteInitHandler(callback: GameVoteInitHandler) {
+    this.gameVoteInitHandlers = this.gameVoteInitHandlers.filter((h) =>
+      h !== callback
+    );
   }
 }

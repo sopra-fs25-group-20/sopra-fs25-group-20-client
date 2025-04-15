@@ -7,10 +7,12 @@ import { FaBan } from "react-icons/fa";
 import { Frame } from "./frame";
 import { OverflowContainer } from "./overflowContainer";
 import { useApi } from "@/hooks/useApi";
+import { Button } from "./Button";
 
 export const PlayerOverview = () => {
   const gameApi = useGame();
   const apiService = useApi();
+  const [phase, setPhase] = useState<GamePhase | null>(null);
   const [players, setPlayers] = useState<Player[]>([]);
 
   /**
@@ -21,11 +23,18 @@ export const PlayerOverview = () => {
   };
 
   /**
+   * Handles receptions of change in phase ("lobby", "game", "vote" or "summary").
+   */
+  const handlePhase = (phase: GamePhase) => {
+    setPhase(phase);
+  };
+
+  /**
    * Manually request players when initializing the room and then rely on STOMP for player updates.
    */
   useEffect(() => {
     /**
-     * Manually request all players of a game room.
+     * Request all players of a game room.
      */
     const requestPlayers = async () => {
       try {
@@ -38,10 +47,29 @@ export const PlayerOverview = () => {
       }
     };
 
+    /**
+     * Request phase of a game room.
+     */
+    const requestPhase = async () => {
+      try {
+        const response = await apiService.get<{ phase: GamePhase }>(
+          `/phase/${stompApi.getCode()}`,
+        );
+        setPhase(response.phase);
+      } catch (error) {
+        console.error("Failed to fetch phase:", error);
+      }
+    };
+
     requestPlayers();
+    requestPhase();
+
     gameApi.onPlayers(handlePlayers);
+    gameApi.onPhase(handlePhase);
+
     return () => {
       gameApi.removePlayersHandler(handlePlayers);
+      gameApi.removePhaseHanlder(handlePhase);
     };
   }, [apiService, gameApi]);
 
@@ -53,17 +81,34 @@ export const PlayerOverview = () => {
    * Get the action that is displayed besides the profile (none, kick or vote)
    */
   const getAction = (player: Player) => {
-    const gamePhase = gameApi.getGamePhase();
-    if (gamePhase === GamePhase.LOBBY && nickname !== player.nickname) {
-      return (
-        <div className="action">
-          <FaBan
-            className="ban-icon"
-            color={player.color}
-            onClick={() => gameApi.sendKickPlayer(player.nickname)}
-          />
-        </div>
-      );
+    if (!phase || nickname === player.nickname) return null;
+
+    switch (phase) {
+      case GamePhase.LOBBY:
+        if (stompApi.isRoomAdmin()) {
+          return (
+            <div className="action">
+              <FaBan
+                className="ban-icon"
+                color={player.color}
+                onClick={() => gameApi.sendKickPlayer(player.nickname)}
+              />
+            </div>
+          );
+        }
+        return null;
+
+      case GamePhase.GAME:
+        return (
+          <Button
+            onClick={() => gameApi.sendVoteInit({ target: player.nickname })}
+            className="hug"
+          >
+            Vote Out
+          </Button>
+        );
+      default:
+        return null;
     }
   };
 

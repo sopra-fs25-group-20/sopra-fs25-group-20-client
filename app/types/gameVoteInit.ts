@@ -1,8 +1,8 @@
 export type GameVoteInit = {
-  nicknameTargeted: string; // the player who is targeted by the vote
+  target: string;
 };
 
 export function isGameVoteInit(data: GameVoteInit): data is GameVoteInit {
   return typeof data === "object" && data !== null &&
-    typeof data.nicknameTargeted === "string";
+    typeof data.target === "string";
 }
