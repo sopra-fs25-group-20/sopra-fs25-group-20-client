@@ -105,7 +105,7 @@ export class GameAPI {
   }
 
   sendGuess(imageId: number) {
-    stompApi.send(`/app/settings`, JSON.stringify(imageId));
+    stompApi.send(`/app/game/settings`, JSON.stringify(imageId));
   }
 
   requestRole() {
