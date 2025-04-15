@@ -43,11 +43,22 @@ export const Voting = () => {
     const requestTarget = async () => {
       try {
         const response = await apiService.get<GameVoteInit>(
-          `/game/vote/${stompApi.getCode()}`,
+          `/game/vote/target/${stompApi.getCode()}`,
         );
         setTarget(response.target);
       } catch (error) {
         setTarget(null);
+      }
+    };
+
+    const requestVotes = async () => {
+      try {
+        const response = await apiService.get<GameVoteCast>(
+          `/game/vote/state/${stompApi.getCode()}`,
+        );
+        setVotes(response);
+      } catch (error) {
+        console.error("Failed to fetch votes:", error);
       }
     };
 
@@ -64,6 +75,7 @@ export const Voting = () => {
 
     requestPhase();
     requestTarget();
+    requestVotes();
 
     gameApi.onVoteCast(handleVoteCast);
     gameApi.onPhase(handlePhase);
@@ -83,7 +95,9 @@ export const Voting = () => {
   return (
     <Frame hug={true}>
       <VerticalFlex hug={true}>
-        <HorizontalFlex>Would you like to vote {target ?? "unknown"} out?</HorizontalFlex>
+        <HorizontalFlex>
+          Would you like to vote {target ?? "unknown"} out?
+        </HorizontalFlex>
         <HorizontalFlex>
           <Button onClick={voteYes}>Yes ({votes?.numberVotesTrue ?? 0})</Button>
           <Button onClick={voteNo}>No ({votes?.numberVotesFalse ?? 0})</Button>
