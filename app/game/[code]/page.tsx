@@ -8,11 +8,15 @@ import { stompApi } from "@/api/stompApi";
 import { useGame } from "@/hooks/useGame";
 import { useApi } from "@/hooks/useApi";
 import { Role } from "@/types/role";
+import { HighlightedImage } from "@/types/highlightedImage";
 
 export default function GamePage() {
   const gameApi = useGame();
   const apiService = useApi();
   const [role, setRole] = useState<Role | null>(null);
+  const [highlightedImage, setHighlightedImage] = useState<
+    HighlightedImage | null
+  >(null);
   const [phase, setPhase] = useState<GamePhase | null>(null);
 
   useEffect(() => {
@@ -23,7 +27,15 @@ export default function GamePage() {
       setPhase(phase);
       if (phase === GamePhase.GAME) {
         requestRole();
+        requestHighlightedImage();
       }
+    };
+
+    /**
+     * Handles reception of the highlighted image
+     */
+    const handleHighlightedImage = (highlightedImage: HighlightedImage) => {
+      setHighlightedImage(highlightedImage);
     };
 
     /**
@@ -54,17 +66,28 @@ export default function GamePage() {
       gameApi.requestRole();
     };
 
+    /**
+     * Request broadcasting of the highlighted image.
+     */
+    const requestHighlightedImage = async () => {
+      gameApi.requestHighlightedImage();
+    };
+
     requestPhase();
     requestRole();
+    requestHighlightedImage();
 
     gameApi.onPhase(handlePhase);
     gameApi.onRole(handleRole);
+    gameApi.onHighlightedImage(handleHighlightedImage);
   }, [gameApi, apiService]);
 
   if (phase === null) return <div>Loading...</div>;
   if (phase === GamePhase.LOBBY || phase === GamePhase.SUMMARY) {
     return <LobbyPage phase={phase} />;
   }
-  if (role === null) return <div>Waiting for role...</div>;
-  return <PlayPage role={role} />;
+  if (role === null || highlightedImage === null) {
+    return <div>Waiting for role...</div>;
+  }
+  return <PlayPage role={role} highlightedImage={highlightedImage} />;
 }

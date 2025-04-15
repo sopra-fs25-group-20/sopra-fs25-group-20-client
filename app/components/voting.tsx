@@ -58,7 +58,7 @@ export const Voting = () => {
         );
         setVotes(response);
       } catch (error) {
-        console.error("Failed to fetch votes:", error);
+        setVotes(null);
       }
     };
 

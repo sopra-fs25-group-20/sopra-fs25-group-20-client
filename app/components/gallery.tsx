@@ -8,12 +8,13 @@ import { Role } from "@/types/role";
 import { useGame } from "@/hooks/useGame";
 import { HighlightedImage } from "@/types/highlightedImage";
 
-export const Gallery = () => {
+type Props = {
+  role: Role;
+  highlightedImage: HighlightedImage;
+};
+
+export const Gallery = ({ role, highlightedImage }: Props) => {
   const apiService = useApi();
-  const gameApi = useGame();
-  const roomCode = stompApi.getCode();
-  const [role, setRole] = useState<string | null>(null);
-  const [highlightedImage, setHighlightedImage] = useState<number | null>(null);
   const [imageList, setImageList] = useState<(string | null)[]>(
     Array(9).fill(null),
   );
@@ -22,40 +23,7 @@ export const Gallery = () => {
     console.log("Image clicked:", index);
   };
 
-  /**
-   * Register handlers in game api and fetch images.
-   */
   useEffect(() => {
-    /**
-     * Handles receptions of changed game role.
-     */
-    const handleRole = (data: Role) => {
-      setRole(data.playerRole);
-    };
-
-    /**
-     * Request broadcasting of role.
-     */
-    const requestRole = async () => {
-      gameApi.requestRole();
-    };
-
-    /**
-     * Handles reception of the highlighted image
-     */
-    const handleHighlightedImage = (data: HighlightedImage) => {
-      if (data.index >= 0) {
-        setHighlightedImage(data.index);
-      }
-    };
-
-    /**
-     * Request broadcasting of the highlighted image.
-     */
-    const requestHighlightedImage = async () => {
-      gameApi.requestHighlightedImage();
-    };
-
     /**
      * Fetch all 9 images and store them in a list.
      */
@@ -66,7 +34,7 @@ export const Gallery = () => {
         Array.from({ length: 9 }, async (_, i) => {
           try {
             const blob = await apiService.get<Blob>(
-              `/image/${roomCode}/${i}`,
+              `/image/${stompApi.getCode()}/${i}`,
               false,
             );
             newImageList[i] = URL.createObjectURL(blob);
@@ -80,12 +48,8 @@ export const Gallery = () => {
       setImageList(newImageList);
     };
 
-    gameApi.onRole(handleRole);
-    gameApi.onHighlightedImage(handleHighlightedImage);
-    requestRole();
-    requestHighlightedImage();
     fetchImages();
-  }, [gameApi, apiService, roomCode]);
+  }, [apiService, apiService]);
 
   return (
     <Frame className="gallery">
@@ -94,7 +58,8 @@ export const Gallery = () => {
           <div
             key={index}
             className={`image-container ${
-              role === "innocent" && highlightedImage === index
+              highlightedImage.index >= 0 && role.playerRole === "innocent" &&
+                highlightedImage.index === index
                 ? "highlight"
                 : ""
             }`}
