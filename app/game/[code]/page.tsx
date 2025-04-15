@@ -41,7 +41,7 @@ export default function GamePage() {
 
   if (phase === null) return <div>Loading...</div>;
   if (phase === GamePhase.LOBBY || phase === GamePhase.SUMMARY) {
-    return <LobbyPage />;
+    return <LobbyPage phase={phase} />;
   }
   return <PlayPage />;
 }
