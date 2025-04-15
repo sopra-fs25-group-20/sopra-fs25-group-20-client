@@ -37,7 +37,7 @@ export class GameAPI {
     stompApi.subscribe<GameVoteCast>(`/topic/vote/cast/${code}`, [
       (data) => this.handleVoteCast(data),
     ]);
-    stompApi.subscribe<GameSettings>(`/topic/settings/${code}`, [
+    stompApi.subscribe<GameSettings>(`/topic/game/settings/${code}`, [
       (data) => this.handleSettings(data),
     ]);
     stompApi.subscribe<{ phase: GamePhase }>(`/topic/phase/${code}`, [
