@@ -46,7 +46,7 @@ export const Voting = () => {
           `/game/vote/target/${stompApi.getCode()}`,
         );
         setTarget(response.target);
-      } catch (error) {
+      } catch {
         setTarget(null);
       }
     };
@@ -57,7 +57,7 @@ export const Voting = () => {
           `/game/vote/state/${stompApi.getCode()}`,
         );
         setVotes(response);
-      } catch (error) {
+      } catch {
         setVotes(null);
       }
     };

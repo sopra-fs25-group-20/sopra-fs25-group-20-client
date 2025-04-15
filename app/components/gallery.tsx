@@ -5,7 +5,6 @@ import { Frame } from "./frame";
 import { useEffect, useState } from "react";
 import { stompApi } from "@/api/stompApi";
 import { Role } from "@/types/role";
-import { useGame } from "@/hooks/useGame";
 import { HighlightedImage } from "@/types/highlightedImage";
 
 type Props = {
@@ -49,7 +48,7 @@ export const Gallery = ({ role, highlightedImage }: Props) => {
     };
 
     fetchImages();
-  }, [apiService, apiService]);
+  }, [apiService]);
 
   return (
     <Frame className="gallery">
@@ -57,12 +56,11 @@ export const Gallery = ({ role, highlightedImage }: Props) => {
         {imageList.map((url, index) => (
           <div
             key={index}
-            className={`image-container ${
-              highlightedImage.index >= 0 && role.playerRole === "innocent" &&
-                highlightedImage.index === index
-                ? "highlight"
-                : ""
-            }`}
+            className={`image-container ${highlightedImage.index >= 0 && role.playerRole === "innocent" &&
+              highlightedImage.index === index
+              ? "highlight"
+              : ""
+              }`}
           >
             {url && (
               <img
