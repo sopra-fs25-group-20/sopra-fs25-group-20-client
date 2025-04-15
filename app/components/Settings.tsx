@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import { stompApi } from "@/api/stompApi";
 import { FaShareAlt } from "react-icons/fa";
 import { useGame } from "@/hooks/useGame";
-import { useRouter } from "next/navigation";
-import { GamePhase } from "@/types/gamePhase";
 import { GameSettings } from "@/types/gameSettings";
 import { Dropdown } from "./dropdown";
 import { Button } from "./Button";
@@ -17,7 +15,6 @@ const votingDurations = [15, 30, 45];
 
 export const Settings = () => {
   const gameApi = useGame();
-  const router = useRouter();
   const [settings, setSettings] = useState<GameSettings>({
     votingTimer: 15,
     gameTimer: 60,
@@ -38,7 +35,6 @@ export const Settings = () => {
    */
   const handleStartGame = () => {
     gameApi.sendStartGame();
-    router.push(`/game/${stompApi.getCode()}/play`);
   };
 
   /**
@@ -55,24 +51,14 @@ export const Settings = () => {
    */
   useEffect(() => {
     /**
-     * Handles receptions of changed game phase.
-     */
-    const handlePhase = (phase: GamePhase) => {
-      if (phase === GamePhase.GAME) {
-        router.push(`/game/${stompApi.getCode()}/play`);
-      }
-    };
-
-    /**
      * Handles receptions of changed game settings.
      */
     const handleSettings = (data: GameSettings) => {
       setSettings(data);
     };
 
-    gameApi.onPhase(handlePhase);
     gameApi.onSettings(handleSettings);
-  }, [gameApi, router]);
+  }, [gameApi]);
 
   return (
     <Frame className="settings">

@@ -1,15 +1,47 @@
 "use client";
-import { useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
 
-export default function GameDefaultRedirect() {
-  const params = useParams();
-  const router = useRouter();
+import { useEffect, useState } from "react";
+import LobbyPage from "./lobby/page";
+import PlayPage from "./play/page";
+import { GamePhase } from "@/types/gamePhase";
+import { stompApi } from "@/api/stompApi";
+import { useGame } from "@/hooks/useGame";
+import { useApi } from "@/hooks/useApi";
 
-  // TO-DO: Implement redirecting to lobby or play dependent on phase
+export default function GamePage() {
+  const gameApi = useGame();
+  const apiService = useApi();
+  const [phase, setPhase] = useState<GamePhase | null>(null);
+
   useEffect(() => {
-    router.replace(`/game/${params.code}/lobby`);
-  }, [params.code, router]);
+    /**
+     * Handles receptions of changed game phase.
+     */
+    const handlePhase = (phase: GamePhase) => {
+      setPhase(phase);
+    };
 
-  return null;
+    /**
+     * Request phase of a game room.
+     */
+    const requestPhase = async () => {
+      try {
+        const response = await apiService.get<{ phase: GamePhase }>(
+          `/phase/${stompApi.getCode()}`,
+        );
+        setPhase(response.phase);
+      } catch (error) {
+        console.error("Failed to fetch phase:", error);
+      }
+    };
+
+    requestPhase();
+    gameApi.onPhase(handlePhase);
+  }, [gameApi, apiService]);
+
+  if (phase === null) return <div>Loading...</div>;
+  if (phase === GamePhase.LOBBY || phase === GamePhase.SUMMARY) {
+    return <LobbyPage />;
+  }
+  return <PlayPage />;
 }
