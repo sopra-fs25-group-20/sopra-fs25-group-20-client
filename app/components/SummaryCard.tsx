@@ -49,7 +49,9 @@ export const SummaryCard = () => {
   }, [gameApi]);
 
   const spyRole = summary?.roles.find((r) => r.playerRole === "SPY");
-  const innocentRoles = summary?.roles.filter((r) => r.playerRole === "INNOCENT");
+  const innocentRoles = summary?.roles.filter((r) =>
+    r.playerRole === "INNOCENT"
+  );
   const spy = summary?.players.find((p) => p.nickname === spyRole?.nickname);
   const innocents =
     summary?.players.filter((p) =>
@@ -58,37 +60,40 @@ export const SummaryCard = () => {
 
   return (
     <Frame className="summary-card">
-      {error ? (
-        <div className="summary-placeholder">Summary data could not be loaded.</div>
-      ) : (
-        <>
-          <div className="summary-title">The {summary?.winning_role ?? "?"}s</div>
-          <div className="summary-subtitle">have won the game!</div>
-          <img
-            src={`/image/${code}/${highlightedIndex ?? 0}`}
-            alt="Summary Highlight"
-            className="summary-image"
-            onError={(e) => {
-              e.currentTarget.src = "/placeholder.png";
-              e.currentTarget.style.objectFit = "contain";
-            }}
-          />
-          <div>
-            <strong>The Spy:</strong>
-            <br />
-            {spy?.nickname ?? "Unknown"}
+      {error
+        ? (
+          <div className="summary-placeholder">
+            Summary data could not be loaded.
           </div>
-          <div>
-            <strong>The Innocents:</strong>
-            <ul style={{ paddingLeft: "1rem", margin: 0 }}>
-              {innocents.map((p) => (
-                <li key={p.nickname}>{p.nickname}</li>
-              ))}
-            </ul>
-          </div>
-        </>
-      )}
+        )
+        : (
+          <>
+            <div className="summary-title">
+              The {summary?.winning_role ?? "?"}s
+            </div>
+            <div className="summary-subtitle">have won the game!</div>
+            <img
+              src={`/image/${code}/${highlightedIndex ?? 0}`}
+              alt="Summary Highlight"
+              className="summary-image"
+              onError={(e) => {
+                e.currentTarget.src = "/placeholder.png";
+                e.currentTarget.style.objectFit = "contain";
+              }}
+            />
+            <div>
+              <strong>The Spy:</strong>
+              <br />
+              {spy?.nickname ?? "Unknown"}
+            </div>
+            <div>
+              <strong>The Innocents:</strong>
+              <ul style={{ paddingLeft: "1rem", margin: 0 }}>
+                {innocents.map((p) => <li key={p.nickname}>{p.nickname}</li>)}
+              </ul>
+            </div>
+          </>
+        )}
     </Frame>
   );
 };
-

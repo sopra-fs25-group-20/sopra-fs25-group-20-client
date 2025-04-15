@@ -41,7 +41,7 @@ main,
   align-self: stretch;
 }
 
-.vertical-flex.hug{
+.vertical-flex.hug {
   flex: 0 0 auto;
   align-self: stretch;
 }
@@ -633,7 +633,6 @@ main,
   }
 }
 
-
 .summary-card {
   width: 18rem;
   gap: 1rem;
@@ -670,4 +669,3 @@ main,
   font-size: 0.9rem;
   margin-top: 1rem;
 }
-

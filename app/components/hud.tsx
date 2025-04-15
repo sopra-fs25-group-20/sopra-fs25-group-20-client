@@ -24,7 +24,6 @@ export const HUD = ({ role }: Props) => {
    * Register handlers in game api and request initial values.
    */
   useEffect(() => {
-
     /**
      * Request phase.
      */

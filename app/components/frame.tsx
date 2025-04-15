@@ -7,7 +7,9 @@ interface FrameProps {
   style?: React.CSSProperties;
 }
 
-export const Frame = ({ children, hug, className = "", style = {} }: FrameProps) => (
+export const Frame = (
+  { children, hug, className = "", style = {} }: FrameProps,
+) => (
   <div className={`frame ${hug ? " hug" : ""} ${className}`} style={style}>
     {children}
   </div>
