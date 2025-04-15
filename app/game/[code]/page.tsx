@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import LobbyPage from "./lobby/page";
-import PlayPage from "./play/page";
+import LobbyPage from "./lobby";
+import PlayPage from "./play";
 import { GamePhase } from "@/types/gamePhase";
 import { stompApi } from "@/api/stompApi";
 import { useGame } from "@/hooks/useGame";
