@@ -14,8 +14,9 @@ type Props = {
   onSelectImage: (index: number) => void;
 };
 
-export const Gallery = ({ role, highlightedImage, selectedIndex,
-  onSelectImage, }: Props) => {
+export const Gallery = (
+  { role, highlightedImage, selectedIndex, onSelectImage }: Props,
+) => {
   const apiService = useApi();
   const [imageList, setImageList] = useState<(string | null)[]>(
     Array(9).fill(null),
@@ -59,11 +60,12 @@ export const Gallery = ({ role, highlightedImage, selectedIndex,
         {imageList.map((url, index) => (
           <div
             key={index}
-            className={`image-container ${highlightedImage.index >= 0 && role.playerRole === "innocent" &&
-              highlightedImage.index === index
-              ? "highlight"
-              : ""
-              }`}
+            className={`image-container ${
+              highlightedImage.index >= 0 && role.playerRole === "innocent" &&
+                highlightedImage.index === index
+                ? "highlight"
+                : ""
+            }`}
           >
             {url && (
               <img
