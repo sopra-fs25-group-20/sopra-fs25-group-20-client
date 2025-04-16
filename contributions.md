@@ -76,11 +76,11 @@ reason).
 
 ---
 
-## Contributions Week 3 - [Begin Date] to [End Date]
+## Contributions Week 3 - [09.04.2025] to [15.04.2025]
 
 | **Student**        | **Date** | **Link to Commit** | **Description**                 | **Relevance**                       |
 | ------------------ | -------- | ------------------ | ------------------------------- | ----------------------------------- |
-| **@dreamfarer** | 13.04.2025 | [#60](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/60) | Refactored the layout to replace absolute positioning, which was tailored to a fixed 16:9 aspect ratio and hindered responsiveness, modularity, and reusability. |
+| **@dreamfarer** | 13.04.2025 | [#60](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/60) | Landing Page and Lobby Design Refactor and Bug Fixes| Refactored the layout to replace absolute positioning, which was tailored to a fixed 16:9 aspect ratio and hindered responsiveness, modularity, and reusability. |
 | **@dreamfarer** | 14.04.2025 | [#64](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/64) | Implement Play Page with HUD and Gallery | Developed the Play Page featuring a HUD and Google Street View image gallery. Collaborated with @Agravlin to coordinate REST and STOMP communication between frontend and backend. |
 | **@dreamfarer** | 15.04.2025 | [#66](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/66) | Add Voting UI and Refactor State Handling | Introduced the voting interface allowing players to vote "yes" or "no" on others. Included significant refactorings such as passing shared state via props instead of maintaining isolated connections in each component. Also addressed various bugs. |
 | **@dreamfarer** | 16.05.2025 | [#67](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/67) | Create Implement Image Guessing UI for Spy | Added the Spy’s image guessing functionality to give them a change to win the game. |
