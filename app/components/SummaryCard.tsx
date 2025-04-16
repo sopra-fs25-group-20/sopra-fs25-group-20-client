@@ -1,99 +1,88 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
 import { Frame } from "./frame";
 import { useApi } from "@/hooks/useApi";
-import { useGame } from "@/hooks/useGame";
-import { Player } from "@/types/player";
-
-interface Role {
-  nickname: string;
-  playerRole: string;
-}
-
-interface SummaryData {
-  players: Player[];
-  roles: Role[];
-  winning_role: string;
-}
+import { stompApi } from "@/api/stompApi";
+import { Summary } from "@/types/summary";
 
 export const SummaryCard = () => {
-  const params = useParams();
-  const code = params.code as string;
-
   const apiService = useApi();
-  const gameApi = useGame();
 
-  const [summary, setSummary] = useState<SummaryData | null>(null);
-  const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
-  const [error, setError] = useState("");
+  const [summary, setSummary] = useState<Summary | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchSummary = async () => {
+    const fetchImage = async (index: number) => {
       try {
-        const data = await apiService.get<SummaryData>(`/summary/${code}`);
-        setSummary(data);
+        const blob = await apiService.get<Blob>(
+          `/image/${stompApi.getCode()}/${index}`,
+          false
+        );
+        const url = URL.createObjectURL(blob);
+        setImageUrl(url);
       } catch {
-        setError("Could not fetch game summary.");
+        console.error("Failed to load the image");
+        setImageUrl("/placeholder.png");
       }
     };
+
+    const fetchSummary = async () => {
+      try {
+        const response = await apiService.get<Summary>(`/game/result/${stompApi.getCode()}`);
+        setSummary(response);
+        fetchImage(response.highlightedImageIndex);
+      } catch (err) {
+        console.error("Fetch error:", err);
+      }
+    };
+
     fetchSummary();
-  }, [code, apiService]);
 
-  useEffect(() => {
-    gameApi.onHighlightedImage((data) => {
-      setHighlightedIndex(data.index);
-    });
-    gameApi.requestHighlightedImage();
-  }, [gameApi]);
+    return () => {
+      if (imageUrl) {
+        URL.revokeObjectURL(imageUrl);
+      }
+    };
+  }, [apiService]);
 
-  const spyRole = summary?.roles.find((r) => r.playerRole === "SPY");
-  const innocentRoles = summary?.roles.filter((r) =>
-    r.playerRole === "INNOCENT"
-  );
-  const spy = summary?.players.find((p) => p.nickname === spyRole?.nickname);
-  const innocents =
-    summary?.players.filter((p) =>
-      innocentRoles?.some((r) => r.nickname === p.nickname)
-    ) ?? [];
+  const spyEntry = Object.entries(summary?.roles ?? {}).find(([, role]) => role === "SPY");
+  const spyNickname = spyEntry?.[0] ?? "Unknown";
+
+  const innocentNicknames = Object.entries(summary?.roles ?? {})
+    .filter(([, role]) => role === "INNOCENT")
+    .map(([nickname]) => nickname);
+
 
   return (
     <Frame className="summary-card">
-      {error
-        ? (
-          <div className="summary-placeholder">
-            Summary data could not be loaded.
-          </div>
-        )
-        : (
-          <>
-            <div className="summary-title">
-              The {summary?.winning_role ?? "?"}s
-            </div>
-            <div className="summary-subtitle">have won the game!</div>
-            <img
-              src={`/image/${code}/${highlightedIndex ?? 0}`}
-              alt="Summary Highlight"
-              className="summary-image"
-              onError={(e) => {
-                e.currentTarget.src = "/placeholder.png";
-                e.currentTarget.style.objectFit = "contain";
-              }}
-            />
-            <div>
-              <strong>The Spy:</strong>
-              <br />
-              {spy?.nickname ?? "Unknown"}
-            </div>
-            <div>
-              <strong>The Innocents:</strong>
-              <ul style={{ paddingLeft: "1rem", margin: 0 }}>
-                {innocents.map((p) => <li key={p.nickname}>{p.nickname}</li>)}
-              </ul>
-            </div>
-          </>
-        )}
+      <div className="summary-title">
+        The {summary?.winnerRole ?? "?"}s
+      </div>
+      <div className="summary-subtitle">have won the game!</div>
+      <img
+        src={imageUrl ?? "/placeholder.png"}
+        alt="Summary Highlight"
+        className="summary-image"
+        onError={(e) => {
+          e.currentTarget.src = "/placeholder.png";
+          e.currentTarget.style.objectFit = "contain";
+        }}
+      />
+      <div>
+        <strong>The Spy:</strong>
+        <br />
+        {spyNickname}
+      </div>
+      <div>
+        <strong>The Innocents:</strong>
+        <ul style={{ paddingLeft: "1rem", margin: 0 }}>
+          {innocentNicknames.map((name) => (
+            <li key={name}>{name}</li>
+          ))}
+        </ul>
+      </div>
+
     </Frame>
   );
 };
