@@ -5,6 +5,8 @@ import { Frame } from "./frame";
 import { useApi } from "@/hooks/useApi";
 import { stompApi } from "@/api/stompApi";
 import { Summary } from "@/types/summary";
+import { HorizontalFlex } from "./horizontalFlex";
+import { VerticalFlex } from "./verticalFlex";
 
 export const SummaryCard = () => {
   const apiService = useApi();
@@ -55,34 +57,37 @@ export const SummaryCard = () => {
 
 
   return (
-    <Frame className="summary-card">
-      <div className="summary-title">
-        The {summary?.winnerRole ?? "?"}s
-      </div>
-      <div className="summary-subtitle">have won the game!</div>
-      <img
-        src={imageUrl ?? "/placeholder.png"}
-        alt="Summary Highlight"
-        className="summary-image"
-        onError={(e) => {
-          e.currentTarget.src = "/placeholder.png";
-          e.currentTarget.style.objectFit = "contain";
-        }}
-      />
-      <div>
-        <strong>The Spy:</strong>
-        <br />
-        {spyNickname}
-      </div>
-      <div>
-        <strong>The Innocents:</strong>
-        <ul style={{ paddingLeft: "1rem", margin: 0 }}>
-          {innocentNicknames.map((name) => (
-            <li key={name}>{name}</li>
-          ))}
-        </ul>
-      </div>
-
+    <Frame>
+      <VerticalFlex>
+        <div><div className="summary-title">
+          The {summary?.winnerRole ?? "?"}s
+        </div>
+          <div className="summary-subtitle">have won the game!</div></div>
+        <div className="image-container"><img
+          src={imageUrl ?? "/placeholder.png"}
+          alt="Summary Highlight"
+          className="image"
+          onError={(e) => {
+            e.currentTarget.src = "/placeholder.png";
+            e.currentTarget.style.objectFit = "contain";
+          }}
+        /></div>
+        <HorizontalFlex>
+          <div>
+            <strong>The Spy:</strong>
+            <br />
+            {spyNickname}
+          </div>
+          <div>
+            <strong>The Innocents:</strong>
+            <ul style={{ paddingLeft: "1rem", margin: 0 }}>
+              {innocentNicknames.map((name) => (
+                <li key={name}>{name}</li>
+              ))}
+            </ul>
+          </div>
+        </HorizontalFlex>
+      </VerticalFlex>
     </Frame>
   );
 };
