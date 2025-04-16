@@ -46,7 +46,6 @@ export default function PlayPage({ role, highlightedImage }: Props) {
         <Gallery
           role={role}
           highlightedImage={highlightedImage}
-          selectedIndex={selectedIndex}
           onSelectImage={setSelectedIndex}
         />
       </VerticalFlex>
