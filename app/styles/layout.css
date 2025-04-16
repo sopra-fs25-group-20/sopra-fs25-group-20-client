@@ -74,7 +74,6 @@ main,
 
 .lobby {
   display: flex;
-  width: 53.6rem;
   min-height: 34.6rem;
   justify-content: center;
   align-items: center;
@@ -149,6 +148,7 @@ main,
 
 .settings {
   flex: 0;
+  min-width: 22rem;
 }
 
 .setting {
@@ -643,11 +643,13 @@ main,
 .summary-title {
   font-size: 1.25rem;
   font-weight: bold;
+  text-align: center;
 }
 
 .summary-subtitle {
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
+  text-align: center;
 }
 
 .summary-image {
