@@ -1,10 +1,8 @@
 "use client";
 
-import { useGame } from "@/hooks/useGame";
 import { Display } from "./display";
 import { HorizontalFlex } from "./horizontalFlex";
 import { useApi } from "@/hooks/useApi";
-import { GamePhase } from "@/types/gamePhase";
 import { stompApi } from "@/api/stompApi";
 import { useEffect, useState } from "react";
 import { GameSettings } from "@/types/gameSettings";
@@ -15,29 +13,13 @@ type Props = {
 };
 
 export const HUD = ({ role }: Props) => {
-  const gameApi = useGame();
   const apiService = useApi();
-  const [phase, setPhase] = useState<GamePhase | null>(null);
   const [timer, setTimer] = useState<number | null>(null);
 
   /**
    * Register handlers in game api and request initial values.
    */
   useEffect(() => {
-    /**
-     * Request phase.
-     */
-    const requestPhase = async () => {
-      try {
-        const response = await apiService.get<{ phase: GamePhase }>(
-          `/phase/${stompApi.getCode()}`,
-        );
-        setPhase(response.phase);
-      } catch (error) {
-        console.error("Failed to fetch phase:", error);
-      }
-    };
-
     /**
      * Request settings for timer.
      */
@@ -52,15 +34,19 @@ export const HUD = ({ role }: Props) => {
       }
     };
 
-    requestPhase();
     requestTimer();
-  }, [gameApi, apiService]);
+  }, [apiService]);
 
   return (
     <HorizontalFlex>
-      <Display>{role.playerRole ?? "No Role"}</Display>
-      <Display>{phase ?? "No Phase"}</Display>
-      <Display>{timer !== null ? `${timer}s` : "No Timer"}</Display>
+      <Display>{role.playerRole === "spy"
+        ?
+        <>
+          You are the spy!
+        </>
+        : <>You are an innocent!</>}
+      </Display>
+      <Display className="hug">{timer !== null ? `${timer}s` : "No Timer"}</Display>
     </HorizontalFlex>
   );
 };
