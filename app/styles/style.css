@@ -102,6 +102,12 @@ body.dark {
   outline: none;
 }
 
+.dropdown.disabled {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
 .dropdown:focus {
   outline: none;
   border: none;
