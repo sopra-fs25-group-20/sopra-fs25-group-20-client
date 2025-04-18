@@ -67,6 +67,7 @@ export const Settings = () => {
         options={regions}
         value={settings.imageRegion}
         onChange={(value) => updateSettings("imageRegion", value)}
+        disabled={!stompApi.isRoomAdmin()}
       />
       <Dropdown
         label="Duration Game"
@@ -74,6 +75,7 @@ export const Settings = () => {
         value={settings.gameTimer}
         onChange={(value) =>
           updateSettings("gameTimer", parseInt(value as string))}
+        disabled={!stompApi.isRoomAdmin()}
       />
       <Dropdown
         label="Duration Voting"
@@ -81,6 +83,7 @@ export const Settings = () => {
         value={settings.votingTimer}
         onChange={(value) =>
           updateSettings("votingTimer", parseInt(value as string))}
+        disabled={!stompApi.isRoomAdmin()}
       />
       <HorizontalFlex gap={15}>
         {stompApi.isRoomAdmin()
