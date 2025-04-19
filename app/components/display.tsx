@@ -2,8 +2,9 @@
 
 interface DisplayProps {
   children: React.ReactNode;
+  className?: string;
 }
 
-export const Display = ({ children }: DisplayProps) => {
-  return <div className="display">{children}</div>;
+export const Display = ({ children, className }: DisplayProps) => {
+  return <div className={`display ${className}`}>{children}</div>;
 };
