@@ -634,41 +634,43 @@ main,
   }
 }
 
+
 .summary-card {
   width: 18rem;
-  gap: 1rem;
-  display: flex;
-  flex-direction: column;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  background: #e9e9e9;
+  border-radius: 0.8rem;
+  flex: 1 0 18rem;     
+  align-self: stretch; 
+
 }
 
-.summary-title {
-  font-size: 1.25rem;
-  font-weight: bold;
-  text-align: center;
-}
+.summary-header { text-align: center; margin-bottom: 1.25rem; }
 
-.summary-subtitle {
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-  text-align: center;
-}
+.summary-title   { font-size: 1.4rem; font-weight: 600; }
+.summary-subtitle{ font-size: 0.9rem; }
 
-.summary-image {
+.summary-image-wrapper {
   width: 100%;
-  height: 10rem;
-  border-radius: 0.5rem;
-  object-fit: cover;
-  background-color: #d9d9d9;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 0.6rem;
+  margin-bottom: 1.25rem;
 }
 
-.summary-error {
-  color: red;
-  font-weight: 500;
-  font-size: 0.9rem;
+.summary-image     { width: 100%; height: 100%; object-fit: cover; }
+
+.summary-roles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1.5rem;
 }
 
-.summary-placeholder {
-  font-style: italic;
-  font-size: 0.9rem;
-  margin-top: 1rem;
-}
+.innocent-list { padding-left: 1rem; margin: 0; }
+
+
+
+
+
