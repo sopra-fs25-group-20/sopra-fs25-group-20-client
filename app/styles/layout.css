@@ -66,8 +66,9 @@ main,
 }
 
 /* overwrite the button to hug its content instead of stretching to full width */
-.button.hug {
+.button.hug, .display.hug {
   flex: 0 0 auto;
+  padding: 0 2rem;
 }
 
 /* === LOBBY === */
