@@ -7,21 +7,21 @@ import { useEffect, useState } from "react";
 import { VerticalFlex } from "@/components/verticalFlex";
 import { SummaryCard } from "@/components/SummaryCard";
 import { GamePhase } from "@/types/gamePhase";
+import { useTheme } from "@/context/ThemeContext";
+
 
 type Props = {
   phase: GamePhase;
 };
 
 export default function LobbyPage({ phase }: Props) {
-  const [darkMode, setDarkMode] = useState(false);
+  const { toggleTheme } = useTheme();
 
-  useEffect(() => {
-    document.body.classList.toggle("dark", darkMode);
-  }, [darkMode]);
+  
 
   return (
     <div>
-      <AppHeader onToggleTheme={() => setDarkMode((prev) => !prev)} />
+      <AppHeader onToggleTheme={toggleTheme} />
       <div className="lobby">
         <VerticalFlex>
           <Chat />

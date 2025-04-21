@@ -9,14 +9,16 @@ import { stompApi } from "./api/stompApi";
 import { Frame } from "./components/frame";
 import { HorizontalFlex } from "./components/horizontalFlex";
 import { Button } from "./components/Button";
+import { useTheme } from "@/context/ThemeContext";
+
 
 export default function Home() {
   const [nickname, setNickname] = useState("");
   const [code, setcode] = useState("");
-  const [darkMode, setDarkMode] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
   const apiService = useApi();
+  const { toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleDisconnect = () => {
@@ -31,10 +33,6 @@ export default function Home() {
       window.removeEventListener("popstate", handlePopState);
     };
   }, []);
-
-  useEffect(() => {
-    document.body.classList.toggle("dark", darkMode);
-  }, [darkMode]);
 
   const handleJoin = async () => {
     if (!nickname.trim() || !code.trim()) {
@@ -94,7 +92,7 @@ export default function Home() {
   return (
     <div className="page-wrapper">
       <div className="landing-page">
-        <AppHeader onToggleTheme={() => setDarkMode((prev) => !prev)} />
+      <AppHeader onToggleTheme={toggleTheme} />
         <Frame>
           <InputField
             placeholder="Enter your nickname ..."
