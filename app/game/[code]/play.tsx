@@ -25,7 +25,6 @@ export default function PlayPage({ role, highlightedImage }: Props) {
     <div className="play-page">
       <VerticalFlex width={350}>
         <PlayerOverview />
-        <HUD role={role} />
         {role.playerRole === "spy" && selectedIndex !== null && (
           <HorizontalFlex>
             <Button
@@ -43,6 +42,7 @@ export default function PlayPage({ role, highlightedImage }: Props) {
         <Chat />
       </VerticalFlex>
       <VerticalFlex>
+        <HUD role={role} />
         <Gallery
           role={role}
           highlightedImage={highlightedImage}
