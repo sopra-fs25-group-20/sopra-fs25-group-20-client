@@ -3,7 +3,6 @@ import { AppHeader } from "@/components/AppHeader";
 import { Chat } from "@/components/chat";
 import { Settings } from "@/components/Settings";
 import { PlayerOverview } from "@/components/PlayerOverview";
-import { useEffect, useState } from "react";
 import { VerticalFlex } from "@/components/verticalFlex";
 import { SummaryCard } from "@/components/SummaryCard";
 import { GamePhase } from "@/types/gamePhase";
