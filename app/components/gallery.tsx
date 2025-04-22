@@ -23,6 +23,7 @@ export const Gallery = (
     Array(9).fill(null),
   );
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
 
   const handleImageClick = (index: number) => {
     if (role.playerRole === "spy") {
@@ -32,6 +33,7 @@ export const Gallery = (
 
   useEffect(() => {
     const fetchImages = async () => {
+      setImagesLoaded(false);
       const newImageList: (string | null)[] = Array(9).fill(null);
 
       await Promise.all(
@@ -50,6 +52,7 @@ export const Gallery = (
       );
 
       setImageList(newImageList);
+      setImagesLoaded(true);
     };
 
     fetchImages();
@@ -60,6 +63,7 @@ export const Gallery = (
       <div className="image-grid">
         {imageList.map((url, index) => {
           const isInnocentHighlight =
+            imagesLoaded &&
             highlightedImage.index >= 0 &&
             role.playerRole === "innocent" &&
             highlightedImage.index === index;
