@@ -184,5 +184,5 @@ body.dark {
 }
 
 .image-container.highlight {
-  border: 0.2rem solid #ff146a;
+  box-shadow: 0 0 0 0.2rem #ff146a;
 }
