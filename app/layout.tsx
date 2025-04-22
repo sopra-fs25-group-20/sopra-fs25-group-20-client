@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "@/styles/style.css";
 import "@/styles/layout.css";
+import { ThemeProvider } from "@/context/ThemeContext"; 
 
 export const metadata: Metadata = {
   title: "SpyQuest",
@@ -16,7 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+      <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }
