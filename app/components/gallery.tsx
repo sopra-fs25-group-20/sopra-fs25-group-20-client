@@ -62,19 +62,20 @@ export const Gallery = (
     <Frame className="gallery">
       <div className="image-grid">
         {imageList.map((url, index) => {
-          const isInnocentHighlight =
-            imagesLoaded &&
+          const isInnocentHighlight = imagesLoaded &&
             highlightedImage.index >= 0 &&
             role.playerRole === "innocent" &&
             highlightedImage.index === index;
 
-          const isSpySelected =
-            role.playerRole === "spy" && selectedIndex === index;
+          const isSpySelected = role.playerRole === "spy" &&
+            selectedIndex === index;
 
           return (
             <div
               key={index}
-              className={`image-container ${isInnocentHighlight || isSpySelected ? "highlight" : ""}`}
+              className={`image-container ${
+                isInnocentHighlight || isSpySelected ? "highlight" : ""
+              }`}
             >
               {url && (
                 <>

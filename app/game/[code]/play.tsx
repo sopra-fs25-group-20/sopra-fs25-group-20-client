@@ -14,7 +14,6 @@ type Props = {
 };
 
 export default function PlayPage({ role, highlightedImage }: Props) {
-
   return (
     <div className="play-page">
       <VerticalFlex width={350}>
