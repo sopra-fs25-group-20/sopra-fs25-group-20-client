@@ -6,29 +6,31 @@ import { useEffect, useState } from "react";
 import { stompApi } from "@/api/stompApi";
 import { Role } from "@/types/role";
 import { HighlightedImage } from "@/types/highlightedImage";
+import { Button } from "./Button";
+import { useGame } from "@/hooks/useGame";
 
 type Props = {
   role: Role;
   highlightedImage: HighlightedImage;
-  onSelectImage: (index: number) => void;
 };
 
 export const Gallery = (
-  { role, highlightedImage, onSelectImage }: Props,
+  { role, highlightedImage }: Props,
 ) => {
   const apiService = useApi();
+  const gameApi = useGame();
   const [imageList, setImageList] = useState<(string | null)[]>(
     Array(9).fill(null),
   );
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   const handleImageClick = (index: number) => {
-    onSelectImage(index);
+    if (role.playerRole === "spy") {
+      setSelectedIndex((prevIndex) => (prevIndex === index ? null : index));
+    }
   };
 
   useEffect(() => {
-    /**
-     * Fetch all 9 images and store them in a list.
-     */
     const fetchImages = async () => {
       const newImageList: (string | null)[] = Array(9).fill(null);
 
@@ -55,32 +57,56 @@ export const Gallery = (
 
   return (
     <Frame className="gallery">
-      <div className="image-grid ">
-        {imageList.map((url, index) => (
-          <div
-            key={index}
-            className={`image-container ${highlightedImage.index >= 0 && role.playerRole === "innocent" &&
-                highlightedImage.index === index
-                ? "highlight"
-                : ""
-              }`}
-          >
-            {url && (
-              <img
-                src={url}
-                alt={`Image ${index}`}
-                className="image"
-                onClick={() => handleImageClick(index)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleImageClick(index);
-                  }
-                }}
-                tabIndex={0}
-              />
-            )}
-          </div>
-        ))}
+      <div className="image-grid">
+        {imageList.map((url, index) => {
+          const isInnocentHighlight =
+            highlightedImage.index >= 0 &&
+            role.playerRole === "innocent" &&
+            highlightedImage.index === index;
+
+          const isSpySelected =
+            role.playerRole === "spy" && selectedIndex === index;
+
+          return (
+            <div
+              key={index}
+              className={`image-container ${isInnocentHighlight || isSpySelected ? "highlight" : ""}`}
+            >
+              {url && (
+                <>
+                  <img
+                    src={url}
+                    alt={`Image ${index}`}
+                    className="image"
+                    onClick={() => handleImageClick(index)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") handleImageClick(index);
+                    }}
+                    tabIndex={0}
+                  />
+                  {isSpySelected && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                      }}
+                    >
+                      <Button
+                        onClick={() => {
+                          gameApi.sendGuess(index);
+                        }}
+                      >
+                        Guess
+                      </Button>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          );
+        })}
       </div>
     </Frame>
   );
