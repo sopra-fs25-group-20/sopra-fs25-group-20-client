@@ -9,9 +9,20 @@ import { Button } from "./Button";
 import { Frame } from "./frame";
 import { HorizontalFlex } from "./horizontalFlex";
 
-const regions = ["Europe", "Asia", "Americas", "Africa"];
 const gameDurations = [60, 120, 180];
 const votingDurations = [15, 30, 45];
+
+const regionDisplayMap = {
+  europe: "Europe",
+  asia: "Asia",
+  north_america: "North America",
+  south_america: "South America",
+  africa: "Africa",
+} as const;
+
+const regionBackendMap = Object.fromEntries(
+  Object.entries(regionDisplayMap).map(([k, v]) => [v, k]),
+);
 
 export const Settings = () => {
   const gameApi = useGame();
@@ -19,7 +30,7 @@ export const Settings = () => {
     votingTimer: 15,
     gameTimer: 60,
     imageCount: 9,
-    imageRegion: "Europe",
+    imageRegion: "europe",
   });
 
   /**
@@ -64,9 +75,15 @@ export const Settings = () => {
     <Frame className="settings">
       <Dropdown
         label="Region Restrictions"
-        options={regions}
-        value={settings.imageRegion}
-        onChange={(value) => updateSettings("imageRegion", value)}
+        options={Object.values(regionDisplayMap)}
+        value={regionDisplayMap[
+          settings.imageRegion as keyof typeof regionDisplayMap
+        ]}
+        onChange={(value) =>
+          updateSettings(
+            "imageRegion",
+            regionBackendMap[value as keyof typeof regionBackendMap],
+          )}
         disabled={!stompApi.isRoomAdmin()}
       />
       <Dropdown
