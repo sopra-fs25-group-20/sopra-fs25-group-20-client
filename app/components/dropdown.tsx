@@ -21,7 +21,7 @@ export const Dropdown = (
     >
       {options.map((option) => (
         <option key={option} value={option}>
-          {typeof option === "number" ? `${option / 60} min` : option}
+          {typeof option === "number" ? `${option} sec` : option}
         </option>
       ))}
     </select>
