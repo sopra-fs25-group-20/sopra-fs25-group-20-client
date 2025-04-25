@@ -11,6 +11,11 @@ class StompAPI {
   private roomAdmin: string;
   private adminListeners: (() => void)[] = [];
 
+  private subscriptions: Array<{
+    destination: string;
+    callback: (message: IMessage) => void;
+  }> = [];
+
   constructor() {
     this.client = null;
     this.code = null;
@@ -28,6 +33,7 @@ class StompAPI {
     return new Client({
       brokerURL: this.buildBrokerURL(),
       debug: (str) => console.debug(`[STOMP] ${str}`),
+      reconnectDelay: 1000,
       onStompError: (frame) => {
         console.error("Broker error:", frame.headers["message"]);
         console.error("Details:", frame.body);
@@ -56,6 +62,9 @@ class StompAPI {
     this.connectPromise = new Promise<void>((resolve, reject) => {
       client.onConnect = () => {
         console.warn("Websocket connected.");
+        this.subscriptions.forEach((s) =>
+          client.subscribe(s.destination, s.callback)
+        );
         resolve();
       };
       client.onStompError = (frame) => {
@@ -92,14 +101,18 @@ class StompAPI {
   ): Promise<void> {
     const client = this.getClient();
     await this.ensureConnected();
-    client.subscribe(destination, (message: IMessage) => {
+
+    const cb = (message: IMessage) => {
       try {
         const body = JSON.parse(message.body) as T;
-        handlers.forEach((handler) => handler(body));
+        handlers.forEach((h) => h(body));
       } catch (err) {
         console.error(`Failed to parse message from ${destination}:`, err);
       }
-    });
+    };
+
+    client.subscribe(destination, cb);
+    this.subscriptions.push({ destination, callback: cb });
   }
 
   public async send(destination: string, body: string): Promise<void> {
