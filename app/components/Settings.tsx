@@ -8,6 +8,7 @@ import { Dropdown } from "./dropdown";
 import { Button } from "./Button";
 import { Frame } from "./frame";
 import { HorizontalFlex } from "./horizontalFlex";
+import { useIsRoomAdmin } from "@/hooks/isRoomAdmin";
 
 const gameDurations = [60, 120, 180];
 const votingDurations = [15, 30, 45];
@@ -26,6 +27,7 @@ const regionBackendMap = Object.fromEntries(
 
 export const Settings = () => {
   const gameApi = useGame();
+  const isRoomAdmin = useIsRoomAdmin();
   const [settings, setSettings] = useState<GameSettings>({
     votingTimer: 15,
     gameTimer: 60,
@@ -84,7 +86,7 @@ export const Settings = () => {
             "imageRegion",
             regionBackendMap[value as keyof typeof regionBackendMap],
           )}
-        disabled={!stompApi.isRoomAdmin()}
+        disabled={!isRoomAdmin}
       />
       <Dropdown
         label="Duration Game"
@@ -92,7 +94,7 @@ export const Settings = () => {
         value={settings.gameTimer}
         onChange={(value) =>
           updateSettings("gameTimer", parseInt(value as string))}
-        disabled={!stompApi.isRoomAdmin()}
+        disabled={!isRoomAdmin}
       />
       <Dropdown
         label="Duration Voting"
@@ -100,10 +102,10 @@ export const Settings = () => {
         value={settings.votingTimer}
         onChange={(value) =>
           updateSettings("votingTimer", parseInt(value as string))}
-        disabled={!stompApi.isRoomAdmin()}
+        disabled={!isRoomAdmin}
       />
       <HorizontalFlex gap={15}>
-        {stompApi.isRoomAdmin()
+        {isRoomAdmin
           ? (
             <>
               <Button onClick={handleStartGame}>Start the Game</Button>

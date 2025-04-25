@@ -8,10 +8,12 @@ import { Frame } from "./frame";
 import { OverflowContainer } from "./overflowContainer";
 import { useApi } from "@/hooks/useApi";
 import { Button } from "./Button";
+import { useIsRoomAdmin } from "@/hooks/isRoomAdmin";
 
 export const PlayerOverview = () => {
   const gameApi = useGame();
   const apiService = useApi();
+  const isRoomAdmin = useIsRoomAdmin();
   const [phase, setPhase] = useState<GamePhase | null>(null);
   const [players, setPlayers] = useState<Player[]>([]);
 
@@ -42,6 +44,7 @@ export const PlayerOverview = () => {
           `/players/${stompApi.getCode()}`,
         );
         setPlayers(response);
+        stompApi.setRoomAdmin(response);
       } catch (error) {
         console.error("Failed to fetch players:", error);
       }
@@ -85,7 +88,7 @@ export const PlayerOverview = () => {
 
     switch (phase) {
       case GamePhase.LOBBY:
-        if (stompApi.isRoomAdmin()) {
+        if (isRoomAdmin) {
           return (
             <div className="action">
               <FaBan

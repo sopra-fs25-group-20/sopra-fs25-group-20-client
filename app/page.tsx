@@ -11,7 +11,6 @@ import { HorizontalFlex } from "./components/horizontalFlex";
 import { Button } from "./components/Button";
 import { useTheme } from "@/context/ThemeContext";
 
-
 export default function Home() {
   const [nickname, setNickname] = useState("");
   const [code, setcode] = useState("");
@@ -78,7 +77,6 @@ export default function Home() {
       }
       stompApi.setCode(code);
       stompApi.setNickname(nickname);
-      stompApi.setRoomAdmin(nickname);
       router.push(`/game/${code.trim()}`);
     } catch (error) {
       if (error instanceof ApplicationError) {
@@ -92,7 +90,7 @@ export default function Home() {
   return (
     <div className="page-wrapper">
       <div className="landing-page">
-      <AppHeader onToggleTheme={toggleTheme} />
+        <AppHeader onToggleTheme={toggleTheme} />
         <Frame>
           <InputField
             placeholder="Enter your nickname ..."

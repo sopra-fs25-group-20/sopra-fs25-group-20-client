@@ -1,4 +1,5 @@
 "use client";
+import { Player } from "@/types/player";
 import { getStompBrokerDomain } from "@/utils/domain";
 import { Client, IMessage } from "@stomp/stompjs";
 
@@ -8,6 +9,7 @@ class StompAPI {
   private nickname: string | null;
   private connectPromise: Promise<void> | null = null;
   private roomAdmin: string;
+  private adminListeners: (() => void)[] = [];
 
   constructor() {
     this.client = null;
@@ -137,15 +139,31 @@ class StompAPI {
     return this.code;
   }
 
-  setRoomAdmin(nickname: string) {
-    this.roomAdmin = nickname;
+  setRoomAdmin(players: Player[]) {
+    for (const player of players) {
+      if (player.admin && player.nickname === this.getNickname()) {
+        this.roomAdmin = player.nickname;
+        console.warn("You are the admin.");
+        this.notifyAdminListeners();
+        break;
+      }
+    }
   }
 
-  /**
-   * Check if the current 'owner' of this STOMP connection is also the room admin.
-   */
   isRoomAdmin() {
     return this.getNickname() === this.roomAdmin;
+  }
+
+  addAdminListener(listener: () => void) {
+    this.adminListeners.push(listener);
+  }
+
+  removeAdminListener(listener: () => void) {
+    this.adminListeners = this.adminListeners.filter((l) => l !== listener);
+  }
+
+  private notifyAdminListeners() {
+    this.adminListeners.forEach((l) => l());
   }
 }
 
