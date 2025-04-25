@@ -71,6 +71,7 @@ export class GameAPI {
   }
 
   private handlePlayers(players: Player[]) {
+    stompApi.setRoomAdmin(players);
     if (Array.isArray(players)) {
       this.playerHandlers.forEach((handler) => handler(players));
     }
