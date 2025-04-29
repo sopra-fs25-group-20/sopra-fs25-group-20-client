@@ -97,20 +97,19 @@ reason).
 | **@Agravlin** | 15.04.2025 | [#144](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/144) | Added REST endpoints to fetch current game related information. | Enables client to get essential information during a round. |
 | **@Agravlin** | 15.04.2025 | [#145](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/145) | Added WebSocket endpoints for real time communication and broadcasts. | Allows players to interact with the game and receive live updates. |
 | **@Agravlin** | 15.04.2025 | [#148](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/148) | Refactored and fixed the remaning communication issues between client and server. Primarily, an appropiate response like null is now being sent instead of throwing an error. | Ensures reliable communication between client and server. |
----
-
-## Contributions Week 4 - [Begin Date] to [End Date]
-
-_Continue with the same table format as above._
 
 ---
 
-## Contributions Week 5 - [Begin Date] to [End Date]
+## Contributions Week 4 - [16.04.2025] to [29.04.2025]
 
-_Continue with the same table format as above._
+| **Student**        | **Date** | **Link to Commit** | **Description**                 | **Relevance**                       |
+| ------------------ | -------- | ------------------ | ------------------------------- | ----------------------------------- |
+| **@dreamfarer** | 18.04.2025 | [#77](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/77) | Disable Option to Change Settings For Non-Admin | Non-Admin players should not be able to adjust settings. |
+| **@dreamfarer** | 21.04.2025 | [#78](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/78) | Make HUD More Intuitive | Remove confusing phase display, describe the current role better and add a proper timer.
+| **@dreamfarer** | 22.04.2025 | [#81](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/81) | Add Activatable Help Text | Add help text that can be activated mid-game by pressing a button.
+| **@dreamfarer** | 22.04.2025 | [#83](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/83) | Refactor Image Guessing for Spy | The spy can now guess an image by directly clicking the button that appears when selecting an image. Makes it more user-friendly.
+| **@dreamfarer** | 23.04.2025 | [#85](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/85) | Fix Region Options and Change Timer to Seconds | Adjusted the selectable regions to match the backend and change the timer from mintes to seconds.
+| **@dreamfarer** | 25.04.2025 | [#102](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/102) | Prevent Loss of Admin Status on Reload | Refactor that shifts tracking of admin status from front-end to back-end, therefore it also persists on reloads.
+| **@dreamfarer** | 25.04.2025 | [#104](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/104) | Fix Loss of Subscriptions Upon Timeout-Induced Connection Loss | Keep track of subscriptions and automatically resubscribe when connection is lost. Fixes the loss of connection on mandatory Google Cloud Run timeout.
 
 ---
-
-## Contributions Week 6 - [Begin Date] to [End Date]
-
-_Continue with the same table format as above._
