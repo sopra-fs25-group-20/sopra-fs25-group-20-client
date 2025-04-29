@@ -111,5 +111,11 @@ reason).
 | **@dreamfarer** | 23.04.2025 | [#85](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/85) | Fix Region Options and Change Timer to Seconds | Adjusted the selectable regions to match the backend and change the timer from mintes to seconds.
 | **@dreamfarer** | 25.04.2025 | [#102](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/102) | Prevent Loss of Admin Status on Reload | Refactor that shifts tracking of admin status from front-end to back-end, therefore it also persists on reloads.
 | **@dreamfarer** | 25.04.2025 | [#104](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/104) | Fix Loss of Subscriptions Upon Timeout-Induced Connection Loss | Keep track of subscriptions and automatically resubscribe when connection is lost. Fixes the loss of connection on mandatory Google Cloud Run timeout.
+| **@agravlin** | 23.04.2025 | [#154](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/154) | Speed up the location fetching and handle invalid locations | Enables faster round starts and handles the invalid location inputs preventing potential infinite loops.
+| **@agravlin** | 23.04.2025 | [#155](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/155) | Add tests for controller, gameService, util and webscoket | Increases the total test coverage.
+| **@agravlin** | 23.04.2025 | [#156](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/156) | Add integration test | Helps to determine possible regressions.
+| **@agravlin** | 24.04.2025 | [#183](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/183) | Remove DB annotations from VotingSession | Improves the maintainability and readability, as VotingSession is managed as an in-memory object rather than being persisted in the DB.
+| **@agravlin** | 24.04.2025 | [#184](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/184) | Add isAdmin field to playerUpdateDTO | Enables the client to keep track of admin status when players reconnect, preventing them from losing admin features.
+
 
 ---
