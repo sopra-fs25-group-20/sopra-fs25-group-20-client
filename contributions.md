@@ -116,6 +116,9 @@ reason).
 | **@agravlin** | 23.04.2025 | [#156](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/156) | Add integration test | Helps to determine possible regressions.
 | **@agravlin** | 24.04.2025 | [#183](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/183) | Remove DB annotations from VotingSession | Improves the maintainability and readability, as VotingSession is managed as an in-memory object rather than being persisted in the DB.
 | **@agravlin** | 24.04.2025 | [#184](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/184) | Add isAdmin field to playerUpdateDTO | Enables the client to keep track of admin status when players reconnect, preventing them from losing admin features.
+| **@baranozgurtas** | 19.04.2025 | [#79](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/79) | Fix Player Display and Over-Proportional Image on Summary Card| Corrected the player layout and image rendering in the summary component to maintain consistent proportions and alignment.
+| **@baranozgurtas** | 21.04.2025 | [#82](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/82) | Persist Dark Mode Across Page Transitions | Implemented a ThemeContext and ThemeProvider to manage dark mode globally. Enabled saving theme preference in localStorage and applied consistent styling across layout, improving UX and accessibility.
+
 
 
 ---
