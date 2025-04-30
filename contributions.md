@@ -118,7 +118,9 @@ reason).
 | **@agravlin** | 24.04.2025 | [#184](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/184) | Add isAdmin field to playerUpdateDTO | Enables the client to keep track of admin status when players reconnect, preventing them from losing admin features.
 | **@baranozgurtas** | 19.04.2025 | [#79](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/79) | Fix Player Display and Over-Proportional Image on Summary Card| Corrected the player layout and image rendering in the summary component to maintain consistent proportions and alignment.
 | **@baranozgurtas** | 21.04.2025 | [#82](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/82) | Persist Dark Mode Across Page Transitions | Implemented a ThemeContext and ThemeProvider to manage dark mode globally. Enabled saving theme preference in localStorage and applied consistent styling across layout, improving UX and accessibility.
-
+| **@osmanoeztuerk** | 18.04.2025 | [#149](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/149) | Add Unit Tests | Implemented 12 test classes. Increases model-layer unit-test coverage, improving reliability and maintainability.
+| **@osmanoeztuerk** | 22.04.2025 | [#150](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/150) | Add Tests for Image Services | Implemented new test classes to increase coverages. Especially in the image services.
+| **@osmanoeztuerk** | 23.04.2025 | [#157](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/157) | Refactor Image Fetching | Image fetching was taking to much time. This problematic behavior has been solved by introducing a new coordinate algorithm with asynchronous fetching. Sonarqube issues are also fixed.
 
 
 ---
