@@ -76,11 +76,11 @@ reason).
 
 ---
 
-## Contributions Week 3 - [Begin Date] to [End Date]
+## Contributions Week 3 - [09.04.2025] to [15.04.2025]
 
 | **Student**        | **Date** | **Link to Commit** | **Description**                 | **Relevance**                       |
 | ------------------ | -------- | ------------------ | ------------------------------- | ----------------------------------- |
-| **@dreamfarer** | 13.04.2025 | [#60](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/60) | Refactored the layout to replace absolute positioning, which was tailored to a fixed 16:9 aspect ratio and hindered responsiveness, modularity, and reusability. |
+| **@dreamfarer** | 13.04.2025 | [#60](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/60) | Landing Page and Lobby Design Refactor and Bug Fixes| Refactored the layout to replace absolute positioning, which was tailored to a fixed 16:9 aspect ratio and hindered responsiveness, modularity, and reusability. |
 | **@dreamfarer** | 14.04.2025 | [#64](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/64) | Implement Play Page with HUD and Gallery | Developed the Play Page featuring a HUD and Google Street View image gallery. Collaborated with @Agravlin to coordinate REST and STOMP communication between frontend and backend. |
 | **@dreamfarer** | 15.04.2025 | [#66](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/66) | Add Voting UI and Refactor State Handling | Introduced the voting interface allowing players to vote "yes" or "no" on others. Included significant refactorings such as passing shared state via props instead of maintaining isolated connections in each component. Also addressed various bugs. |
 | **@dreamfarer** | 16.05.2025 | [#67](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/67) | Create Implement Image Guessing UI for Spy | Added the Spy’s image guessing functionality to give them a change to win the game. |
@@ -97,20 +97,31 @@ reason).
 | **@Agravlin** | 15.04.2025 | [#144](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/144) | Added REST endpoints to fetch current game related information. | Enables client to get essential information during a round. |
 | **@Agravlin** | 15.04.2025 | [#145](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/145) | Added WebSocket endpoints for real time communication and broadcasts. | Allows players to interact with the game and receive live updates. |
 | **@Agravlin** | 15.04.2025 | [#148](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/148) | Refactored and fixed the remaning communication issues between client and server. Primarily, an appropiate response like null is now being sent instead of throwing an error. | Ensures reliable communication between client and server. |
----
-
-## Contributions Week 4 - [Begin Date] to [End Date]
-
-_Continue with the same table format as above._
 
 ---
 
-## Contributions Week 5 - [Begin Date] to [End Date]
+## Contributions Week 4 - [16.04.2025] to [29.04.2025]
 
-_Continue with the same table format as above._
+| **Student**        | **Date** | **Link to Commit** | **Description**                 | **Relevance**                       |
+| ------------------ | -------- | ------------------ | ------------------------------- | ----------------------------------- |
+| **@dreamfarer** | 18.04.2025 | [#77](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/77) | Disable Option to Change Settings For Non-Admin | Non-Admin players should not be able to adjust settings. |
+| **@dreamfarer** | 21.04.2025 | [#78](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/78) | Make HUD More Intuitive | Remove confusing phase display, describe the current role better and add a proper timer.
+| **@dreamfarer** | 22.04.2025 | [#81](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/81) | Add Activatable Help Text | Add help text that can be activated mid-game by pressing a button.
+| **@dreamfarer** | 22.04.2025 | [#83](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/83) | Refactor Image Guessing for Spy | The spy can now guess an image by directly clicking the button that appears when selecting an image. Makes it more user-friendly.
+| **@dreamfarer** | 23.04.2025 | [#85](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/85) | Fix Region Options and Change Timer to Seconds | Adjusted the selectable regions to match the backend and change the timer from mintes to seconds.
+| **@dreamfarer** | 25.04.2025 | [#102](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/102) | Prevent Loss of Admin Status on Reload | Refactor that shifts tracking of admin status from front-end to back-end, therefore it also persists on reloads.
+| **@dreamfarer** | 25.04.2025 | [#104](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/104) | Fix Loss of Subscriptions Upon Timeout-Induced Connection Loss | Keep track of subscriptions and automatically resubscribe when connection is lost. Fixes the loss of connection on mandatory Google Cloud Run timeout.
+| **@agravlin** | 23.04.2025 | [#154](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/154) | Speed up the location fetching and handle invalid locations | Enables faster round starts and handles the invalid location inputs preventing potential infinite loops.
+| **@agravlin** | 23.04.2025 | [#155](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/155) | Add tests for controller, gameService, util and webscoket | Increases the total test coverage.
+| **@agravlin** | 23.04.2025 | [#156](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/156) | Add integration test | Helps to determine possible regressions.
+| **@agravlin** | 24.04.2025 | [#183](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/183) | Remove DB annotations from VotingSession | Improves the maintainability and readability, as VotingSession is managed as an in-memory object rather than being persisted in the DB.
+| **@agravlin** | 24.04.2025 | [#184](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/184) | Add isAdmin field to playerUpdateDTO | Enables the client to keep track of admin status when players reconnect, preventing them from losing admin features.
+| **@jMischa** | 20.04.25 | [#152](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/152) | Add unit tests for config, entities, gameBroadcastService and gameReadService | Increasing test coverage. |
+| **@baranozgurtas** | 19.04.2025 | [#79](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/79) | Fix Player Display and Over-Proportional Image on Summary Card| Corrected the player layout and image rendering in the summary component to maintain consistent proportions and alignment.
+| **@baranozgurtas** | 21.04.2025 | [#82](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/82) | Persist Dark Mode Across Page Transitions | Implemented a ThemeContext and ThemeProvider to manage dark mode globally. Enabled saving theme preference in localStorage and applied consistent styling across layout, improving UX and accessibility.
+| **@osmanoeztuerk** | 18.04.2025 | [#149](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/149) | Add Unit Tests | Implemented 12 test classes. Increases model-layer unit-test coverage, improving reliability and maintainability.
+| **@osmanoeztuerk** | 22.04.2025 | [#150](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/150) | Add Tests for Image Services | Implemented new test classes to increase coverages. Especially in the image services.
+| **@osmanoeztuerk** | 23.04.2025 | [#157](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/157) | Refactor Image Fetching | Image fetching was taking to much time. This problematic behavior has been solved by introducing a new coordinate algorithm with asynchronous fetching. Sonarqube issues are also fixed.
+
 
 ---
-
-## Contributions Week 6 - [Begin Date] to [End Date]
-
-_Continue with the same table format as above._
