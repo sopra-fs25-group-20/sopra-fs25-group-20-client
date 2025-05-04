@@ -6,11 +6,13 @@ import { stompApi } from "@/api/stompApi";
 import { Frame } from "./frame";
 import { OverflowContainer } from "./overflowContainer";
 import { HorizontalFlex } from "./horizontalFlex";
+import { Tooltip } from "./Tooltip";
 
 export const Chat = () => {
   const ws = useChat();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
+  const [tooltipSuppressed, setTooltipSuppressed] = useState(false);
 
   useEffect(() => {
     const handleMessage = (data: ChatMessage) => {
@@ -61,14 +63,18 @@ export const Chat = () => {
         })}
       </OverflowContainer>
       <HorizontalFlex>
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Type to chat ..."
-          className="chat-input"
-        />
+        <Tooltip tip="Use @ to question another player (the message is still visible to all players)">
+          <input
+            type="text"
+            value={input}
+            onFocus={() => setTooltipSuppressed(true)}
+            onBlur={() => setTooltipSuppressed(false)}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Type to chat ..."
+            className={`chat-input ${tooltipSuppressed ? "disable-hover" : ""}`}
+          />
+        </Tooltip>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="chat-send-button"
