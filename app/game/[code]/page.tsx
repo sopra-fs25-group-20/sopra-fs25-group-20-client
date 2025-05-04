@@ -1,76 +1,93 @@
 "use client";
-import { useParams, useRouter } from "next/navigation";
-import React, { useEffect,useState } from "react";
-import { AppHeader } from "@/components/AppHeader";
-import { ChatWindow } from "@/components/chatWindow";
-import { GameSettingsComponent } from "@/components/gameSettingsComponent";
-import { PlayerOverview } from "@/components/PlayerOverview";
-import { useApi } from "@/hooks/useApi";
+
+import { useEffect, useState } from "react";
+import LobbyPage from "./lobby";
+import PlayPage from "./play";
+import { GamePhase } from "@/types/gamePhase";
 import { stompApi } from "@/api/stompApi";
+import { useGame } from "@/hooks/useGame";
+import { useApi } from "@/hooks/useApi";
+import { Role } from "@/types/role";
+import { HighlightedImage } from "@/types/highlightedImage";
 
 export default function GamePage() {
-  const router = useRouter();
-  const params = useParams();
+  const gameApi = useGame();
   const apiService = useApi();
-  const [darkMode, setDarkMode] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [validated, setValidated] = useState(false);
-  const codeFromUrl = params.code;
+  const [role, setRole] = useState<Role | null>(null);
+  const [highlightedImage, setHighlightedImage] = useState<
+    HighlightedImage | null
+  >(null);
+  const [phase, setPhase] = useState<GamePhase | null>(null);
 
   useEffect(() => {
-    document.body.classList.toggle("dark", darkMode);
-  }, [darkMode]);
-
-  useEffect(() => {
-    const validateGameRoom = async () => {
-      try {
-        const code = stompApi.getCode();
-        const nickname = stompApi.getNickname();
-
-        if (!code || code !== codeFromUrl) {
-          router.push("/");
-          return;
-        }
-        await apiService.post("/validate", { nickname, code });
-        setValidated(true);
-      } catch {
-        router.push("/");
-      } finally {
-        setLoading(false);
+    /**
+     * Handles receptions of changed game phase.
+     */
+    const handlePhase = (phase: GamePhase) => {
+      setPhase(phase);
+      if (phase === GamePhase.GAME) {
+        requestRole();
+        requestHighlightedImage();
       }
     };
 
-    validateGameRoom();
-  }, [codeFromUrl, router, apiService]);
+    /**
+     * Handles reception of the highlighted image
+     */
+    const handleHighlightedImage = (highlightedImage: HighlightedImage) => {
+      setHighlightedImage(highlightedImage);
+    };
 
-  if (loading) {
-    return <div style={{ textAlign: "center", marginTop: "2rem" }}>Loading...</div>;
+    /**
+     * Handles receptions of changed game role.
+     */
+    const handleRole = (role: Role) => {
+      setRole(role);
+    };
+
+    /**
+     * Request phase of a game room.
+     */
+    const requestPhase = async () => {
+      try {
+        const response = await apiService.get<{ phase: GamePhase }>(
+          `/phase/${stompApi.getCode()}`,
+        );
+        setPhase(response.phase);
+      } catch (error) {
+        console.error("Failed to fetch phase:", error);
+      }
+    };
+
+    /**
+     * Request broadcasting of role.
+     */
+    const requestRole = async () => {
+      gameApi.requestRole();
+    };
+
+    /**
+     * Request broadcasting of the highlighted image.
+     */
+    const requestHighlightedImage = async () => {
+      gameApi.requestHighlightedImage();
+    };
+
+    requestPhase();
+    requestRole();
+    requestHighlightedImage();
+
+    gameApi.onPhase(handlePhase);
+    gameApi.onRole(handleRole);
+    gameApi.onHighlightedImage(handleHighlightedImage);
+  }, [gameApi, apiService]);
+
+  if (phase === null) return <div>Loading...</div>;
+  if (phase === GamePhase.LOBBY || phase === GamePhase.SUMMARY) {
+    return <LobbyPage phase={phase} />;
   }
-
-  if (!validated) {
-    return null;
+  if (role === null || highlightedImage === null) {
+    return <div>Waiting for role...</div>;
   }
-
-  return (
-    <div className="page-wrapper">
-      <AppHeader onToggleTheme={() => setDarkMode((prev) => !prev)} />
-
-      <div className="game-layout-container">
-        {/* Left: Chat */}
-        <div className="left-panel">
-          <ChatWindow />
-        </div>
-
-        {/* Right: PlayerOverview + Settings stacked */}
-        <div className="right-panel">
-          <div className="top-box">
-          <PlayerOverview />
-          </div>
-          <div className="bottom-box">
-          <GameSettingsComponent />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  return <PlayPage role={role} highlightedImage={highlightedImage} />;
 }

@@ -3,7 +3,8 @@ import { Account } from "./account";
 export type Player = {
   nickname: string;
   color: string;
-  account: Account;
+  admin: boolean;
+  account: Account | null;
 };
 
 export function isPlayer(data: Player): data is Player {
@@ -12,6 +13,7 @@ export function isPlayer(data: Player): data is Player {
     data !== null &&
     typeof data.nickname === "string" &&
     typeof data.color === "string" &&
+    typeof data.admin === "boolean" &&
     data.account !== null &&
     typeof data.account === "object"
   );

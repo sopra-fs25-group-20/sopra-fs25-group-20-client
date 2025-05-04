@@ -2,20 +2,22 @@
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
-import { Box } from "@/components/Box";
-import { PrimaryButton } from "@/components/PrimaryButton";
 import { InputField } from "@/components/InputField";
 import { useApi } from "@/hooks/useApi";
 import { ApplicationError } from "@/types/error";
 import { stompApi } from "./api/stompApi";
+import { Frame } from "./components/frame";
+import { HorizontalFlex } from "./components/horizontalFlex";
+import { Button } from "./components/Button";
+import { useTheme } from "@/context/ThemeContext";
 
 export default function Home() {
   const [nickname, setNickname] = useState("");
   const [code, setcode] = useState("");
-  const [darkMode, setDarkMode] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
   const apiService = useApi();
+  const { toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleDisconnect = () => {
@@ -30,10 +32,6 @@ export default function Home() {
       window.removeEventListener("popstate", handlePopState);
     };
   }, []);
-
-  useEffect(() => {
-    document.body.classList.toggle("dark", darkMode);
-  }, [darkMode]);
 
   const handleJoin = async () => {
     if (!nickname.trim() || !code.trim()) {
@@ -91,44 +89,28 @@ export default function Home() {
 
   return (
     <div className="page-wrapper">
-      <AppHeader onToggleTheme={() => setDarkMode((prev) => !prev)} />
-
-      <Box className="flex flex-col gap-3 w-full max-w-md">
-        <div className="input-group margin-inbetween ">
+      <div className="landing-page">
+        <AppHeader onToggleTheme={toggleTheme} />
+        <Frame>
           <InputField
             placeholder="Enter your nickname ..."
             value={nickname}
             onChange={setNickname}
           />
-        </div>
-
-        <div className="input-group margin-inbetween ">
           <InputField
             placeholder="Enter game code ..."
             value={code}
             onChange={setcode}
           />
-        </div>
-
-        <div className="button-row">
-          <PrimaryButton
-            onClick={handleJoin}
-            className="half-button"
-          >
-            Join
-          </PrimaryButton>
-          <PrimaryButton
-            onClick={handleStart}
-            className="half-button"
-          >
-            Start new game
-          </PrimaryButton>
-        </div>
-
-        {error && (
-          <div className="text-red-500 text-sm text-center mt-2">{error}</div>
-        )}
-      </Box>
+          <HorizontalFlex gap={15}>
+            <Button onClick={handleJoin}>Join</Button>
+            <Button onClick={handleStart}>Start new game</Button>
+          </HorizontalFlex>
+          {error && (
+            <div className="text-red-500 text-sm text-center mt-2">{error}</div>
+          )}
+        </Frame>
+      </div>
     </div>
   );
 }

@@ -1,13 +1,26 @@
 "use client";
+import { Player } from "@/types/player";
 import { getStompBrokerDomain } from "@/utils/domain";
 import { Client, IMessage } from "@stomp/stompjs";
 
 class StompAPI {
   private client: Client | null;
+  private code: string | null;
+  private nickname: string | null;
   private connectPromise: Promise<void> | null = null;
+  private roomAdmin: string;
+  private adminListeners: (() => void)[] = [];
+
+  private subscriptions: Array<{
+    destination: string;
+    callback: (message: IMessage) => void;
+  }> = [];
 
   constructor() {
     this.client = null;
+    this.code = null;
+    this.nickname = null;
+    this.roomAdmin = "";
   }
 
   buildBrokerURL(): string {
@@ -20,6 +33,7 @@ class StompAPI {
     return new Client({
       brokerURL: this.buildBrokerURL(),
       debug: (str) => console.debug(`[STOMP] ${str}`),
+      reconnectDelay: 1000,
       onStompError: (frame) => {
         console.error("Broker error:", frame.headers["message"]);
         console.error("Details:", frame.body);
@@ -48,6 +62,9 @@ class StompAPI {
     this.connectPromise = new Promise<void>((resolve, reject) => {
       client.onConnect = () => {
         console.warn("Websocket connected.");
+        this.subscriptions.forEach((s) =>
+          client.subscribe(s.destination, s.callback)
+        );
         resolve();
       };
       client.onStompError = (frame) => {
@@ -56,10 +73,9 @@ class StompAPI {
         reject(frame);
       };
       client.activate();
-    })
-      .finally(() => {
-        this.connectPromise = null;
-      });
+    }).finally(() => {
+      this.connectPromise = null;
+    });
     return this.connectPromise;
   }
 
@@ -85,14 +101,18 @@ class StompAPI {
   ): Promise<void> {
     const client = this.getClient();
     await this.ensureConnected();
-    client.subscribe(destination, (message: IMessage) => {
+
+    const cb = (message: IMessage) => {
       try {
         const body = JSON.parse(message.body) as T;
-        handlers.forEach((handler) => handler(body));
+        handlers.forEach((h) => h(body));
       } catch (err) {
         console.error(`Failed to parse message from ${destination}:`, err);
       }
-    });
+    };
+
+    client.subscribe(destination, cb);
+    this.subscriptions.push({ destination, callback: cb });
   }
 
   public async send(destination: string, body: string): Promise<void> {
@@ -102,27 +122,61 @@ class StompAPI {
   }
 
   setNickname(nickname: string) {
+    this.nickname = nickname;
     localStorage.setItem("clientNickname", nickname);
   }
 
   getNickname(): string {
-    const nickname: string | null = localStorage.getItem("clientNickname");
-    if (!nickname) {
-      throw new Error("Nickname not set. Call setNickname(...) first.");
+    if (!this.nickname) {
+      this.nickname = localStorage.getItem("clientNickname");
+      if (!this.nickname) {
+        throw new Error("Nickname not set. Call setNickname(...) first.");
+      }
+      console.warn("Loaded nickname and code from local storage.");
     }
-    return nickname;
+    return this.nickname;
   }
 
   setCode(code: string) {
+    this.code = code;
     localStorage.setItem("clientCode", code);
   }
 
   getCode(): string {
-    const code: string | null = localStorage.getItem("clientCode");
-    if (!code) {
-      throw new Error("Code not set. Call setCode(...) first.");
+    if (!this.code) {
+      this.code = localStorage.getItem("clientCode");
+      if (!this.code) {
+        throw new Error("Code not set. Call setCode(...) first.");
+      }
     }
-    return code;
+    return this.code;
+  }
+
+  setRoomAdmin(players: Player[]) {
+    for (const player of players) {
+      if (player.admin && player.nickname === this.getNickname()) {
+        this.roomAdmin = player.nickname;
+        console.warn("You are the admin.");
+        this.notifyAdminListeners();
+        break;
+      }
+    }
+  }
+
+  isRoomAdmin() {
+    return this.getNickname() === this.roomAdmin;
+  }
+
+  addAdminListener(listener: () => void) {
+    this.adminListeners.push(listener);
+  }
+
+  removeAdminListener(listener: () => void) {
+    this.adminListeners = this.adminListeners.filter((l) => l !== listener);
+  }
+
+  private notifyAdminListeners() {
+    this.adminListeners.forEach((l) => l());
   }
 }
 

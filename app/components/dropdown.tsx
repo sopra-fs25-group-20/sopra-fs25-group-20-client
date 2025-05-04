@@ -5,28 +5,23 @@ interface DropdownProps {
   options: string[] | number[];
   value: string | number;
   onChange: (value: string | number) => void;
-  className?: string;
-  style?: React.CSSProperties;
+  disabled?: boolean;
 }
 
-export const Dropdown = ({
-  label,
-  options,
-  value,
-  onChange,
-  className = "",
-  style = {},
-}: DropdownProps) => (
-  <div className={`button-row ${className}`} style={style}>
+export const Dropdown = (
+  { label, options, value, onChange, disabled = false }: DropdownProps,
+) => (
+  <div className="setting">
     <label className="half-button">{label}:</label>
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="dropdown"
+      className={`dropdown ${disabled ? "disabled" : ""}`}
+      disabled={disabled}
     >
       {options.map((option) => (
         <option key={option} value={option}>
-          {typeof option === "number" ? `${option / 60} min` : option}
+          {typeof option === "number" ? `${option} sec` : option}
         </option>
       ))}
     </select>

@@ -1,77 +1,160 @@
-"use client";
-import { useEffect, useRef, useState } from "react";
-import { Box } from "@/components/Box";
-import { FaBan } from "react-icons/fa";
 import { stompApi } from "@/api/stompApi";
-import { GameAPI } from "@/api/gameAPI";
+import { useGame } from "@/hooks/useGame";
+import { GamePhase } from "@/types/gamePhase";
 import { Player } from "@/types/player";
+import { useEffect, useState } from "react";
+import { FaBan } from "react-icons/fa";
+import { Frame } from "./frame";
+import { OverflowContainer } from "./overflowContainer";
+import { useApi } from "@/hooks/useApi";
+import { Button } from "./Button";
+import { useIsRoomAdmin } from "@/hooks/isRoomAdmin";
 
 export const PlayerOverview = () => {
+  const gameApi = useGame();
+  const apiService = useApi();
+  const isRoomAdmin = useIsRoomAdmin();
+  const [phase, setPhase] = useState<GamePhase | null>(null);
   const [players, setPlayers] = useState<Player[]>([]);
-  const apiRef = useRef<GameAPI | null>(null);
 
-  const currentNickname = stompApi.getNickname();
-  const adminNickname =
-    typeof window !== "undefined"
-      ? localStorage.getItem("roomAdmin")
-      : null;
-  const isAdmin = currentNickname === adminNickname;
-
-  useEffect(() => {
-    if (!apiRef.current) {
-      apiRef.current = new GameAPI();
-    }
-
-    const handler = (players: Player[]) => {
-      setPlayers(players);
-    };
-
-    apiRef.current.onPlayers(handler);
-
-    return () => {
-      apiRef.current?.removePlayersHandler(handler);
-    };
-  }, []);
-
-  const handleKick = (nickname: string) => {
-    if (!apiRef.current) return;
-    if (nickname === currentNickname) return;
-    apiRef.current.sendKickPlayer(nickname);
+  /**
+   * Handles receptions of change in players (e.g. joining / leaving).
+   */
+  const handlePlayers = (players: Player[]) => {
+    setPlayers(players);
   };
 
-  return (
-    <Box className="card-box player-overview">
-      {players.map((player, index) => {
-        const isYou = player.nickname === currentNickname;
+  /**
+   * Handles receptions of change in phase ("lobby", "game", "vote" or "summary").
+   */
+  const handlePhase = (phase: GamePhase) => {
+    setPhase(phase);
+  };
 
-        return (
-          <div
-            key={index}
-            className="d-flex justify-between align-items-center mb-2"
-          >
-            <div className="d-flex align-items-center gap-2">
-              <div
-                className="player-color"
-                style={{ backgroundColor: player.color }}
-              />
-              <div
-                className={`player-name ${isYou ? "you" : ""}`}
-                style={{ color: player.color }}
-              >
-                {player.nickname}
-              </div>
-            </div>
-            {isAdmin && !isYou && (
+  /**
+   * Manually request players when initializing the room and then rely on STOMP for player updates.
+   */
+  useEffect(() => {
+    /**
+     * Request all players of a game room.
+     */
+    const requestPlayers = async () => {
+      try {
+        const response = await apiService.get<Player[]>(
+          `/players/${stompApi.getCode()}`,
+        );
+        setPlayers(response);
+        stompApi.setRoomAdmin(response);
+      } catch (error) {
+        console.error("Failed to fetch players:", error);
+      }
+    };
+
+    /**
+     * Request phase of a game room.
+     */
+    const requestPhase = async () => {
+      try {
+        const response = await apiService.get<{ phase: GamePhase }>(
+          `/phase/${stompApi.getCode()}`,
+        );
+        setPhase(response.phase);
+      } catch (error) {
+        console.error("Failed to fetch phase:", error);
+      }
+    };
+
+    requestPlayers();
+    requestPhase();
+
+    gameApi.onPlayers(handlePlayers);
+    gameApi.onPhase(handlePhase);
+
+    return () => {
+      gameApi.removePlayersHandler(handlePlayers);
+      gameApi.removePhaseHanlder(handlePhase);
+    };
+  }, [apiService, gameApi]);
+
+  const nickname = stompApi.getNickname();
+  const selfPlayer = players.find((p) => p.nickname === nickname);
+  const otherPlayers = players.filter((p) => p.nickname !== nickname);
+
+  /**
+   * Get the action that is displayed besides the profile (none, kick or vote)
+   */
+  const getAction = (player: Player) => {
+    if (!phase || nickname === player.nickname) return null;
+
+    switch (phase) {
+      case GamePhase.LOBBY:
+        if (isRoomAdmin) {
+          return (
+            <div className="action">
               <FaBan
                 className="ban-icon"
                 color={player.color}
-                style={{ cursor: "pointer" }}
-                onClick={() => handleKick(player.nickname)}
+                onClick={() => gameApi.sendKickPlayer(player.nickname)}
               />
-            )}
-          </div>
+            </div>
+          );
+        }
+        return null;
+
+      case GamePhase.GAME:
+        return (
+          <Button
+            onClick={() => gameApi.sendVoteInit({ target: player.nickname })}
+            className="hug"
+          >
+            Vote Out
+          </Button>
         );
-      })}
-    </Box>
+      default:
+        return null;
+    }
+  };
+
+  /**
+   * Get the player card for each player (either the smaller for other players or the bigger for self)
+   */
+  const getProfileCard = (player: Player) => {
+    const isSelf = nickname === player.nickname;
+    const profileClass = isSelf ? "you" : "other";
+    return (
+      <div className={`profile ${profileClass}`}>
+        <div
+          className={`icon ${profileClass}`}
+          style={{ background: player.color }}
+        >
+        </div>
+        <div
+          className={`player ${profileClass}`}
+          style={{ color: player.color }}
+        >
+          <div className="name">{player.nickname}</div>
+          <div className="stats">0 Wins</div>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <Frame className="overview">
+      {selfPlayer && (
+        <div className="profile-card">
+          {getProfileCard(selfPlayer)}
+          {getAction(selfPlayer)}
+        </div>
+      )}
+      <OverflowContainer>
+        {otherPlayers.map((player) => (
+          <div key={player.nickname} className="profile-card">
+            {getProfileCard(player)}
+            {getAction(player)}
+          </div>
+        ))}
+      </OverflowContainer>
+    </Frame>
   );
 };
