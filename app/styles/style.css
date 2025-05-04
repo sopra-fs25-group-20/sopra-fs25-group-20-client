@@ -192,6 +192,8 @@ body.dark {
 
 /* === TOOLTIPS === */
 .tooltip-text {
+  font-weight: 400;
+  font-size: 1rem;
   visibility: hidden;
   border-radius: 0.33rem;
   opacity: 0;
