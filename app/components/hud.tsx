@@ -11,6 +11,7 @@ import { Button } from "./Button";
 import { VerticalFlex } from "./verticalFlex";
 import { useGame } from "@/hooks/useGame";
 import { GamePhase } from "@/types/gamePhase";
+import { Tooltip } from "./Tooltip";
 
 type Props = {
   role: Role;
@@ -116,9 +117,11 @@ export const HUD = ({ role }: Props) => {
               ? "You are the spy!"
               : "You are an innocent!"}
           </Display>
-          <Display className="hug">
-            {timeLeft !== null ? formatTime(timeLeft) : "No Timer"}
-          </Display>
+          <Tooltip tip="Remaining time until the round ends">
+            <Display className="hug">
+              {timeLeft !== null ? formatTime(timeLeft) : "No Timer"}
+            </Display>
+          </Tooltip>
         </div>
         <Button className="hug" onClick={() => setShowHelp((prev) => !prev)}>
           {showHelp ? "Hide Help" : "Show Help"}
