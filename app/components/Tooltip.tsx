@@ -1,18 +1,51 @@
 "use client";
 
-import { cloneElement, ReactElement } from "react";
+import { cloneElement, ReactElement, ReactNode } from "react";
 
 interface TooltipProps {
   tip: string;
   children: ReactElement;
 }
 
-type WithClassName = { className?: string; children?: React.ReactNode };
+const voidHtmlTags = new Set([
+  "area",
+  "base",
+  "br",
+  "col",
+  "embed",
+  "hr",
+  "img",
+  "input",
+  "link",
+  "meta",
+  "param",
+  "source",
+  "track",
+  "wbr",
+]);
+
+type WithClassName = { className?: string; children?: ReactNode };
 
 export const Tooltip = ({ tip, children }: TooltipProps) => {
   const child = children as ReactElement<WithClassName>;
-  return cloneElement(children as ReactElement<WithClassName>, {
-    className: `${child.props.className ?? ""} tooltip-parent`,
+  const isVoidTag = typeof child.type === "string" &&
+    voidHtmlTags.has(child.type);
+  const className = `${child.props.className ?? ""} tooltip-parent`;
+
+  if (isVoidTag) {
+    return (
+      <span
+        className={className}
+        style={{ position: "relative", display: "inline-block" }}
+      >
+        {cloneElement(child)}
+        <span className="tooltip-text">{tip}</span>
+      </span>
+    );
+  }
+
+  return cloneElement(child, {
+    className,
     children: (
       <>
         {child.props.children}
