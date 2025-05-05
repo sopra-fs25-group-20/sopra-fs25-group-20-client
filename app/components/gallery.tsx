@@ -8,14 +8,16 @@ import { Role } from "@/types/role";
 import { HighlightedImage } from "@/types/highlightedImage";
 import { Button } from "./Button";
 import { useGame } from "@/hooks/useGame";
+import { GamePhase } from "@/types/gamePhase";
 
 type Props = {
   role: Role;
   highlightedImage: HighlightedImage;
+  phase: GamePhase;
 };
 
 export const Gallery = (
-  { role, highlightedImage }: Props,
+  { role, highlightedImage, phase }: Props,
 ) => {
   const apiService = useApi();
   const gameApi = useGame();

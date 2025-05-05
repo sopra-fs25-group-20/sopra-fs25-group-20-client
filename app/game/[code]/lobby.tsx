@@ -8,15 +8,12 @@ import { SummaryCard } from "@/components/SummaryCard";
 import { GamePhase } from "@/types/gamePhase";
 import { useTheme } from "@/context/ThemeContext";
 
-
 type Props = {
   phase: GamePhase;
 };
 
 export default function LobbyPage({ phase }: Props) {
   const { toggleTheme } = useTheme();
-
-  
 
   return (
     <div>
