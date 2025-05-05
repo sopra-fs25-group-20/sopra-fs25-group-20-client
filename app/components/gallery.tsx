@@ -9,6 +9,7 @@ import { HighlightedImage } from "@/types/highlightedImage";
 import { Button } from "./Button";
 import { useGame } from "@/hooks/useGame";
 import { GamePhase } from "@/types/gamePhase";
+import { useErrorBar } from "@/context/ErrorBarContext";
 
 type Props = {
   role: Role;
@@ -21,6 +22,7 @@ export const Gallery = (
 ) => {
   const apiService = useApi();
   const gameApi = useGame();
+  const { showError } = useErrorBar();
   const [imageList, setImageList] = useState<(string | null)[]>(
     Array(9).fill(null),
   );
@@ -102,7 +104,11 @@ export const Gallery = (
                     >
                       <Button
                         onClick={() => {
-                          gameApi.sendGuess(index);
+                          if (phase == GamePhase.GAME) {
+                            gameApi.sendGuess(index);
+                          } else {
+                            showError("Cannot guess during voting!", 2000);
+                          }
                         }}
                       >
                         Guess
