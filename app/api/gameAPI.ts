@@ -165,4 +165,10 @@ export class GameAPI {
       h !== callback
     );
   }
+
+  removeSettingsHandler(callback: GameSettingsHandler) {
+    this.gameSettingsHandlers = this.gameSettingsHandlers.filter((h) =>
+      h !== callback
+    );
+  }
 }

@@ -10,6 +10,7 @@ import { Frame } from "./frame";
 import { HorizontalFlex } from "./horizontalFlex";
 import { useIsRoomAdmin } from "@/hooks/isRoomAdmin";
 import { Tooltip } from "./Tooltip";
+import { useApi } from "@/hooks/useApi";
 
 const gameDurations = [60, 120, 180];
 const votingDurations = [15, 30, 45];
@@ -28,6 +29,7 @@ const regionBackendMap = Object.fromEntries(
 
 export const Settings = () => {
   const gameApi = useGame();
+  const apiService = useApi();
   const isRoomAdmin = useIsRoomAdmin();
   const [settings, setSettings] = useState<GameSettings>({
     votingTimer: 15,
@@ -71,8 +73,27 @@ export const Settings = () => {
       setSettings(data);
     };
 
+    /**
+     * Request game settings.
+     */
+    const requestSettings = async () => {
+      try {
+        const response = await apiService.get<GameSettings>(
+          `/settings/${stompApi.getCode()}`,
+        );
+        setSettings(response);
+      } catch (error) {
+        console.error("Failed to fetch settings:", error);
+      }
+    };
+
+    requestSettings();
+
     gameApi.onSettings(handleSettings);
-  }, [gameApi]);
+    return () => {
+      gameApi.removeSettingsHandler(handleSettings);
+    };
+  }, [apiService, gameApi]);
 
   return (
     <Frame className="settings">
