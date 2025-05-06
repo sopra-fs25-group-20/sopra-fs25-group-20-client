@@ -125,3 +125,12 @@ reason).
 
 
 ---
+
+
+
+## Contributions Week 5 - [30.04.2025] to [06.05.2025]
+
+| **Student**        | **Date** | **Link to Commit** | **Description**                 | **Relevance**                       |
+| ------------------ | -------- | ------------------ | ------------------------------- | ----------------------------------- |
+| **@osmanoeztuerk** | 05.05.2025 | [#192](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/192) | Implement REST endpoint to allow logged-in players to update their informationn | Enables secure account updates via PUT /account/{username} in UserController and ties WebSocket sessions to authenticated users. Tests are also implemented. |
+| **@osmanoeztuerk** | 05.05.2025 | [#193](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/193) | Create customized exceptions to show users when they enter invalid inputs | Adds clear, domain-specific exceptions and GlobalExceptionAdvice mappings for better error handling and SonarQube compliance. |
