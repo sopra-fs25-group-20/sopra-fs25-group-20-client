@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { AppHeader } from "@/components/AppHeader";
 import { InputField } from "@/components/InputField";
 import { Frame } from "@/components/frame";
@@ -73,12 +74,12 @@ export default function RegisterPage() {
           )}
           <div className="text-sm text-center mt-1 text-gray-500">
             Already have an account?{" "}
-            <span
-              onClick={() => router.push("/login")}
-              className="text-blue-500 hover:underline cursor-pointer"
+            <Link
+              href="/login"
+              className="text-gray-500 hover:underline cursor-pointer"
             >
               Login
-            </span>
+            </Link>
           </div>
         </Frame>
       </div>
