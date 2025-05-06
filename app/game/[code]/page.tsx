@@ -89,5 +89,7 @@ export default function GamePage() {
   if (role === null || highlightedImage === null) {
     return <div>Waiting for role...</div>;
   }
-  return <PlayPage role={role} highlightedImage={highlightedImage} />;
+  return (
+    <PlayPage role={role} highlightedImage={highlightedImage} phase={phase} />
+  );
 }
