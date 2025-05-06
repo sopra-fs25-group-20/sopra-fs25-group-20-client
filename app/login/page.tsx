@@ -10,7 +10,6 @@ import { useTheme } from "@/context/ThemeContext";
 import { useApi } from "@/hooks/useApi";
 import useLocalStorage from "@/hooks/useLocalStorage";
 
-
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -36,26 +35,27 @@ export default function LoginPage() {
 
       tokenStorage.set(res.token);
       router.push("/profile");
-    } catch (err) {
+    } catch (err: unknown) {
       console.log("Login error:", err);
 
       if (
         typeof err === "object" &&
         err !== null &&
         "status" in err &&
-        typeof (err as any).status === "number"
+        typeof (err as { status?: number }).status === "number"
       ) {
         const status = (err as { status: number }).status;
+        const message = (err as { message?: string }).message;
 
         if (status === 401) {
           setError("Invalid username or password.");
         } else {
-          setError("Login failed.");
+          setError(message || `Error ${status}: Login failed.`);
         }
       } else if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError("Unexpected error occurred.");
+        setError("Unexpected login error.");
       }
     }
   };
