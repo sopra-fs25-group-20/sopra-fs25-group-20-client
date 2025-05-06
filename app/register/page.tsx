@@ -35,15 +35,16 @@ export default function RegisterPage() {
 
       tokenStorage.set(res.token);
       router.push("/profile");
-    } catch (err: any) {
+    } catch (err) {
       console.log("Register error:", err);
 
-      const status = err?.status;
+      const error = err as { status?: number; message?: string };
+      const status = error?.status;
 
       if (status === 409) {
         setError("Username already exists.");
-      } else if (typeof err?.message === "string") {
-        setError(err.message);
+      } else if (typeof error?.message === "string") {
+        setError(error.message);
       } else {
         setError("Registration failed.");
       }
