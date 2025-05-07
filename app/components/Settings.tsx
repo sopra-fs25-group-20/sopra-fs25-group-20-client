@@ -9,6 +9,8 @@ import { Button } from "./Button";
 import { Frame } from "./frame";
 import { HorizontalFlex } from "./horizontalFlex";
 import { useIsRoomAdmin } from "@/hooks/isRoomAdmin";
+import { Tooltip } from "./Tooltip";
+import { useApi } from "@/hooks/useApi";
 
 const gameDurations = [60, 120, 180];
 const votingDurations = [15, 30, 45];
@@ -27,6 +29,7 @@ const regionBackendMap = Object.fromEntries(
 
 export const Settings = () => {
   const gameApi = useGame();
+  const apiService = useApi();
   const isRoomAdmin = useIsRoomAdmin();
   const [settings, setSettings] = useState<GameSettings>({
     votingTimer: 15,
@@ -70,48 +73,84 @@ export const Settings = () => {
       setSettings(data);
     };
 
+    /**
+     * Request game settings.
+     */
+    const requestSettings = async () => {
+      try {
+        const response = await apiService.get<GameSettings>(
+          `/settings/${stompApi.getCode()}`,
+        );
+        setSettings(response);
+      } catch (error) {
+        console.error("Failed to fetch settings:", error);
+      }
+    };
+
+    requestSettings();
+
     gameApi.onSettings(handleSettings);
-  }, [gameApi]);
+    return () => {
+      gameApi.removeSettingsHandler(handleSettings);
+    };
+  }, [apiService, gameApi]);
 
   return (
     <Frame className="settings">
-      <Dropdown
-        label="Region Restrictions"
-        options={Object.values(regionDisplayMap)}
-        value={regionDisplayMap[
-          settings.imageRegion as keyof typeof regionDisplayMap
-        ]}
-        onChange={(value) =>
-          updateSettings(
-            "imageRegion",
-            regionBackendMap[value as keyof typeof regionBackendMap],
-          )}
-        disabled={!isRoomAdmin}
-      />
-      <Dropdown
-        label="Duration Game"
-        options={gameDurations}
-        value={settings.gameTimer}
-        onChange={(value) =>
-          updateSettings("gameTimer", parseInt(value as string))}
-        disabled={!isRoomAdmin}
-      />
-      <Dropdown
-        label="Duration Voting"
-        options={votingDurations}
-        value={settings.votingTimer}
-        onChange={(value) =>
-          updateSettings("votingTimer", parseInt(value as string))}
-        disabled={!isRoomAdmin}
-      />
+      <div className="setting">
+        <Tooltip tip="Restrict the images to the chosen region">
+          <label className="half-button">Region Restrictions:</label>
+        </Tooltip>
+        <Dropdown
+          options={Object.values(regionDisplayMap)}
+          value={regionDisplayMap[
+            settings.imageRegion as keyof typeof regionDisplayMap
+          ]}
+          onChange={(value) =>
+            updateSettings(
+              "imageRegion",
+              regionBackendMap[value as keyof typeof regionBackendMap],
+            )}
+          disabled={!isRoomAdmin}
+        />
+      </div>
+      <div className="setting">
+        <Tooltip tip="Chose the duration of one round">
+          <label className="half-button">Duration Game:</label>
+        </Tooltip>
+        <Dropdown
+          options={gameDurations}
+          value={settings.gameTimer}
+          onChange={(value) =>
+            updateSettings("gameTimer", parseInt(value as string))}
+          disabled={!isRoomAdmin}
+        />
+      </div>
+
+      <div className="setting">
+        <Tooltip tip="Chose the maximum duration allowed to vote out a player">
+          <label className="half-button">Duration Voting:</label>
+        </Tooltip>
+        <Dropdown
+          options={votingDurations}
+          value={settings.votingTimer}
+          onChange={(value) =>
+            updateSettings("votingTimer", parseInt(value as string))}
+          disabled={!isRoomAdmin}
+        />
+      </div>
       <HorizontalFlex gap={15}>
         {isRoomAdmin
           ? (
             <>
-              <Button onClick={handleStartGame}>Start the Game</Button>
-              <Button onClick={handleShareGameCode} className="hug">
-                <FaShareAlt size={18} />
-              </Button>
+              <Tooltip tip="A minimum of 3 players is needed!">
+                <Button onClick={handleStartGame}>Start the Game</Button>
+              </Tooltip>
+              <Tooltip tip="Copy the game code to the clipboard">
+                <Button onClick={handleShareGameCode} className="hug">
+                  <FaShareAlt size={18} />
+                </Button>
+              </Tooltip>
             </>
           )
           : <Button onClick={handleShareGameCode}>Share the Game</Button>}

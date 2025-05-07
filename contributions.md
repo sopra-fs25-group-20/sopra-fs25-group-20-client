@@ -124,8 +124,6 @@ reason).
 | **@osmanoeztuerk** | 22.04.2025 | [#150](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/150) | Add Tests for Image Services                                                  | Implemented new test classes to increase coverages. Especially in the image services.                                                                                                                    |
 | **@osmanoeztuerk** | 23.04.2025 | [#157](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/157) | Refactor Image Fetching                                                       | Image fetching was taking to much time. This problematic behavior has been solved by introducing a new coordinate algorithm with asynchronous fetching. Sonarqube issues are also fixed.                 |
 
----
-
 ## Contributions Week 5 - [30.04.2025] to [06.05.2025]
 
 | **Student**        | **Date**   | **Link to Commit**                                                                 | **Description**                                                                 | **Relevance**                                                                                                                                                |
@@ -142,3 +140,5 @@ reason).
 | **@JMischa** | 04.05.2025 | [#187](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/187) | Implement user entity and user repository | Enables creating a User object in the internal structure |
 | **@JMischa | 05.05.2025 | [#190](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/190) | Implement REST endpoints for account creation and login | Enables User to register and login into their account |
 | **@JMischa | 05.05.2025 | [#191](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/191) | Implement REST endpoint to get user information | Enables to get User information from Service layer |
+
+---

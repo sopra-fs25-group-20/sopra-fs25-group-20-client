@@ -6,6 +6,7 @@
   --inner-box-light: #d9d9d9;
   --text-light: #909090;
   --accent-light: #d9d9d9;
+  --tooltip-light: #0d0d0d;
   --background-dark: #0d0d0d;
   --box-dark: #222222;
   --inner-box-dark: #373737;
@@ -13,6 +14,7 @@
   --accent-dark: #434343;
   --user-color-1: #ff146a;
   --user-color-2: #217852;
+  --tooltip-dark: #ececec;
 }
 
 html,
@@ -66,6 +68,7 @@ body.dark {
   --inner-box-light: var(--inner-box-dark);
   --text-light: var(--text-dark);
   --accent-light: var(--accent-dark);
+  --tooltip-light: var(--tooltip-dark);
 }
 
 /* === CHAT === */
@@ -184,5 +187,50 @@ body.dark {
 }
 
 .image-container.highlight {
-  box-shadow: 0 0 0 0.2rem #ff146a;
+  box-shadow: 0 0 0 0.2rem var(--user-color-1);
+}
+
+/* === TOOLTIPS === */
+.tooltip-text {
+  font-weight: 400;
+  font-size: 1rem;
+  visibility: hidden;
+  border-radius: 0.33rem;
+  opacity: 0;
+  background-color: var(--tooltip-light);
+  color: var(--background-light);
+}
+
+.tooltip-parent:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0.3s;
+}
+
+.disable-hover:hover + .tooltip-text {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transition-delay: 0s !important;
+}
+
+/* === ERROR-BAR === */
+.error-bar {
+  background-color: var(--user-color-1);
+  color: var(--background-light);
+  border-radius: 0 0 0.66rem 0.66rem;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: none;
+}
+
+.fade-in {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+.fade-out {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-10px);
 }
