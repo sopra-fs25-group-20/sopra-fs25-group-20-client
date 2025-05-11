@@ -26,8 +26,7 @@ export const SummaryCard = () => {
       setPlayers(plRes);
       try {
         const blob = await api.get<Blob>(
-          `/image/${room}/${sumRes.highlightedImageIndex}`,
-          false
+          `/image/${room}/${sumRes.highlightedImageIndex}`
         );
         objectUrl = URL.createObjectURL(blob);
         setImageUrl(objectUrl);

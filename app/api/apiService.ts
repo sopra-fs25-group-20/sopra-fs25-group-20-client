@@ -10,19 +10,15 @@ export class ApiService {
   }
 
   // Get default headers
-  private getHeaders(withAuth: boolean): HeadersInit {
+  private getHeaders(): HeadersInit {
     const headers: HeadersInit = {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
     };
-
-    if (withAuth) {
-      const token = globalThis.localStorage.getItem("token");
-      if (token) {
-        headers["Authorization"] = `Bearer ${token.replace(/"/g, "")}`;
-      }
+    const token = localStorage.getItem("token");
+    if (token) {
+      headers["Authorization"] = `Bearer ${token.replace(/"/g, "")}`;
     }
-
     return headers;
   }
 
@@ -31,10 +27,9 @@ export class ApiService {
     method: string,
     endpoint: string,
     data?: unknown,
-    withAuth: boolean = true,
   ): Promise<T> {
     const url = `${this.baseURL}${endpoint}`;
-    const headers = this.getHeaders(withAuth);
+    const headers = this.getHeaders();
 
     const options: RequestInit = {
       method,
@@ -71,27 +66,25 @@ export class ApiService {
     }
   }
 
-  public get<T>(endpoint: string, withAuth: boolean = true): Promise<T> {
-    return this.request("GET", endpoint, undefined, withAuth);
+  public get<T>(endpoint: string): Promise<T> {
+    return this.request("GET", endpoint, undefined);
   }
 
   public post<T>(
     endpoint: string,
     data?: unknown,
-    withAuth: boolean = false,
   ): Promise<T> {
-    return this.request("POST", endpoint, data, withAuth);
+    return this.request("POST", endpoint, data);
   }
 
   public put<T>(
     endpoint: string,
     data: unknown,
-    withAuth: boolean = true,
   ): Promise<T> {
-    return this.request("PUT", endpoint, data, withAuth);
+    return this.request("PUT", endpoint, data);
   }
 
-  public delete<T>(endpoint: string, withAuth: boolean = true): Promise<T> {
-    return this.request("DELETE", endpoint, undefined, withAuth);
+  public delete<T>(endpoint: string): Promise<T> {
+    return this.request("DELETE", endpoint, undefined);
   }
 }

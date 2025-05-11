@@ -102,7 +102,7 @@ export class GameAPI {
   }
 
   sendKickPlayer(nickname: string) {
-    stompApi.send(`/app/player/kick`, JSON.stringify(nickname));
+    stompApi.send(`/app/player/kick`, nickname);
   }
 
   sendGuess(imageId: number) {
