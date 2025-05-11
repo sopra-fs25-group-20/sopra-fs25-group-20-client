@@ -26,7 +26,12 @@ class StompAPI {
   buildBrokerURL(): string {
     const code: string = this.getCode();
     const nickname: string = this.getNickname();
-    return `${getStompBrokerDomain()}?code=${code}&nickname=${nickname}`;
+    const token = localStorage.getItem("token");
+    let url = `${getStompBrokerDomain()}?code=${code}&nickname=${nickname}`;
+    if (token) {
+      url += `&token=${token.replace(/"/g, "")}`;
+    }
+    return url;
   }
 
   buildClient(): Client {
