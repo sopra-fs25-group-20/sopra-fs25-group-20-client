@@ -727,3 +727,67 @@ main,
   padding-left: 1rem;
   margin: 0;
 }
+
+/* === ANIMATIONS === */
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.logo-animated {
+  opacity: 0;
+  animation: fadeInScale 0.8s ease-out 0.1s forwards;
+  background-color: #ececec;
+  padding: 0.5rem;
+  border-radius: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.title-animated {
+  opacity: 0;
+   animation: fadeSlideIn 0.8s ease-out 0.3s forwards;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: clamp(0.8rem, 1.5vw, 2rem);
+  text-align: center;
+  margin: 0.25rem 0 0.5rem;
+}
+
+.animated-button {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.animated-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(255, 20, 100, 0.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-animated,
+  .title-animated {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .animated-button {
+    transition: none;
+  }
+}
