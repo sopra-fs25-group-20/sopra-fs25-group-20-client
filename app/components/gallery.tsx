@@ -45,7 +45,6 @@ export const Gallery = (
           try {
             const blob = await apiService.get<Blob>(
               `/image/${stompApi.getCode()}/${i}`,
-              false,
             );
             newImageList[i] = URL.createObjectURL(blob);
           } catch (err) {
@@ -77,9 +76,8 @@ export const Gallery = (
           return (
             <div
               key={index}
-              className={`image-container ${
-                isInnocentHighlight || isSpySelected ? "highlight" : ""
-              }`}
+              className={`image-container ${isInnocentHighlight || isSpySelected ? "highlight" : ""
+                }`}
             >
               {url && (
                 <>
