@@ -35,7 +35,7 @@ export default function LoginPage() {
 
       tokenStorage.set(res.token);
       router.push("/profile");
-    } catch (err: unknown) {
+    } catch (err) {
       console.log("Login error:", err);
 
       if (
@@ -49,6 +49,8 @@ export default function LoginPage() {
 
         if (status === 401) {
           setError("Invalid username or password.");
+        } else if (status === 400) {
+          setError("Invalid input. Please check your form.");
         } else {
           setError(message || `Error ${status}: Login failed.`);
         }

@@ -38,15 +38,26 @@ export default function RegisterPage() {
     } catch (err) {
       console.log("Register error:", err);
 
-      const error = err as { status?: number; message?: string };
-      const status = error?.status;
+      if (
+        typeof err === "object" &&
+        err !== null &&
+        "status" in err &&
+        typeof (err as { status?: number }).status === "number"
+      ) {
+        const status = (err as { status: number }).status;
+        const message = (err as { message?: string }).message;
 
-      if (status === 409) {
-        setError("Username already exists.");
-      } else if (typeof error?.message === "string") {
-        setError(error.message);
+        if (status === 409) {
+          setError("Username already exists.");
+        } else if (status === 400) {
+          setError("Invalid input. Please check your form.");
+        } else {
+          setError(message || `Error ${status}: Registration failed.`);
+        }
+      } else if (err instanceof Error) {
+        setError(err.message);
       } else {
-        setError("Registration failed.");
+        setError("Unexpected registration error.");
       }
     }
   };
