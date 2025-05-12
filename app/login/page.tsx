@@ -3,12 +3,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { AppHeader } from "@/components/AppHeader";
-import { InputField } from "@/components/InputField";
 import { Frame } from "@/components/frame";
-import { Button } from "@/components/Button";
 import { useTheme } from "@/context/ThemeContext";
 import { useApi } from "@/hooks/useApi";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import AuthForm from "@/components/AuthForm";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -36,8 +35,6 @@ export default function LoginPage() {
       tokenStorage.set(res.token);
       router.push("/profile");
     } catch (err) {
-      console.log("Login error:", err);
-
       if (
         typeof err === "object" &&
         err !== null &&
@@ -67,32 +64,27 @@ export default function LoginPage() {
       <div className="landing-page">
         <AppHeader onToggleTheme={toggleTheme} />
         <Frame>
-          <InputField
-            placeholder="Username"
-            value={username}
-            onChange={setUsername}
+          <AuthForm
+            title="Login"
+            onSubmit={handleLogin}
+            username={username}
+            setUsername={setUsername}
+            password={password}
+            setPassword={setPassword}
+            error={error}
+            buttonLabel="Login"
+            footer={
+              <>
+                Don't have an account?{" "}
+                <Link
+                  href="/register"
+                  className="text-gray-500 hover:underline cursor-pointer"
+                >
+                  Register
+                </Link>
+              </>
+            }
           />
-          <InputField
-            placeholder="Password"
-            type="password"
-            value={password}
-            onChange={setPassword}
-          />
-          <Button onClick={handleLogin} className="mb-2">
-            Login
-          </Button>
-          {error && (
-            <div className="text-red-500 text-sm text-center">{error}</div>
-          )}
-          <div className="text-sm text-center mt-1 text-gray-500">
-            Don&apos;t have an account?{" "}
-            <Link
-              href="/register"
-              className="text-gray-500 hover:underline cursor-pointer"
-            >
-              Register
-            </Link>
-          </div>
         </Frame>
       </div>
     </div>
