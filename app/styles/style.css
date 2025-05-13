@@ -234,3 +234,29 @@ body.dark {
   opacity: 0;
   transform: translateX(-50%) translateY(-10px);
 }
+
+/* === PROFILE === */
+.profileFrame .logo {
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: 0.625rem;
+  background: var(--user-color-1);
+}
+
+.profileFrame .name {
+  font-weight: 800;
+  font-size: 2rem;
+  color: var(--user-color-1);
+}
+
+.profileFrame .wins {
+  color: var(--user-color-1);
+}
+
+.statistics.entry .title {
+  color: var(--text-light);
+}
+
+.statistics.entry .value {
+  color: var(--user-color-1);
+}
