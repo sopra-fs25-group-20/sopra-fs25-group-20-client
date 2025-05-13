@@ -151,5 +151,7 @@ reason).
 | ------------------ | ---------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **@agravlin** | 12.05.2025 | [#194](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/194) | Implement Game and Voting timers | Improves the game logic by scheduling and enforcing timeouts for game rounds and voting phases |
 | **@agravlin** | 12.05.2025 | [#194](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/194) | Save the results to the logged in players' account in the summary phase | Persists various statistics including wins, defeats, games played, and streak data to user accounts at the end of each round. |
+| **@osmanoeztuerk** | 13.05.2025 | [#194](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/194/commits/a78e7c628db51c058eb6518e03239900f0c9c9b9) | Test compile errors are fixed  | There were compile errors at the code. These errors were fixed. |
+| **@osmanoeztuerk** | 13.05.2025 | [#194](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/194/commits/28732cbb2a416fe002d73647ab37ad58970dcd16) | Test runtime errors are fixed  | After the new implementations, there were runtime errors at the code. These errors were fixed. |
 
 ---
