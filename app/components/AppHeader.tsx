@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, usePathname  } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { FaGithub, FaMoon, FaUser } from "react-icons/fa";
 import { HiArrowRight } from "react-icons/hi";
+import { FiLogOut } from "react-icons/fi";
 
 interface AppHeaderProps {
   showLogin?: boolean;
@@ -19,7 +20,31 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    setToken(localStorage.getItem("token"));
+    const storedToken = localStorage.getItem("token");
+    const username = localStorage.getItem("username");
+
+    if (storedToken && username) {
+      fetch("/account/validate", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+        },
+      })
+        .then((res) => {
+          if (res.status === 401) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("username");
+            setToken(null);
+          } else {
+            setToken(storedToken);
+          }
+        })
+        .catch(() => {
+          localStorage.removeItem("token");
+          localStorage.removeItem("username");
+          setToken(null);
+        });
+    }
   }, []);
 
   const isGameCodePage = pathname.startsWith("/game/");
@@ -30,7 +55,13 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
   const handleProfile = () =>
     isGameCodePage ? window.open("/profile", "_blank") : router.push("/profile");
 
-  
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    setToken(null);
+    router.push("/login");
+  };
+
   return (
     <header className="app-header">
       {!token && showLogin && (
@@ -42,13 +73,22 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
         </button>
       )}
       {token && (
-        <button
-          onClick={handleProfile}
-          className="app-header-button d-flex align-items-center gap-2"
-        >
-          <FaUser size={18} />
-          <span>Profile</span>
-        </button>
+        <>
+          <button
+            onClick={handleProfile}
+            className="app-header-button d-flex align-items-center gap-2"
+          >
+            <FaUser size={18} />
+            <span>Profile</span>
+          </button>
+          <button
+            onClick={handleLogout}
+            className="app-header-button d-flex align-items-center gap-2"
+          >
+            <FiLogOut size={18} />
+            Logout
+          </button>
+        </>
       )}
       {onToggleTheme && (
         <button onClick={onToggleTheme} className="app-header-button">

@@ -47,6 +47,7 @@ export function createAuthPage({
         });
 
         tokenStorage.set(res.token);
+        localStorage.setItem("username", username)
         router.push(successRedirect);
       } catch (err) {
         if (
