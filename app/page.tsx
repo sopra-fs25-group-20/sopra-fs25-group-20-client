@@ -23,7 +23,7 @@ export default function LandingPage() {
         <AppHeader  onToggleTheme={toggleTheme}  />
         <Frame>
           <img
-            src="/logo1.png"
+            src="logo1.png"
             alt="Game Logo"
             className="logo-animated"
             style={{ width: "10rem", marginBottom: "0.5rem" }}
