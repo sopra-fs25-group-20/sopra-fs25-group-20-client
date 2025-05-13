@@ -153,5 +153,10 @@ reason).
 | **@agravlin** | 12.05.2025 | [#194](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/194) | Save the results to the logged in players' account in the summary phase | Persists various statistics including wins, defeats, games played, and streak data to user accounts at the end of each round. |
 | **@osmanoeztuerk** | 13.05.2025 | [#194](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/194/commits/a78e7c628db51c058eb6518e03239900f0c9c9b9) | Test compile errors are fixed  | There were compile errors at the code. These errors were fixed. |
 | **@osmanoeztuerk** | 13.05.2025 | [#194](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-server/pull/194/commits/28732cbb2a416fe002d73647ab37ad58970dcd16) | Test runtime errors are fixed  | After the new implementations, there were runtime errors at the code. These errors were fixed. |
+| **@baranozgurtas** | 11.05.2025 | [#124](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/124) | Refactor landing page with logo, register, and join-as-guest button functionality | Improves user experience and navigation through a clearer landing interface. |
+| **@baranozgurtas** | 11.05.2025 | [#127](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/127) |Implement conditional rendering in AppHeader | Makes header responsive to login state and route context, improving navigation logic. |
+| **@baranozgurtas** | 13.05.2025 | [#130](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/130) |Improve error handling in login and registration pages | Improves handling invalid inputs and failed authentications. |
+| **@baranozgurtas** | 13.05.2025 | [#135](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/pull/135) |Persist username in localStorage and validate token on app load	| Enables session persistence by storing the username and validating the token on every app load. |
+
 
 ---
