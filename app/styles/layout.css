@@ -30,6 +30,14 @@ main,
   align-self: stretch;
 }
 
+.frame.profile {
+  align-items: flex-start;
+}
+
+.frame.statistics {
+  gap: 0.5rem;
+}
+
 /* places frames (.frame) vertically on top of each other */
 .vertical-flex {
   display: flex;
@@ -495,6 +503,33 @@ main,
   z-index: 9999;
 }
 
+/* === PROFILE === */
+.profileFrame {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.profileFrame .logo {
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: 0.625rem;
+}
+
+.profileFrame .info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.statistics.entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+}
+
 /* === RESPONSIVE DESIGN === */
 
 @media (max-width: 1024px) {
@@ -762,7 +797,7 @@ main,
 
 .title-animated {
   opacity: 0;
-   animation: fadeSlideIn 0.8s ease-out 0.3s forwards;
+  animation: fadeSlideIn 0.8s ease-out 0.3s forwards;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
