@@ -9,6 +9,7 @@ import { OverflowContainer } from "./overflowContainer";
 import { useApi } from "@/hooks/useApi";
 import { Button } from "./Button";
 import { useIsRoomAdmin } from "@/hooks/isRoomAdmin";
+import { ClickablePlayerName } from "./clickablePlayerName";
 
 export const PlayerOverview = () => {
   const gameApi = useGame();
@@ -132,7 +133,7 @@ export const PlayerOverview = () => {
           className={`player ${profileClass}`}
           style={{ color: player.color }}
         >
-          <div className="name">{player.nickname}</div>
+          <ClickablePlayerName className="name" player={player}></ClickablePlayerName>
           <div className="stats">0 Wins</div>
         </div>
       </div>
