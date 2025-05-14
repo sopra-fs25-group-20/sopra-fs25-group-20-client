@@ -5,6 +5,8 @@ import { useRouter, usePathname } from "next/navigation";
 import { FaGithub, FaMoon, FaUser } from "react-icons/fa";
 import { HiArrowRight } from "react-icons/hi";
 import { FiLogOut } from "react-icons/fi";
+import { useApi } from "@/hooks/useApi";
+import { Account } from "@/types/account";
 
 interface AppHeaderProps {
   showLogin?: boolean;
@@ -17,35 +19,32 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
 }) => {
   const router = useRouter();
   const pathname = usePathname();
+  const apiService = useApi();
+
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    const username = localStorage.getItem("username");
+    if (typeof window === "undefined") return;
 
-    if (storedToken && username) {
-      fetch("/account/validate", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${storedToken}`,
-        },
-      })
-        .then((res) => {
-          if (res.status === 401) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("username");
-            setToken(null);
-          } else {
-            setToken(storedToken);
-          }
-        })
-        .catch(() => {
-          localStorage.removeItem("token");
-          localStorage.removeItem("username");
-          setToken(null);
-        });
+    const localToken = localStorage.getItem("token");
+    const localUsername = localStorage.getItem("username");
+
+    setToken(localToken);
+
+    const validate = async () => {
+      try {
+        await apiService.get<Account>("/account/validate");
+      } catch {
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        setToken(null);
+      }
+    };
+
+    if (localToken && localUsername) {
+      validate();
     }
-  }, []);
+  }, [apiService]);
 
   const isGameCodePage = pathname.startsWith("/game/");
 
