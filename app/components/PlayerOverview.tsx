@@ -104,6 +104,7 @@ export const PlayerOverview = () => {
 
     switch (phase) {
       case GamePhase.LOBBY:
+      case GamePhase.SUMMARY:
         if (isRoomAdmin) {
           return (
             <div className="action">
