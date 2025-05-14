@@ -45,6 +45,10 @@ body {
   font-weight: 600;
 }
 
+.button:hover {
+  filter: brightness(95%);
+}
+
 .display {
   background-color: var(--box-light);
   border: none;
