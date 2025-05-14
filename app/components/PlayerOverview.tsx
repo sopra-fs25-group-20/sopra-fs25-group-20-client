@@ -1,3 +1,4 @@
+"use client";
 import { stompApi } from "@/api/stompApi";
 import { useGame } from "@/hooks/useGame";
 import { GamePhase } from "@/types/gamePhase";
@@ -10,11 +11,13 @@ import { useApi } from "@/hooks/useApi";
 import { Button } from "./Button";
 import { useIsRoomAdmin } from "@/hooks/isRoomAdmin";
 import { ClickablePlayerName } from "./clickablePlayerName";
+import { useRouter } from "next/navigation";
 
 export const PlayerOverview = () => {
   const gameApi = useGame();
   const apiService = useApi();
   const isRoomAdmin = useIsRoomAdmin();
+  const router = useRouter();
   const [phase, setPhase] = useState<GamePhase | null>(null);
   const [players, setPlayers] = useState<Player[]>([]);
 
@@ -77,6 +80,18 @@ export const PlayerOverview = () => {
     };
   }, [apiService, gameApi]);
 
+  /**
+   * If you are not present, it means you have been kicked. Route back to '/'
+   */
+  useEffect(() => {
+    if (!players.length) return;
+    const nickname = stompApi.getNickname();
+    const isPresent = players.some((player) => player.nickname === nickname);
+    if (!isPresent) {
+      router.push("/");
+    }
+  }, [players, router]);
+
   const nickname = stompApi.getNickname();
   const selfPlayer = players.find((p) => p.nickname === nickname);
   const otherPlayers = players.filter((p) => p.nickname !== nickname);
@@ -133,7 +148,8 @@ export const PlayerOverview = () => {
           className={`player ${profileClass}`}
           style={{ color: player.color }}
         >
-          <ClickablePlayerName className="name" player={player}></ClickablePlayerName>
+          <ClickablePlayerName className="name" player={player}>
+          </ClickablePlayerName>
           <div className="stats">0 Wins</div>
         </div>
       </div>
