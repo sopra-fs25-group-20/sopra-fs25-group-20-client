@@ -12,8 +12,8 @@ import { useIsRoomAdmin } from "@/hooks/isRoomAdmin";
 import { Tooltip } from "./Tooltip";
 import { useApi } from "@/hooks/useApi";
 
-const gameDurations = [60, 120, 180];
-const votingDurations = [15, 30, 45];
+const gameDurations = [120, 300, 600];
+const votingDurations = [10, 20, 30];
 
 const regionDisplayMap = {
   europe: "Europe",
@@ -32,8 +32,8 @@ export const Settings = () => {
   const apiService = useApi();
   const isRoomAdmin = useIsRoomAdmin();
   const [settings, setSettings] = useState<GameSettings>({
-    votingTimer: 15,
-    gameTimer: 60,
+    votingTimer: 30,
+    gameTimer: 300,
     imageCount: 9,
     imageRegion: "europe",
   });
