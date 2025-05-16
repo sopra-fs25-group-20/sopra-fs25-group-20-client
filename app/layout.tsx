@@ -9,6 +9,10 @@ import { ErrorBarProvider } from "./context/ErrorBarContext";
 export const metadata: Metadata = {
   title: "SpyQuest",
   description: "sopra-fs25-template-client",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon-32x32.png",
+  }
 };
 
 export default function RootLayout({
