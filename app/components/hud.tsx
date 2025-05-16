@@ -113,9 +113,11 @@ export const HUD = ({ role }: Props) => {
       <HorizontalFlex>
         <div className="hud">
           <Display className="hug">
-            {role.playerRole === "spy"
-              ? "You are the spy!"
-              : "You are an innocent!"}
+          {role.playerRole === "spy" ? (
+            <>You are the <span style={{ color: "#f87171" }}>spy</span>!</>
+          ) : (
+            <>You are an <span style={{ color: "limegreen" }}>innocent</span>!</>
+          )}
           </Display>
           <Tooltip tip="Remaining time until the round ends">
             <Display className="hug">
