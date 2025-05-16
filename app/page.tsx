@@ -23,12 +23,12 @@ export default function LandingPage() {
         <AppHeader  onToggleTheme={toggleTheme}  />
         <Frame>
           <img
-            src="logo1.png"
+            src="SpyQuest_transparent.png"
             alt="Game Logo"
             className="logo-animated"
             style={{ width: "10rem", marginBottom: "0.5rem" }}
           />
-          <h1 className="title-animated">WELCOME TO SPYQUEST</h1>
+          <h1 className="title-animated">Welcome To SpyQuest</h1>
           <Button onClick={handleRegister} className="animated-button">Register</Button>
           <Button onClick={handlePlayAsGuest} className="animated-button">Play as guest</Button>
           
