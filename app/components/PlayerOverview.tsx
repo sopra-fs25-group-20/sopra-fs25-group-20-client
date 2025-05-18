@@ -12,6 +12,8 @@ import { Button } from "./Button";
 import { useIsRoomAdmin } from "@/hooks/isRoomAdmin";
 import { ClickablePlayerName } from "./clickablePlayerName";
 import { useRouter } from "next/navigation";
+import { usePlayersStore } from "@/hooks/usePlayersStore";
+
 
 export const PlayerOverview = () => {
   const gameApi = useGame();
@@ -20,6 +22,8 @@ export const PlayerOverview = () => {
   const router = useRouter();
   const [phase, setPhase] = useState<GamePhase | null>(null);
   const [players, setPlayers] = useState<Player[]>([]);
+  const { setPlayers: setGlobalPlayers } = usePlayersStore();
+
 
   /**
    * Handles receptions of change in players (e.g. joining / leaving).
@@ -48,6 +52,7 @@ export const PlayerOverview = () => {
           `/players/${stompApi.getCode()}`,
         );
         setPlayers(response);
+        setGlobalPlayers(response);   
         stompApi.setRoomAdmin(response);
       } catch (error) {
         console.error("Failed to fetch players:", error);
