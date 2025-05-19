@@ -9,7 +9,9 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const ThemeProvider: React.FC<{ children: React.ReactNode }> = (
+  { children },
+) => {
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
@@ -23,7 +25,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, [darkMode]);
 
   return (
-    <ThemeContext.Provider value={{ darkMode, toggleTheme: () => setDarkMode((prev) => !prev) }}>
+    <ThemeContext.Provider
+      value={{ darkMode, toggleTheme: () => setDarkMode((prev) => !prev) }}
+    >
       {children}
     </ThemeContext.Provider>
   );

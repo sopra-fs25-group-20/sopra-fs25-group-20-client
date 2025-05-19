@@ -3,8 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "@/styles/style.css";
 import "@/styles/layout.css";
-import { ThemeProvider } from "@/context/ThemeContext";
-import { ErrorBarProvider } from "./context/ErrorBarContext";
+import ClientLayout from "./clientLayout";
 
 export const metadata: Metadata = {
   title: "SpyQuest",
@@ -17,17 +16,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body>
-        <ThemeProvider>
-          <ErrorBarProvider>
-            {children}
-          </ErrorBarProvider>
-        </ThemeProvider>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
