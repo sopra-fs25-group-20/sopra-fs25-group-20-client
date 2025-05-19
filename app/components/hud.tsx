@@ -119,7 +119,7 @@ export const HUD = ({ role }: Props) => {
               </div>
             ) : (
               <div className="text">
-                You are an <span style={{ color: "limegreen" }}>innocent</span>!
+                You are an <span style={{ color: "limegreen" }}>innocent</span> !
               </div>
             )}
           </Display>
