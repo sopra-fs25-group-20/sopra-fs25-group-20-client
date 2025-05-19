@@ -4,13 +4,11 @@ import { useEffect, useState } from "react";
 import { useApi } from "@/hooks/useApi";
 import { stompApi } from "@/api/stompApi";
 import { Summary } from "@/types/summary";
-import { Player } from "@/types/player";
 import { OverflowContainer } from "./overflowContainer";
 
 export const SummaryCard = () => {
   const api = useApi();
   const [summary, setSummary] = useState<Summary | null>(null);
-  const [players, setPlayers] = useState<Player[]>([]);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
@@ -18,12 +16,8 @@ export const SummaryCard = () => {
 
     const load = async () => {
       const room = stompApi.getCode();
-      const [sumRes, plRes] = await Promise.all([
-        api.get<Summary>(`/game/result/${room}`),
-        api.get<Player[]>(`/players/${room}`)
-      ]);
+      const sumRes = await api.get<Summary>(`/game/result/${room}`);
       setSummary(sumRes);
-      setPlayers(plRes);
       try {
         const blob = await api.get<Blob>(
           `/image/${room}/${sumRes.highlightedImageIndex}`
@@ -42,20 +36,19 @@ export const SummaryCard = () => {
   }, [api]);
 
   const roles = summary?.roles ?? {};
+  const colors = summary?.colors ?? {};
   const spyNick = Object.keys(roles).find((n) => roles[n] === "SPY") ?? "";
   const innocentNicks = Object.keys(roles).filter((n) => roles[n] === "INNOCENT");
 
-  const spyPlayer = players.find((p) => p.nickname === spyNick);
-  const innocentPlayers = innocentNicks
-    .map((n) => players.find((p) => p.nickname === n))
-    .filter((p): p is Player => Boolean(p));
+  const spyPlayer = spyNick ? { nickname: spyNick, color: colors[spyNick] } : null;
+  const innocentPlayers = innocentNicks.map((n) => ({ nickname: n, color: colors[n] }));
 
-  const ProfileRow = ({ p }: { p: Player }) => (
+  const ProfileRow = ({ nickname, color }: { nickname: string; color: string }) => (
     <div className="profile-card">
       <div className="profile other">
-        <div className="icon other" style={{ background: p.color }} />
-        <div className="player other" style={{ color: p.color }}>
-          <div className="name">{p.nickname}</div>
+        <div className="icon other" style={{ background: color }} />
+        <div className="player other" style={{ color }}>
+          <div className="name">{nickname}</div>
         </div>
       </div>
     </div>
@@ -83,14 +76,14 @@ export const SummaryCard = () => {
       <div className="summary-roles">
         <div>
           <strong>The Spy:</strong>
-          {spyPlayer && <ProfileRow p={spyPlayer} />}
+          {spyPlayer && <ProfileRow {...spyPlayer} />}
         </div>
 
         <div>
           <strong>The Innocents:</strong>
           <OverflowContainer>
             {innocentPlayers.map((p) => (
-              <ProfileRow key={p.nickname} p={p} />
+              <ProfileRow key={p.nickname} {...p} />
             ))}
           </OverflowContainer>
         </div>
@@ -98,4 +91,3 @@ export const SummaryCard = () => {
     </div>
   );
 };
-
