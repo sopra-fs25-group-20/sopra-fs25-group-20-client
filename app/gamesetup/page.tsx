@@ -43,6 +43,12 @@ export default function Home() {
         nickname: nickname.trim(),
         code: code.trim(),
       });
+      const response = await apiService.get<{ phase: string}>(`/phase/${code.trim()}`);
+      const gamePhase = response.phase;
+      if (gamePhase === "game" || gamePhase === "vote") {
+        setError(`Can not join game room: ${code.trim()} in game phase`)
+        return;
+      } 
       stompApi.setCode(code);
       stompApi.setNickname(nickname);
       router.push(`/game/${code.trim()}`);
