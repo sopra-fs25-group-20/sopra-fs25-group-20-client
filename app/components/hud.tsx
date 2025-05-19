@@ -46,7 +46,7 @@ export const HUD = ({ role }: Props) => {
     const requestTimer = async () => {
       try {
         const response = await apiService.get<GameSettings>(
-          `/settings/${stompApi.getCode()}`,
+          `/settings/${stompApi.getCode()}`
         );
         setTimeLeft(response.gameTimer);
       } catch (error) {
@@ -57,7 +57,7 @@ export const HUD = ({ role }: Props) => {
     const requestPhase = async () => {
       try {
         const response = await apiService.get<{ phase: GamePhase }>(
-          `/phase/${stompApi.getCode()}`,
+          `/phase/${stompApi.getCode()}`
         );
         setPhase(response.phase);
       } catch (error) {
@@ -113,11 +113,15 @@ export const HUD = ({ role }: Props) => {
       <HorizontalFlex>
         <div className="hud">
           <Display className="hug">
-          {role.playerRole === "spy" ? (
-            <>You are the <span style={{ color: "#f87171" }}>spy</span>!</>
-          ) : (
-            <>You are an <span style={{ color: "limegreen" }}>innocent</span>!</>
-          )}
+            {role.playerRole === "spy" ? (
+              <div className="text">
+                You are the <span style={{ color: "#f87171" }}>spy</span> !
+              </div>
+            ) : (
+              <div className="text">
+                You are an <span style={{ color: "limegreen" }}>innocent</span>!
+              </div>
+            )}
           </Display>
           <Tooltip tip="Remaining time until the round ends">
             <Display className="hug">

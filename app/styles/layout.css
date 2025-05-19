@@ -85,6 +85,10 @@ main,
   padding: 0 2rem;
 }
 
+.display.hug .text {
+  gap: 0;
+}
+
 /* === LOBBY === */
 
 .lobby {
