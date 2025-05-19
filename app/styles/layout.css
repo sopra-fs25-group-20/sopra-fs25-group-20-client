@@ -11,10 +11,13 @@ main,
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 /* the grey, rounded frame used for every component */
 .frame {
+  height: 100%;
+  width: 100%;
   display: flex;
   padding: 2rem;
   flex-direction: column;
@@ -40,21 +43,22 @@ main,
 
 /* places frames (.frame) vertically on top of each other */
 .vertical-flex {
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: stretch;
-  flex: 1;
   gap: 2rem;
   align-self: stretch;
 }
 
 .vertical-flex.hug {
+  height: auto;
   flex: 0 0 auto;
-  align-self: stretch;
 }
 
 .horizontal-flex {
+  width: 100%;
   display: flex;
   min-height: 2rem;
   justify-content: space-between;
@@ -89,17 +93,19 @@ main,
 
 .lobby {
   display: flex;
-  min-height: 34.6rem;
+  height: 50rem;
+  width: 50rem;
   justify-content: center;
   align-items: center;
   gap: 2rem;
+  flex-shrink: 0;
 }
 
 /* === LANDING PAGE === */
 
 .landing-page {
   display: flex;
-  width: 23.3rem;
+  width: 24rem;
   justify-content: center;
   align-items: center;
   gap: 2rem;
@@ -125,6 +131,8 @@ main,
 }
 
 .overflow-container {
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -288,189 +296,6 @@ main,
   object-fit: cover;
 }
 
-/* === RESPONSIVE DESIGN === */
-
-@media (max-width: 1024px) {
-  .lobby {
-    width: 100%;
-    max-width: 90%;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .landing-page {
-    width: 90%;
-    gap: 1.5rem;
-  }
-
-  .frame {
-    padding: 1.5rem;
-  }
-
-  .app-header {
-    top: 1rem;
-    right: 1rem;
-    flex-wrap: wrap;
-  }
-}
-
-@media (max-width: 768px) {
-  .horizontal-flex {
-    flex-direction: column;
-    height: auto;
-    gap: 1rem;
-  }
-
-  .chat {
-    padding: 1rem;
-  }
-
-  .chat-input {
-    position: relative;
-    flex-direction: row;
-    align-items: center;
-    height: auto;
-    gap: 0;
-    padding-right: 2.5rem;
-  }
-
-  .chat-input input {
-    width: 100%;
-    padding-right: 2.5rem;
-  }
-
-  .chat-send-button {
-    position: absolute;
-    right: 0.75rem;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  .dropdown {
-    width: 100%;
-  }
-
-  .button {
-    flex: 1 1 100%;
-    height: auto;
-    font-size: 1rem;
-  }
-
-  .app-header {
-    position: relative;
-    top: auto;
-    right: auto;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
-  }
-
-  .app-header-button {
-    font-size: 1rem;
-    padding: 0.5rem;
-    min-width: 2.75rem;
-    min-height: 2.75rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .profile-card {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .profile-card .profile {
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5rem;
-    display: flex;
-  }
-
-  .profile-card .profile .icon.you,
-  .profile-card .profile .icon.other {
-    width: 3rem;
-    height: 3rem;
-  }
-
-  .profile-card .profile .player.you .name,
-  .profile-card .profile .player.other .name {
-    font-size: 1.2rem;
-  }
-
-  .profile-card .profile .player.you .stats,
-  .profile-card .profile .player.other .stats {
-    font-size: 0.8rem;
-  }
-
-  .profile-card .action {
-    margin-left: auto;
-  }
-
-  .image-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .app-header {
-    position: relative;
-    top: auto;
-    right: auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .app-header-button {
-    padding: 0.25rem 0.5rem;
-    min-width: auto;
-    min-height: auto;
-    font-size: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .app-header-button svg {
-    width: 1.2rem;
-    height: 1.2rem;
-  }
-
-  .chat-input {
-    flex-direction: row;
-    gap: 0;
-    align-items: center;
-    position: relative;
-    padding-right: 2.5rem;
-  }
-
-  .chat-input input {
-    width: 100%;
-    padding-right: 2.5rem;
-  }
-
-  .chat-send-button {
-    position: absolute;
-    right: 0.75rem;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  .dropdown {
-    font-size: 0.9rem;
-    padding: 0.25rem 0.5rem;
-  }
-
-  .button {
-    font-size: 1rem;
-  }
-}
-
 /* === TOOLTIPS === */
 .tooltip-parent {
   position: relative;
@@ -528,189 +353,6 @@ main,
   justify-content: space-between;
   align-items: center;
   align-self: stretch;
-}
-
-/* === RESPONSIVE DESIGN === */
-
-@media (max-width: 1024px) {
-  .lobby {
-    width: 100%;
-    max-width: 90%;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .landing-page {
-    width: 90%;
-    gap: 1.5rem;
-  }
-
-  .frame {
-    padding: 1.5rem;
-  }
-
-  .app-header {
-    top: 1rem;
-    right: 1rem;
-    flex-wrap: wrap;
-  }
-}
-
-@media (max-width: 768px) {
-  .horizontal-flex {
-    flex-direction: column;
-    height: auto;
-    gap: 1rem;
-  }
-
-  .chat {
-    padding: 1rem;
-  }
-
-  .chat-input {
-    position: relative;
-    flex-direction: row;
-    align-items: center;
-    height: auto;
-    gap: 0;
-    padding-right: 2.5rem;
-  }
-
-  .chat-input input {
-    width: 100%;
-    padding-right: 2.5rem;
-  }
-
-  .chat-send-button {
-    position: absolute;
-    right: 0.75rem;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  .dropdown {
-    width: 100%;
-  }
-
-  .button {
-    flex: 1 1 100%;
-    height: auto;
-    font-size: 1rem;
-  }
-
-  .app-header {
-    position: relative;
-    top: auto;
-    right: auto;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
-  }
-
-  .app-header-button {
-    font-size: 1rem;
-    padding: 0.5rem;
-    min-width: 2.75rem;
-    min-height: 2.75rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .profile-card {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .profile-card .profile {
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5rem;
-    display: flex;
-  }
-
-  .profile-card .profile .icon.you,
-  .profile-card .profile .icon.other {
-    width: 3rem;
-    height: 3rem;
-  }
-
-  .profile-card .profile .player.you .name,
-  .profile-card .profile .player.other .name {
-    font-size: 1.2rem;
-  }
-
-  .profile-card .profile .player.you .stats,
-  .profile-card .profile .player.other .stats {
-    font-size: 0.8rem;
-  }
-
-  .profile-card .action {
-    margin-left: auto;
-  }
-
-  .image-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .app-header {
-    position: relative;
-    top: auto;
-    right: auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .app-header-button {
-    padding: 0.25rem 0.5rem;
-    min-width: auto;
-    min-height: auto;
-    font-size: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .app-header-button svg {
-    width: 1.2rem;
-    height: 1.2rem;
-  }
-
-  .chat-input {
-    flex-direction: row;
-    gap: 0;
-    align-items: center;
-    position: relative;
-    padding-right: 2.5rem;
-  }
-
-  .chat-input input {
-    width: 100%;
-    padding-right: 2.5rem;
-  }
-
-  .chat-send-button {
-    position: absolute;
-    right: 0.75rem;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  .dropdown {
-    font-size: 0.9rem;
-    padding: 0.25rem 0.5rem;
-  }
-
-  .button {
-    font-size: 1rem;
-  }
 }
 
 .summary-card {
@@ -827,16 +469,6 @@ main,
   }
 }
 
-.lobby .overflow-container {
-  max-height: 28rem;
-  overflow-y: auto; 
-}
-
-.play-page .overflow-container {
-  max-height: 14rem;
-  overflow-y: auto;
-}
-
 .mention-item {
   padding: 0.3rem 0.5rem;
   cursor: pointer;
@@ -863,4 +495,15 @@ main,
   border-radius: 0.33rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 9999 !important;
+}
+
+.frame.chat,
+.vertical-flex,
+.overflow-container {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.overflow-container {
+  overflow-y: auto;
 }
