@@ -7,7 +7,6 @@ import { ThemeProvider } from "@/context/ThemeContext";
 export default function ClientLayout(
   { children }: { children: React.ReactNode },
 ) {
-  console.log("ClientLayout rendered");
   return (
     <ThemeProvider>
       <ErrorBarProvider>
