@@ -6,6 +6,7 @@ import AuthForm from "@/components/AuthForm";
 import { useApi } from "@/hooks/useApi";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 
 export function createAuthPage({
   title,
@@ -27,6 +28,7 @@ export function createAuthPage({
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const router = useRouter();
+    const { setToken } = useAuth();
     const { toggleTheme } = useTheme();
     const api = useApi();
 
@@ -44,8 +46,8 @@ export function createAuthPage({
           password,
         });
 
-        localStorage.setItem("token", res.token);
-        localStorage.setItem("username", username)
+        setToken(res.token);
+        localStorage.setItem("username", username);
         router.push(successRedirect);
       } catch (err) {
         if (

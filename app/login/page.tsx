@@ -8,7 +8,9 @@ function Login() {
   const router = useRouter();
 
   useEffect(() => {
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    const token = typeof window !== "undefined"
+      ? localStorage.getItem("token")
+      : null;
     if (token) {
       router.replace("/profile");
     }
@@ -26,7 +28,10 @@ function Login() {
     footer: (
       <>
         Don&apos;t have an account?{" "}
-        <Link href="/register" className="text-gray-500 hover:underline cursor-pointer">
+        <Link
+          href="/register"
+          className="text-gray-500 hover:underline cursor-pointer"
+        >
           Register
         </Link>
       </>

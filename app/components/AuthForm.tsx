@@ -42,9 +42,7 @@ export default function AuthForm({
       <Button onClick={onSubmit} className="mb-2">
         {buttonLabel}
       </Button>
-      {error && (
-        <div className="text-red-500 text-sm text-center">{error}</div>
-      )}
+      {error && <div className="text-red-500 text-sm text-center">{error}</div>}
       <div className="text-sm text-center mt-1 text-gray-500">{footer}</div>
     </>
   );
