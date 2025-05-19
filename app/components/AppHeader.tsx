@@ -1,12 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { FaGithub, FaMoon, FaUser } from "react-icons/fa";
 import { HiArrowRight } from "react-icons/hi";
 import { FiLogOut } from "react-icons/fi";
-import { useApi } from "@/hooks/useApi";
-import { Account } from "@/types/account";
+import { useAuth } from "@/context/AuthContext";
 
 interface AppHeaderProps {
   showLogin?: boolean;
@@ -19,32 +17,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
 }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const apiService = useApi();
-
-  const [token, setToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const localToken = localStorage.getItem("token");
-    const localUsername = localStorage.getItem("username");
-
-    setToken(localToken);
-
-    const validate = async () => {
-      try {
-        await apiService.get<Account>("/account/validate");
-      } catch {
-        localStorage.removeItem("token");
-        localStorage.removeItem("username");
-        setToken(null);
-      }
-    };
-
-    if (localToken && localUsername) {
-      validate();
-    }
-  }, [apiService]);
+  const { isLoggedIn, logout } = useAuth();
 
   const isGameCodePage = pathname.startsWith("/game/");
 
@@ -52,18 +25,13 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
     isGameCodePage ? window.open("/login", "_blank") : router.push("/login");
 
   const handleProfile = () =>
-    isGameCodePage ? window.open("/profile", "_blank") : router.push("/profile");
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    setToken(null);
-    router.push("/login");
-  };
+    isGameCodePage
+      ? window.open("/profile", "_blank")
+      : router.push("/profile");
 
   return (
     <header className="app-header">
-      {!token && showLogin && (
+      {!isLoggedIn && showLogin && (
         <button
           onClick={handleLogin}
           className="app-header-button d-flex align-items-center gap-2"
@@ -71,7 +39,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
           Login <HiArrowRight size={18} />
         </button>
       )}
-      {token && (
+      {isLoggedIn && (
         <>
           <button
             onClick={handleProfile}
@@ -81,7 +49,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
             <span>Profile</span>
           </button>
           <button
-            onClick={handleLogout}
+            onClick={logout}
             className="app-header-button d-flex align-items-center gap-2"
           >
             <FiLogOut size={18} />
