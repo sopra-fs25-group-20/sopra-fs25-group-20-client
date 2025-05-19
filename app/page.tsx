@@ -10,7 +10,7 @@ export default function LandingPage() {
   const { toggleTheme } = useTheme();
 
   const handlePlayAsGuest = () => {
-    router.push("/gamesetup"); 
+    router.push("/gamesetup");
   };
 
   const handleRegister = () => {
@@ -20,7 +20,7 @@ export default function LandingPage() {
   return (
     <div className="page-wrapper">
       <div className="landing-page">
-        <AppHeader  onToggleTheme={toggleTheme}  />
+        <AppHeader onToggleTheme={toggleTheme} />
         <Frame>
           <img
             src="logo1.png"
@@ -28,13 +28,15 @@ export default function LandingPage() {
             className="logo-animated"
             style={{ width: "10rem", marginBottom: "0.5rem" }}
           />
-          <h1 className="title-animated">WELCOME TO SPYQUEST</h1>
-          <Button onClick={handleRegister} className="animated-button">Register</Button>
-          <Button onClick={handlePlayAsGuest} className="animated-button">Play as guest</Button>
-          
+          <div className="title-animated">WELCOME TO SPYQUEST</div>
+          <Button onClick={handleRegister} className="animated-button">
+            Register
+          </Button>
+          <Button onClick={handlePlayAsGuest} className="animated-button">
+            Play as guest
+          </Button>
         </Frame>
       </div>
     </div>
   );
 }
-

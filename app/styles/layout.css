@@ -443,9 +443,9 @@ main,
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: clamp(0.8rem, 1.5vw, 2rem);
   text-align: center;
   margin: 0.25rem 0 0.5rem;
+  font-size: 1.5rem;
 }
 
 .animated-button {
