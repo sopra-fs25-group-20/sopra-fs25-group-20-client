@@ -4,51 +4,43 @@ import { Display } from "./display";
 import { HorizontalFlex } from "./horizontalFlex";
 import { useApi } from "@/hooks/useApi";
 import { stompApi } from "@/api/stompApi";
-import { useEffect, useRef, useState } from "react";
-import { GameSettings } from "@/types/gameSettings";
+import { useEffect, useState } from "react";
 import { Role } from "@/types/role";
 import { Button } from "./Button";
 import { VerticalFlex } from "./verticalFlex";
 import { useGame } from "@/hooks/useGame";
 import { GamePhase } from "@/types/gamePhase";
 import { Tooltip } from "./Tooltip";
+import { useCountdownTimer, formatTime } from "@/hooks/useCountdownTimer";
 
 type Props = {
   role: Role;
 };
 
-const formatTime = (seconds: number): string => {
-  const minutes = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+type Timer = {
+  remainingSeconds: number;
 };
 
 export const HUD = ({ role }: Props) => {
   const gameApi = useGame();
   const apiService = useApi();
 
-  const [timeLeft, setTimeLeft] = useState<number | null>(null);
+  const [rawTime, setRawTime] = useState<number | null>(null);
+  const timeLeft = useCountdownTimer(rawTime);
   const [phase, setPhase] = useState<GamePhase | null>(null);
   const [showHelp, setShowHelp] = useState(false);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  /**
-   * Handles receptions of change in phase ("lobby", "game", "vote" or "summary").
-   */
   const handlePhase = (phase: GamePhase) => {
     setPhase(phase);
   };
 
-  /**
-   * Register handlers in game api and request initial values.
-   */
   useEffect(() => {
     const requestTimer = async () => {
       try {
-        const response = await apiService.get<GameSettings>(
-          `/settings/${stompApi.getCode()}`,
+        const response = await apiService.get<Timer>(
+          `/game/timer/${stompApi.getCode()}?phase=GAME`
         );
-        setTimeLeft(response.gameTimer);
+        setRawTime(response.remainingSeconds);
       } catch (error) {
         console.error("Failed to fetch timer:", error);
       }
@@ -57,7 +49,7 @@ export const HUD = ({ role }: Props) => {
     const requestPhase = async () => {
       try {
         const response = await apiService.get<{ phase: GamePhase }>(
-          `/phase/${stompApi.getCode()}`,
+          `/phase/${stompApi.getCode()}`
         );
         setPhase(response.phase);
       } catch (error) {
@@ -74,30 +66,6 @@ export const HUD = ({ role }: Props) => {
     };
   }, [apiService, gameApi]);
 
-  /**
-   * Countdown
-   */
-  useEffect(() => {
-    if (timeLeft === null || timeLeft <= 0) return;
-
-    intervalRef.current = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev === null || prev <= 1) {
-          clearInterval(intervalRef.current!);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [timeLeft]);
-
-  /**
-   * Chose help text based on phase and role.
-   */
   const helpText = (() => {
     if (phase === GamePhase.VOTE) {
       return 'Do you think this player is the spy? Click "Yes" to vote them out, or "No" to keep them in. If most players vote "Yes", the round will end.';
@@ -113,9 +81,16 @@ export const HUD = ({ role }: Props) => {
       <HorizontalFlex>
         <div className="hud">
           <Display className="hug">
-            {role.playerRole === "spy"
-              ? "You are the spy!"
-              : "You are an innocent!"}
+            {role.playerRole === "spy" ? (
+              <div className="text">
+                You are the <span style={{ color: "#f87171" }}>spy</span> !
+              </div>
+            ) : (
+              <div className="text">
+                You are an <span style={{ color: "limegreen" }}>innocent</span>{" "}
+                !
+              </div>
+            )}
           </Display>
           <Tooltip tip="Remaining time until the round ends">
             <Display className="hug">

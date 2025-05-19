@@ -89,6 +89,10 @@ main,
   padding: 0 2rem;
 }
 
+.display.hug .text {
+  gap: 0;
+}
+
 /* === LOBBY === */
 
 .lobby {
@@ -431,10 +435,10 @@ main,
 .logo-animated {
   opacity: 0;
   animation: fadeInScale 0.8s ease-out 0.1s forwards;
-  background-color: #ececec;
   padding: 0.5rem;
   border-radius: 0.75rem;
   margin-bottom: 0.5rem;
+  background-color: var(--box-light);
 }
 
 .title-animated {
@@ -446,6 +450,7 @@ main,
   text-align: center;
   margin: 0.25rem 0 0.5rem;
   font-size: 1.5rem;
+  color: var(--text-light);
 }
 
 .animated-button {

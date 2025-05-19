@@ -55,6 +55,7 @@ body {
   outline: none;
   border-radius: 0.66rem;
   font-weight: 400;
+  padding: 0;
 }
 
 /* === LOBBY === */
@@ -274,4 +275,9 @@ body.dark {
 
 .player-link:hover {
   filter: brightness(90%);
+}
+
+/* === VOTING === */
+.votingTimer {
+  font-weight: 600;
 }

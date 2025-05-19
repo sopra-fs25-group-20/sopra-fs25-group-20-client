@@ -24,7 +24,7 @@ const regionDisplayMap = {
 } as const;
 
 const regionBackendMap = Object.fromEntries(
-  Object.entries(regionDisplayMap).map(([k, v]) => [v, k]),
+  Object.entries(regionDisplayMap).map(([k, v]) => [v, k])
 );
 
 export const Settings = () => {
@@ -79,7 +79,7 @@ export const Settings = () => {
     const requestSettings = async () => {
       try {
         const response = await apiService.get<GameSettings>(
-          `/settings/${stompApi.getCode()}`,
+          `/settings/${stompApi.getCode()}`
         );
         setSettings(response);
       } catch (error) {
@@ -98,19 +98,33 @@ export const Settings = () => {
   return (
     <Frame className="settings">
       <div className="setting">
+        <Tooltip tip="Copy the game code using the share button below">
+          <label className="half-button">Game Code:</label>
+        </Tooltip>
+        <Dropdown
+          options={[stompApi.getCode()]}
+          value={stompApi.getCode()}
+          onChange={() => {}}
+          disabled={true}
+        />
+      </div>
+      <div className="setting">
         <Tooltip tip="Restrict the images to the chosen region">
           <label className="half-button">Region Restrictions:</label>
         </Tooltip>
         <Dropdown
           options={Object.values(regionDisplayMap)}
-          value={regionDisplayMap[
-            settings.imageRegion as keyof typeof regionDisplayMap
-          ]}
+          value={
+            regionDisplayMap[
+              settings.imageRegion as keyof typeof regionDisplayMap
+            ]
+          }
           onChange={(value) =>
             updateSettings(
               "imageRegion",
-              regionBackendMap[value as keyof typeof regionBackendMap],
-            )}
+              regionBackendMap[value as keyof typeof regionBackendMap]
+            )
+          }
           disabled={!isRoomAdmin}
         />
       </div>
@@ -122,11 +136,11 @@ export const Settings = () => {
           options={gameDurations}
           value={settings.gameTimer}
           onChange={(value) =>
-            updateSettings("gameTimer", parseInt(value as string))}
+            updateSettings("gameTimer", parseInt(value as string))
+          }
           disabled={!isRoomAdmin}
         />
       </div>
-
       <div className="setting">
         <Tooltip tip="Chose the maximum duration allowed to vote out a player">
           <label className="half-button">Duration Voting:</label>
@@ -135,25 +149,26 @@ export const Settings = () => {
           options={votingDurations}
           value={settings.votingTimer}
           onChange={(value) =>
-            updateSettings("votingTimer", parseInt(value as string))}
+            updateSettings("votingTimer", parseInt(value as string))
+          }
           disabled={!isRoomAdmin}
         />
       </div>
       <HorizontalFlex gap={15}>
-        {isRoomAdmin
-          ? (
-            <>
-              <Tooltip tip="A minimum of 3 players is needed!">
-                <Button onClick={handleStartGame}>Start the Game</Button>
-              </Tooltip>
-              <Tooltip tip="Copy the game code to the clipboard">
-                <Button onClick={handleShareGameCode} className="hug">
-                  <FaShareAlt size={18} />
-                </Button>
-              </Tooltip>
-            </>
-          )
-          : <Button onClick={handleShareGameCode}>Share the Game</Button>}
+        {isRoomAdmin ? (
+          <>
+            <Tooltip tip="A minimum of 3 players is needed!">
+              <Button onClick={handleStartGame}>Start the Game</Button>
+            </Tooltip>
+            <Tooltip tip="Copy the game code to the clipboard">
+              <Button onClick={handleShareGameCode} className="hug">
+                <FaShareAlt size={18} />
+              </Button>
+            </Tooltip>
+          </>
+        ) : (
+          <Button onClick={handleShareGameCode}>Share the Game</Button>
+        )}
       </HorizontalFlex>
     </Frame>
   );
