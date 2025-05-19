@@ -11,6 +11,11 @@ import { useApi } from "@/hooks/useApi";
 import { GameVoteInit } from "@/types/gameVoteInit";
 import { stompApi } from "@/api/stompApi";
 import { GamePhase } from "@/types/gamePhase";
+import { useCountdownTimer, formatTime } from "@/hooks/useCountdownTimer";
+
+type Timer = {
+  remainingSeconds: number;
+};
 
 export const Voting = () => {
   const gameApi = useGame();
@@ -18,32 +23,21 @@ export const Voting = () => {
   const [votes, setVotes] = useState<GameVoteCast | null>(null);
   const [phase, setPhase] = useState<GamePhase | null>(null);
   const [target, setTarget] = useState<string | null>(null);
+  const [rawTime, setRawTime] = useState<number | null>(null);
+  const timeLeft = useCountdownTimer(rawTime);
 
-  const voteYes = () => {
-    gameApi.sendVoteCast(true);
-  };
+  const voteYes = () => gameApi.sendVoteCast(true);
+  const voteNo = () => gameApi.sendVoteCast(false);
 
-  const voteNo = () => {
-    gameApi.sendVoteCast(false);
-  };
-
-  const handleVoteInit = (vote: GameVoteInit) => {
-    setTarget(vote.target);
-  };
-
-  const handleVoteCast = (votes: GameVoteCast) => {
-    setVotes(votes);
-  };
-
-  const handlePhase = (phase: GamePhase) => {
-    setPhase(phase);
-  };
+  const handleVoteInit = (vote: GameVoteInit) => setTarget(vote.target);
+  const handleVoteCast = (votes: GameVoteCast) => setVotes(votes);
+  const handlePhase = (newPhase: GamePhase) => setPhase(newPhase);
 
   useEffect(() => {
     const requestTarget = async () => {
       try {
         const response = await apiService.get<GameVoteInit>(
-          `/game/vote/target/${stompApi.getCode()}`,
+          `/game/vote/target/${stompApi.getCode()}`
         );
         setTarget(response.target);
       } catch {
@@ -54,7 +48,7 @@ export const Voting = () => {
     const requestVotes = async () => {
       try {
         const response = await apiService.get<GameVoteCast>(
-          `/game/vote/state/${stompApi.getCode()}`,
+          `/game/vote/state/${stompApi.getCode()}`
         );
         setVotes(response);
       } catch {
@@ -65,7 +59,7 @@ export const Voting = () => {
     const requestPhase = async () => {
       try {
         const response = await apiService.get<{ phase: GamePhase }>(
-          `/phase/${stompApi.getCode()}`,
+          `/phase/${stompApi.getCode()}`
         );
         setPhase(response.phase);
       } catch (error) {
@@ -88,6 +82,22 @@ export const Voting = () => {
     };
   }, [apiService, gameApi]);
 
+  useEffect(() => {
+    if (phase === GamePhase.VOTE) {
+      const requestTimer = async () => {
+        try {
+          const response = await apiService.get<Timer>(
+            `/game/timer/${stompApi.getCode()}?phase=VOTE`
+          );
+          setRawTime(response.remainingSeconds);
+        } catch (error) {
+          console.error("Failed to fetch vote timer:", error);
+        }
+      };
+      requestTimer();
+    }
+  }, [phase, apiService]);
+
   if (phase !== GamePhase.VOTE) {
     return null;
   }
@@ -96,7 +106,14 @@ export const Voting = () => {
     <Frame hug={true}>
       <VerticalFlex hug={true}>
         <HorizontalFlex>
-          Would you like to vote {target ?? "unknown"} out?
+          <HorizontalFlex>
+            <span>
+              Would you like to vote {target ?? "unknown"} out?{" "}
+              <span className="votingTimer">
+                ({timeLeft !== null ? formatTime(timeLeft) : "No Timer"})
+              </span>
+            </span>
+          </HorizontalFlex>
         </HorizontalFlex>
         <HorizontalFlex>
           <Button onClick={voteYes}>Yes ({votes?.numberVotesTrue ?? 0})</Button>
