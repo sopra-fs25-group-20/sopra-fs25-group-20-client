@@ -16,18 +16,16 @@ export default function LobbyPage({ phase }: Props) {
   const { toggleTheme } = useTheme();
 
   return (
-    <div>
+    <div className="lobby">
       <AppHeader onToggleTheme={toggleTheme} />
-      <div className="lobby">
-        <VerticalFlex>
-          <Chat />
-        </VerticalFlex>
-        {phase === GamePhase.SUMMARY && <SummaryCard />}
-        <VerticalFlex>
-          <PlayerOverview />
-          <Settings />
-        </VerticalFlex>
-      </div>
+      <VerticalFlex>
+        <Chat />
+      </VerticalFlex>
+      {phase === GamePhase.SUMMARY && <SummaryCard />}
+      <VerticalFlex>
+        <PlayerOverview />
+        <Settings />
+      </VerticalFlex>
     </div>
   );
 }

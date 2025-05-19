@@ -37,9 +37,13 @@ export default function LandingPage() {
             className="logo-animated"
             style={{ width: "10rem", marginBottom: "0.5rem" }}
           />
-          <h1 className="title-animated">Welcome To SpyQuest</h1>
-          <Button onClick={handleRegister} className="animated-button">Register</Button>
-          <Button onClick={handlePlayAsGuest} className="animated-button">Play as guest</Button>
+          <div className="title-animated">Welcome To SpyQuest</div>
+          <Button onClick={handleRegister} className="animated-button">
+            Register
+          </Button>
+          <Button onClick={handlePlayAsGuest} className="animated-button">
+            Play as guest
+          </Button>
         </Frame>
       </div>
     </div>
