@@ -5,7 +5,6 @@ import { HorizontalFlex } from "./horizontalFlex";
 import { useApi } from "@/hooks/useApi";
 import { stompApi } from "@/api/stompApi";
 import { useEffect, useRef, useState } from "react";
-import { GameSettings } from "@/types/gameSettings";
 import { Role } from "@/types/role";
 import { Button } from "./Button";
 import { VerticalFlex } from "./verticalFlex";
@@ -15,6 +14,10 @@ import { Tooltip } from "./Tooltip";
 
 type Props = {
   role: Role;
+};
+
+type Timer = {
+  remainingSeconds: number;
 };
 
 const formatTime = (seconds: number): string => {
@@ -45,10 +48,10 @@ export const HUD = ({ role }: Props) => {
   useEffect(() => {
     const requestTimer = async () => {
       try {
-        const response = await apiService.get<GameSettings>(
-          `/settings/${stompApi.getCode()}`
+        const response = await apiService.get<Timer>(
+          `/game/timer/${stompApi.getCode()}?phase=GAME`
         );
-        setTimeLeft(response.gameTimer);
+        setTimeLeft(response.remainingSeconds);
       } catch (error) {
         console.error("Failed to fetch timer:", error);
       }
@@ -80,14 +83,17 @@ export const HUD = ({ role }: Props) => {
   useEffect(() => {
     if (timeLeft === null || timeLeft <= 0) return;
 
+    const startTime = Date.now();
+    const expectedEnd = startTime + timeLeft * 1000;
+
     intervalRef.current = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev === null || prev <= 1) {
-          clearInterval(intervalRef.current!);
-          return 0;
-        }
-        return prev - 1;
-      });
+      const now = Date.now();
+      const remaining = Math.max(0, Math.round((expectedEnd - now) / 1000));
+      setTimeLeft(remaining);
+
+      if (remaining <= 0 && intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
     }, 1000);
 
     return () => {
@@ -119,7 +125,8 @@ export const HUD = ({ role }: Props) => {
               </div>
             ) : (
               <div className="text">
-                You are an <span style={{ color: "limegreen" }}>innocent</span> !
+                You are an <span style={{ color: "limegreen" }}>innocent</span>{" "}
+                !
               </div>
             )}
           </Display>
