@@ -29,8 +29,7 @@ main,
 }
 
 .frame.hug {
-  flex: 0 0 auto;
-  align-self: stretch;
+  flex: 0;
 }
 
 .frame.profile {
