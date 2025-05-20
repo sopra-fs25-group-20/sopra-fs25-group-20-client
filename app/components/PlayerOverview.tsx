@@ -14,7 +14,6 @@ import { ClickablePlayerName } from "./clickablePlayerName";
 import { useRouter } from "next/navigation";
 import { usePlayersStore } from "@/hooks/usePlayersStore";
 
-
 export const PlayerOverview = () => {
   const gameApi = useGame();
   const apiService = useApi();
@@ -23,7 +22,6 @@ export const PlayerOverview = () => {
   const [phase, setPhase] = useState<GamePhase | null>(null);
   const [players, setPlayers] = useState<Player[]>([]);
   const { setPlayers: setGlobalPlayers } = usePlayersStore();
-
 
   /**
    * Handles receptions of change in players (e.g. joining / leaving).
@@ -49,10 +47,10 @@ export const PlayerOverview = () => {
     const requestPlayers = async () => {
       try {
         const response = await apiService.get<Player[]>(
-          `/players/${stompApi.getCode()}`,
+          `/players/${stompApi.getCode()}`
         );
         setPlayers(response);
-        setGlobalPlayers(response);   
+        setGlobalPlayers(response);
         stompApi.setRoomAdmin(response);
       } catch (error) {
         console.error("Failed to fetch players:", error);
@@ -65,7 +63,7 @@ export const PlayerOverview = () => {
     const requestPhase = async () => {
       try {
         const response = await apiService.get<{ phase: GamePhase }>(
-          `/phase/${stompApi.getCode()}`,
+          `/phase/${stompApi.getCode()}`
         );
         setPhase(response.phase);
       } catch (error) {
@@ -148,15 +146,16 @@ export const PlayerOverview = () => {
         <div
           className={`icon ${profileClass}`}
           style={{ background: player.color }}
-        >
-        </div>
+        ></div>
         <div
           className={`player ${profileClass}`}
           style={{ color: player.color }}
         >
-          <ClickablePlayerName className="name" player={player}>
-          </ClickablePlayerName>
-          <div className="stats">0 Wins</div>
+          <ClickablePlayerName className="name" player={player} />
+          <div className="stats">
+            {player.account ? `${player.account.wins} Wins` : "Guest"}
+            {player.admin && " (Admin)"}
+          </div>
         </div>
       </div>
     );

@@ -17,11 +17,14 @@ type Timer = {
   remainingSeconds: number;
 };
 
-export const Voting = () => {
+type Props = {
+  phase: GamePhase;
+};
+
+export const Voting = ({ phase }: Props) => {
   const gameApi = useGame();
   const apiService = useApi();
   const [votes, setVotes] = useState<GameVoteCast | null>(null);
-  const [phase, setPhase] = useState<GamePhase | null>(null);
   const [target, setTarget] = useState<string | null>(null);
   const [rawTime, setRawTime] = useState<number | null>(null);
   const timeLeft = useCountdownTimer(rawTime);
@@ -31,7 +34,6 @@ export const Voting = () => {
 
   const handleVoteInit = (vote: GameVoteInit) => setTarget(vote.target);
   const handleVoteCast = (votes: GameVoteCast) => setVotes(votes);
-  const handlePhase = (newPhase: GamePhase) => setPhase(newPhase);
 
   useEffect(() => {
     const requestTarget = async () => {
@@ -56,28 +58,14 @@ export const Voting = () => {
       }
     };
 
-    const requestPhase = async () => {
-      try {
-        const response = await apiService.get<{ phase: GamePhase }>(
-          `/phase/${stompApi.getCode()}`
-        );
-        setPhase(response.phase);
-      } catch (error) {
-        console.error("Failed to fetch phase:", error);
-      }
-    };
-
-    requestPhase();
     requestTarget();
     requestVotes();
 
     gameApi.onVoteCast(handleVoteCast);
-    gameApi.onPhase(handlePhase);
     gameApi.onVoteInit(handleVoteInit);
 
     return () => {
       gameApi.removeVoteCastHandler(handleVoteCast);
-      gameApi.removePhaseHanlder(handlePhase);
       gameApi.removeVoteInitHandler(handleVoteInit);
     };
   }, [apiService, gameApi]);
