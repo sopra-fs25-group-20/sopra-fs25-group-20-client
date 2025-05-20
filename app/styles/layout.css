@@ -37,10 +37,6 @@ main,
   align-items: flex-start;
 }
 
-.frame.statistics {
-  gap: 0.5rem;
-}
-
 /* places frames (.frame) vertically on top of each other */
 .vertical-flex {
   height: 100%;
