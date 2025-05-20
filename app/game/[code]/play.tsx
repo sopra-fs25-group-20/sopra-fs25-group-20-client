@@ -8,18 +8,25 @@ import { Voting } from "@/components/voting";
 import { GamePhase } from "@/types/gamePhase";
 import { HighlightedImage } from "@/types/highlightedImage";
 import { Role } from "@/types/role";
+import { Player } from "@/types/player";
 
 type Props = {
   role: Role;
   highlightedImage: HighlightedImage;
   phase: GamePhase;
+  players: Player[];
 };
 
-export default function PlayPage({ role, highlightedImage, phase }: Props) {
+export default function PlayPage({
+  role,
+  highlightedImage,
+  phase,
+  players,
+}: Props) {
   return (
     <div className="play-page">
       <VerticalFlex width={350}>
-        <PlayerOverview />
+        <PlayerOverview players={players} phase={phase} />
         <Voting phase={phase} />
         <Chat />
       </VerticalFlex>

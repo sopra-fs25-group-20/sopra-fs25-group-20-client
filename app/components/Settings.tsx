@@ -11,6 +11,7 @@ import { HorizontalFlex } from "./horizontalFlex";
 import { useIsRoomAdmin } from "@/hooks/isRoomAdmin";
 import { Tooltip } from "./Tooltip";
 import { useApi } from "@/hooks/useApi";
+import { Player } from "@/types/player";
 
 const gameDurations = [120, 300, 600];
 const votingDurations = [10, 20, 30];
@@ -27,10 +28,15 @@ const regionBackendMap = Object.fromEntries(
   Object.entries(regionDisplayMap).map(([k, v]) => [v, k])
 );
 
-export const Settings = () => {
+type Props = {
+  players: Player[];
+};
+
+export const Settings = ({ players }: Props) => {
   const gameApi = useGame();
   const apiService = useApi();
   const isRoomAdmin = useIsRoomAdmin();
+  const canStartGame = players.length >= 3;
   const [settings, setSettings] = useState<GameSettings>({
     votingTimer: 30,
     gameTimer: 300,
@@ -57,9 +63,9 @@ export const Settings = () => {
    * Send updated game settings to backend.
    */
   const updateSettings = (key: keyof GameSettings, value: string | number) => {
-    const negameApiettings = { ...settings, [key]: value };
-    setSettings(negameApiettings);
-    gameApi.sendSettings(negameApiettings);
+    const newgameApiettings = { ...settings, [key]: value };
+    setSettings(newgameApiettings);
+    gameApi.sendSettings(newgameApiettings);
   };
 
   /**
@@ -158,7 +164,13 @@ export const Settings = () => {
         {isRoomAdmin ? (
           <>
             <Tooltip tip="A minimum of 3 players is needed!">
-              <Button onClick={handleStartGame}>Start the Game</Button>
+              <Button
+                onClick={handleStartGame}
+                disabled={!canStartGame}
+                cooldownMs={5000}
+              >
+                Start the Game
+              </Button>
             </Tooltip>
             <Tooltip tip="Copy the game code to the clipboard">
               <Button onClick={handleShareGameCode} className="hug">

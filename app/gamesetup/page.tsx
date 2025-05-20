@@ -43,12 +43,14 @@ export default function Home() {
         nickname: nickname.trim(),
         code: code.trim(),
       });
-      const response = await apiService.get<{ phase: string}>(`/phase/${code.trim()}`);
+      const response = await apiService.get<{ phase: string }>(
+        `/phase/${code.trim()}`
+      );
       const gamePhase = response.phase;
       if (gamePhase === "game" || gamePhase === "vote") {
-        setError(`Can not join game room: ${code.trim()} in game phase`)
+        setError(`Can not join game room: ${code.trim()} in game phase`);
         return;
-      } 
+      }
       stompApi.setCode(code);
       stompApi.setNickname(nickname);
       router.push(`/game/${code.trim()}`);
@@ -109,8 +111,12 @@ export default function Home() {
             onChange={setcode}
           />
           <HorizontalFlex gap={15}>
-            <Button onClick={handleJoin}>Join</Button>
-            <Button onClick={handleStart}>Start new game</Button>
+            <Button onClick={handleJoin} cooldownMs={2000}>
+              Join
+            </Button>
+            <Button onClick={handleStart} cooldownMs={2000}>
+              Start new game
+            </Button>
           </HorizontalFlex>
           {error && (
             <div className="text-red-500 text-sm text-center mt-2">{error}</div>
