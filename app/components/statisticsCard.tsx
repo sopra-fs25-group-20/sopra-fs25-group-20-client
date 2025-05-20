@@ -2,7 +2,6 @@
 
 import { Frame } from "./frame";
 import { Account } from "@/types/account";
-import { HorizontalFlex } from "./horizontalFlex";
 import { Button } from "./Button";
 import { useRouter } from "next/navigation";
 import { VerticalFlex } from "./verticalFlex";
@@ -35,9 +34,9 @@ export const StatisticsCard = ({ profile }: Props) => {
             {profile.wins + profile.defeats === 0
               ? "N/A"
               : `${(
-                  (profile.wins / (profile.wins + profile.defeats)) *
-                  100
-                ).toFixed(2)}%`}
+                (profile.wins / (profile.wins + profile.defeats)) *
+                100
+              ).toFixed(2)}%`}
           </div>
         </div>
         <div className="statistics entry">
