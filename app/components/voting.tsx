@@ -95,6 +95,8 @@ export const Voting = () => {
         }
       };
       requestTimer();
+    } else {
+      setRawTime(null);
     }
   }, [phase, apiService]);
 
@@ -110,7 +112,7 @@ export const Voting = () => {
             <span>
               Would you like to vote {target ?? "unknown"} out?{" "}
               <span className="votingTimer">
-                ({timeLeft !== null ? formatTime(timeLeft) : "No Timer"})
+                ({timeLeft !== null ? formatTime(timeLeft) : "00:00"})
               </span>
             </span>
           </HorizontalFlex>

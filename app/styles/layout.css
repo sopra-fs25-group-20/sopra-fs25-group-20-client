@@ -29,16 +29,11 @@ main,
 }
 
 .frame.hug {
-  flex: 0 0 auto;
-  align-self: stretch;
+  flex: 0;
 }
 
 .frame.profile {
   align-items: flex-start;
-}
-
-.frame.statistics {
-  gap: 0.5rem;
 }
 
 /* places frames (.frame) vertically on top of each other */
@@ -97,8 +92,9 @@ main,
 
 .lobby {
   display: flex;
-  height: 50rem;
-  width: 50rem;
+  height: 70%;
+  width: 50%;
+  max-width: 50rem;
   justify-content: center;
   align-items: center;
   gap: 2rem;
