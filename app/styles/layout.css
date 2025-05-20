@@ -95,6 +95,7 @@ main,
   display: flex;
   height: 70%;
   width: 50%;
+  max-width: 50rem;
   justify-content: center;
   align-items: center;
   gap: 2rem;
