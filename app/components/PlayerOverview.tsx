@@ -3,89 +3,26 @@ import { stompApi } from "@/api/stompApi";
 import { useGame } from "@/hooks/useGame";
 import { GamePhase } from "@/types/gamePhase";
 import { Player } from "@/types/player";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FaBan } from "react-icons/fa";
 import { Frame } from "./frame";
 import { OverflowContainer } from "./overflowContainer";
-import { useApi } from "@/hooks/useApi";
 import { Button } from "./Button";
 import { useIsRoomAdmin } from "@/hooks/isRoomAdmin";
 import { ClickablePlayerName } from "./clickablePlayerName";
 import { useRouter } from "next/navigation";
-import { usePlayersStore } from "@/hooks/usePlayersStore";
 
-export const PlayerOverview = () => {
-  const gameApi = useGame();
-  const apiService = useApi();
-  const isRoomAdmin = useIsRoomAdmin();
+type Props = {
+  phase: GamePhase;
+  players: Player[];
+};
+
+export const PlayerOverview = ({ phase, players }: Props) => {
   const router = useRouter();
-  const [phase, setPhase] = useState<GamePhase | null>(null);
-  const [players, setPlayers] = useState<Player[]>([]);
-  const { setPlayers: setGlobalPlayers } = usePlayersStore();
+  const isRoomAdmin = useIsRoomAdmin();
+  const gameApi = useGame();
 
-  /**
-   * Handles receptions of change in players (e.g. joining / leaving).
-   */
-  const handlePlayers = (players: Player[]) => {
-    setPlayers(players);
-  };
-
-  /**
-   * Handles receptions of change in phase ("lobby", "game", "vote" or "summary").
-   */
-  const handlePhase = (phase: GamePhase) => {
-    setPhase(phase);
-  };
-
-  /**
-   * Manually request players when initializing the room and then rely on STOMP for player updates.
-   */
-  useEffect(() => {
-    /**
-     * Request all players of a game room.
-     */
-    const requestPlayers = async () => {
-      try {
-        const response = await apiService.get<Player[]>(
-          `/players/${stompApi.getCode()}`
-        );
-        setPlayers(response);
-        setGlobalPlayers(response);
-        stompApi.setRoomAdmin(response);
-      } catch (error) {
-        console.error("Failed to fetch players:", error);
-      }
-    };
-
-    /**
-     * Request phase of a game room.
-     */
-    const requestPhase = async () => {
-      try {
-        const response = await apiService.get<{ phase: GamePhase }>(
-          `/phase/${stompApi.getCode()}`
-        );
-        setPhase(response.phase);
-      } catch (error) {
-        console.error("Failed to fetch phase:", error);
-      }
-    };
-
-    requestPlayers();
-    requestPhase();
-
-    gameApi.onPlayers(handlePlayers);
-    gameApi.onPhase(handlePhase);
-
-    return () => {
-      gameApi.removePlayersHandler(handlePlayers);
-      gameApi.removePhaseHanlder(handlePhase);
-    };
-  }, [apiService, gameApi]);
-
-  /**
-   * If you are not present, it means you have been kicked. Route back to '/'
-   */
+  // If you are not present, it means you have been kicked. Route back to '/'
   useEffect(() => {
     if (!players.length) return;
     const nickname = stompApi.getNickname();
@@ -99,28 +36,21 @@ export const PlayerOverview = () => {
   const selfPlayer = players.find((p) => p.nickname === nickname);
   const otherPlayers = players.filter((p) => p.nickname !== nickname);
 
-  /**
-   * Get the action that is displayed besides the profile (none, kick or vote)
-   */
   const getAction = (player: Player) => {
     if (!phase || nickname === player.nickname) return null;
 
     switch (phase) {
       case GamePhase.LOBBY:
       case GamePhase.SUMMARY:
-        if (isRoomAdmin) {
-          return (
-            <div className="action">
-              <FaBan
-                className="ban-icon"
-                color={player.color}
-                onClick={() => gameApi.sendKickPlayer(player.nickname)}
-              />
-            </div>
-          );
-        }
-        return null;
-
+        return isRoomAdmin ? (
+          <div className="action">
+            <FaBan
+              className="ban-icon"
+              color={player.color}
+              onClick={() => gameApi.sendKickPlayer(player.nickname)}
+            />
+          </div>
+        ) : null;
       case GamePhase.GAME:
         return (
           <Button
@@ -135,9 +65,6 @@ export const PlayerOverview = () => {
     }
   };
 
-  /**
-   * Get the player card for each player (either the smaller for other players or the bigger for self)
-   */
   const getProfileCard = (player: Player) => {
     const isSelf = nickname === player.nickname;
     const profileClass = isSelf ? "you" : "other";
