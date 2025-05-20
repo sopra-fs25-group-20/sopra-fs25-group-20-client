@@ -94,7 +94,7 @@ export const HUD = ({ role }: Props) => {
           </Display>
           <Tooltip tip="Remaining time until the round ends">
             <Display className="hug">
-              {timeLeft !== null ? formatTime(timeLeft) : "No Timer"}
+              {timeLeft !== null ? formatTime(timeLeft) : "00:00"}
             </Display>
           </Tooltip>
         </div>
