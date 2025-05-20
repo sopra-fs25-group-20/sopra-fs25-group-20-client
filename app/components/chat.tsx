@@ -19,10 +19,6 @@ export const Chat = () => {
   const myNickname = stompApi.getNickname();
 
   useEffect(() => {
-    console.log("players:", players);
-  }, [players]);
-
-  useEffect(() => {
     const handleMessage = (data: ChatMessage) => {
       setMessages((prev) => [
         ...prev,
@@ -49,7 +45,9 @@ export const Chat = () => {
         setCursor((prev) => (prev + 1) % filteredPlayers.length);
       } else if (e.key === "ArrowUp") {
         e.preventDefault();
-        setCursor((prev) => (prev - 1 + filteredPlayers.length) % filteredPlayers.length);
+        setCursor(
+          (prev) => (prev - 1 + filteredPlayers.length) % filteredPlayers.length
+        );
       } else if (e.key === "Enter") {
         e.preventDefault();
         const atIndex = input.lastIndexOf("@");
@@ -77,9 +75,7 @@ export const Chat = () => {
       const matching = players
         .map((p) => p.nickname)
         .filter(
-          (name) =>
-            name.toLowerCase().startsWith(query) &&
-            name !== myNickname
+          (name) => name.toLowerCase().startsWith(query) && name !== myNickname
         );
       setFilteredPlayers(matching);
       setCursor(0);
@@ -124,7 +120,8 @@ export const Chat = () => {
                   className={`mention-item ${i === cursor ? "active" : ""}`}
                   onMouseDown={() => {
                     const atIndex = input.lastIndexOf("@");
-                    const newText = input.slice(0, atIndex + 1) + nickname + " ";
+                    const newText =
+                      input.slice(0, atIndex + 1) + nickname + " ";
                     setInput(newText);
                     setShowDropdown(false);
                   }}
