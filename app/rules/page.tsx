@@ -17,19 +17,17 @@ export default function RulesPage() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          minHeight: "100vh",
+          minHeight: "80vh",
           padding: "2rem",
         }}
       >
         <HorizontalFlex gap={24}>
           {/* First card */}
           <div
+            className="frame"
             style={{
-              backgroundColor: darkMode ? "#2d2d2d" : "#f9f9f9",
-              color: darkMode ? "#fff" : "#000",
               width: "30vw",
               minHeight: "60vh",
-              padding: "2rem",
               borderRadius: "12px",
               boxShadow: "0 4px 12px rgba(0,0,0,0.5)",
               display: "flex",
@@ -127,12 +125,10 @@ export default function RulesPage() {
 
           {/* Second card */}
           <div
+            className="frame"
             style={{
-              backgroundColor: darkMode ? "#2d2d2d" : "#f9f9f9",
-              color: darkMode ? "#fff" : "#000",
               width: "30vw",
               minHeight: "60vh",
-              padding: "2rem",
               borderRadius: "12px",
               boxShadow: "0 4px 12px rgba(0,0,0,0.5)",
               display: "flex",
@@ -162,64 +158,89 @@ export default function RulesPage() {
                 <ol style={{ textAlign: "left", lineHeight: 1.6 }}>
                   <li>
                     <strong>Innocents:</strong>
-                    <div style={{ marginTop: "0.2rem" }}>
-                      <div style={{ marginLeft: "1rem" }}>
-                        - Ask questions that are ambiguous enough so the Spy can
-                        not figure out the target image, but still clear enough
-                        for Innocents to answer accurately.
-                      </div>
-                      <div style={{ marginLeft: "1rem" }}>
-                        - Think about how many images the Spy can eliminate
-                        based on your question: The fewer they can eliminate,
-                        the better your question is for Innocents.
-                      </div>
-                      <div style={{ marginLeft: "1rem" }}>
-                        - Answer questions clearly. Unclear answers may raise
-                        suspicion and unintentionally help the Spy.
-                      </div>
-                      <div style={{ marginLeft: "1rem" }}>
-                        - Track the discussion closely and ask the player you
-                        suspect most.
-                      </div>
-                      <div style={{ marginLeft: "1rem" }}>
-                        - Examples of generally good questions (though
-                        effectiveness depends on the current images):
-                      </div>
-                      <div style={{ marginLeft: "3rem" }}>
-                        - How many different people would you expect to see here
-                        on a typical weekday at noon?
-                      </div>
-                      <div style={{ marginLeft: "3rem" }}>
-                        - Out of 100, how safe would you feel walking alone here
-                        at night?
-                      </div>
+                    <div style={{ marginTop: "0.2rem", marginLeft: "1rem" }}>
+                      <ul
+                        style={{ listStyleType: "disc", paddingLeft: "0.5rem" }}
+                      >
+                        <li>
+                          Ask questions that are ambiguous enough so the Spy can
+                          not figure out the target image, but still clear
+                          enough for Innocents to answer accurately.
+                        </li>
+                        <li>
+                          Think about how many images the Spy can eliminate
+                          based on your question: The fewer they can eliminate,
+                          the better your question is for Innocents.
+                        </li>
+                        <li>
+                          Answer questions clearly. Unclear answers may raise
+                          suspicion and unintentionally help the Spy.
+                        </li>
+                        <li>
+                          Track the discussion closely and ask the player you
+                          suspect most.
+                        </li>
+                        <li>
+                          Examples of generally good questions (though
+                          effectiveness depends on the current images):
+                          <ul
+                            style={{
+                              listStyleType: "circle",
+                              paddingLeft: "1.5rem",
+                              marginTop: "0.3rem",
+                            }}
+                          >
+                            <li>
+                              How many different people would you expect to see
+                              here on a typical weekday at noon?
+                            </li>
+                            <li>
+                              Out of 100, how safe would you feel walking alone
+                              here at night?
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
                     </div>
                   </li>
                   <li style={{ marginTop: "1rem" }}>
                     <strong>Spy:</strong>
-                    <div style={{ marginTop: "0.2rem" }}>
-                      <div style={{ marginLeft: "1rem" }}>
-                        - Follow the discussion closely and try to identify the
-                        target image by logically eliminating the unlikely ones.
-                      </div>
-                      <div style={{ marginLeft: "1rem" }}>
-                        - When you&apos;re asked a question, adjust your answer
-                        based on what&apos;s been said so far:
-                      </div>
-                      <div style={{ marginLeft: "3rem" }}>
-                        If you&apos;re unsure about the target image, give a
-                        vague but believable answer. Just be aware it might
-                        raise suspicion.
-                      </div>
-                      <div style={{ marginLeft: "3rem" }}>
-                        If you&apos;ve narrowed down the options, shape your
-                        answer to fit the remaining images.
-                      </div>
-                      <div style={{ marginLeft: "1rem" }}>
-                        - If you&apos;ve raised too much suspicion, and feel
-                        like you will be voted out, submit your best guess
-                        before it&apos;s too late.
-                      </div>
+                    <div style={{ marginTop: "0.2rem", marginLeft: "1rem" }}>
+                      <ul
+                        style={{ listStyleType: "disc", paddingLeft: "1rem" }}
+                      >
+                        <li>
+                          Follow the discussion closely and try to identify the
+                          target image by logically eliminating the unlikely
+                          ones.
+                        </li>
+                        <li>
+                          When you&apos;re asked a question, adjust your answer based
+                          on what&apos;s been said so far:
+                          <ul
+                            style={{
+                              listStyleType: "circle",
+                              paddingLeft: "1.5rem",
+                              marginTop: "0.3rem",
+                            }}
+                          >
+                            <li>
+                              If you&apos;re unsure about the target image, give a
+                              vague but believable answer. Just be aware it
+                              might raise suspicion.
+                            </li>
+                            <li>
+                              If you&apos;ve narrowed down the options, shape your
+                              answer to fit the remaining images.
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                          If you&apos;ve raised too much suspicion, and feel like you
+                          will be voted out, submit your best guess before it&apos;s
+                          too late.
+                        </li>
+                      </ul>
                     </div>
                   </li>
                 </ol>
