@@ -11,6 +11,7 @@ export const useCountdownTimer = (
 
     const startTime = Date.now();
     const expectedEnd = startTime + initialTime * 1000;
+    setTimeLeft(Math.max(0, Math.round((expectedEnd - Date.now()) / 1000)));
 
     intervalRef.current = setInterval(() => {
       const now = Date.now();

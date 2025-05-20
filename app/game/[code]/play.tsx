@@ -20,7 +20,7 @@ export default function PlayPage({ role, highlightedImage, phase }: Props) {
     <div className="play-page">
       <VerticalFlex width={350}>
         <PlayerOverview />
-        <Voting />
+        <Voting phase={phase} />
         <Chat />
       </VerticalFlex>
       <VerticalFlex>
