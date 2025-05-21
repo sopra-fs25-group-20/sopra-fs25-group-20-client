@@ -4,7 +4,7 @@ Welcome to SpyQuest, a web-based multiplayer deduction game that combines strate
 
 ## Table of Contents
 
-- [Introduction](#introduction): Project Goal & Motivation
+- [Introduction](#introduction)
 - [Technologies](#technologies)
 - [High-level components](#high-level-components)
 - [Launch & Deployment](#launch--deployment)
@@ -25,12 +25,12 @@ We wanted to make a social deduction game that feels more immersive and fun than
 
 ## Technologies
 
-For the Client part of our application, we relied on the following TechStack:
+For the Client part of our application, we relied on the following tech stack:
 
 - [TypeScript](https://www.typescriptlang.org/docs/): programming language
   programming language
 - [CSS](https://devdocs.io/css/): For style
-- [REACT](https://reactjs.org/): TypeScript library
+- [Next.js](https://nextjs.org/): React Framework
 - [Stomp](https://stomp-js.github.io/stomp-websocket/): For websocket communication
 - [Google Maps Streetview API](https://developers.google.com/maps/documentation/javascript/streetview?hl=de): For images in the game
 - [Figma](https://www.figma.com/): For Mockups
