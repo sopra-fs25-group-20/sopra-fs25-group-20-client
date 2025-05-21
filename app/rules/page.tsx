@@ -5,6 +5,7 @@ import { HorizontalFlex } from "@/components/horizontalFlex";
 import { Button } from "@/components/Button";
 import { useTheme } from "@/context/ThemeContext";
 import { useRouter } from "next/navigation";
+import { Frame } from "@/components/frame";
 
 export default function RulesPage() {
   const { toggleTheme, darkMode } = useTheme();
@@ -12,30 +13,12 @@ export default function RulesPage() {
 
   return (
     <div className="page-wrapper">
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "80vh",
-          padding: "2rem",
-        }}
-      >
-        <HorizontalFlex gap={24}>
+      <div className="rules">
+        <HorizontalFlex>
           {/* First card */}
-          <div
-            className="frame"
-            style={{
-              width: "30vw",
-              minHeight: "60vh",
-              borderRadius: "12px",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.5)",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
+          <Frame>
             <AppHeader onToggleTheme={toggleTheme} />
-            <VerticalFlex hug gap={16}>
+            <VerticalFlex hug gap={15}>
               <h1
                 className="title-animated"
                 style={{ textAlign: "center", margin: 0 }}
@@ -43,9 +26,8 @@ export default function RulesPage() {
                 Rules
               </h1>
               <div
-                className={`rules-scroll ${
-                  darkMode ? "dark-scroll" : "light-scroll"
-                }`}
+                className={`rules-scroll ${darkMode ? "dark-scroll" : "light-scroll"
+                  }`}
                 style={{
                   flex: 1,
                   overflowY: "auto",
@@ -117,26 +99,16 @@ export default function RulesPage() {
                   </li>
                 </ol>
               </div>
-              <HorizontalFlex gap={16}>
+              <HorizontalFlex gap={15}>
                 <Button onClick={() => router.back()}>Back</Button>
               </HorizontalFlex>
             </VerticalFlex>
-          </div>
+          </Frame>
 
           {/* Second card */}
-          <div
-            className="frame"
-            style={{
-              width: "30vw",
-              minHeight: "60vh",
-              borderRadius: "12px",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.5)",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
+          <Frame>
             <AppHeader onToggleTheme={toggleTheme} />
-            <VerticalFlex hug gap={16}>
+            <VerticalFlex hug gap={15}>
               <h1
                 className="title-animated"
                 style={{ textAlign: "center", margin: 0 }}
@@ -144,9 +116,8 @@ export default function RulesPage() {
                 Strategy
               </h1>
               <div
-                className={`rules-scroll ${
-                  darkMode ? "dark-scroll" : "light-scroll"
-                }`}
+                className={`rules-scroll ${darkMode ? "dark-scroll" : "light-scroll"
+                  }`}
                 style={{
                   flex: 1,
                   overflowY: "auto",
@@ -245,11 +216,11 @@ export default function RulesPage() {
                   </li>
                 </ol>
               </div>
-              <HorizontalFlex gap={16}>
+              <HorizontalFlex gap={15}>
                 <Button onClick={() => router.back()}>Back</Button>
               </HorizontalFlex>
             </VerticalFlex>
-          </div>
+          </Frame>
         </HorizontalFlex>
       </div>
 
