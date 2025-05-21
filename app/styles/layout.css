@@ -101,6 +101,12 @@ main,
   flex-shrink: 0;
 }
 
+/* === RULES === */
+.rules {
+  height: 80vh;
+  width: 60vw;
+}
+
 /* === LANDING PAGE === */
 
 .landing-page {
