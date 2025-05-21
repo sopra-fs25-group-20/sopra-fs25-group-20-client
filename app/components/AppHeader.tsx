@@ -29,8 +29,17 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
       ? window.open("/profile", "_blank")
       : router.push("/profile");
 
+  const handleRules = () =>
+    isGameCodePage ? window.open("/rules", "_blank") : router.push("/rules");
+
   return (
     <header className="app-header">
+      <button
+        onClick={handleRules}
+        className="app-header-button d-flex align-items-center gap-2"
+      >
+        Rules
+      </button>
       {!isLoggedIn && showLogin && (
         <button
           onClick={handleLogin}
