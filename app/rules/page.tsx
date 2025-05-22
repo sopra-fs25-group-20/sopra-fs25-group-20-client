@@ -38,7 +38,7 @@ export default function RulesPage() {
               >
                 <ol style={{ textAlign: "left", lineHeight: 1.6 }}>
                   <li>
-                    <strong>Setup:</strong> 3+ players join a room. One is
+                    <strong>Setup:</strong> 3-10 players join a room. One is
                     randomly assigned as the <em>Spy</em>, the others as{" "}
                     <em>Innocents</em>. Admin can change the game settings.
                     Logged-in users have win/loss stats recorded.
