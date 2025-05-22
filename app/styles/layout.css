@@ -134,7 +134,7 @@ main,
 .chat {
   padding: 2rem 2rem 1rem 2rem; /* shift the chat bar down */
   flex: 1;
-  max-width: 21rem;
+  max-width: 24rem;
 }
 
 .overflow-container {
