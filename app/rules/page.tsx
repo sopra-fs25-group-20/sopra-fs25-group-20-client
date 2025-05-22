@@ -26,8 +26,9 @@ export default function RulesPage() {
                 Rules
               </h1>
               <div
-                className={`rules-scroll ${darkMode ? "dark-scroll" : "light-scroll"
-                  }`}
+                className={`rules-scroll ${
+                  darkMode ? "dark-scroll" : "light-scroll"
+                }`}
                 style={{
                   flex: 1,
                   overflowY: "auto",
@@ -38,7 +39,7 @@ export default function RulesPage() {
               >
                 <ol style={{ textAlign: "left", lineHeight: 1.6 }}>
                   <li>
-                    <strong>Setup:</strong> 3+ players join a room. One is
+                    <strong>Setup:</strong> 3-10 players join a room. One is
                     randomly assigned as the <em>Spy</em>, the others as{" "}
                     <em>Innocents</em>. Admin can change the game settings.
                     Logged-in users have win/loss stats recorded.
@@ -62,7 +63,9 @@ export default function RulesPage() {
                     <div style={{ marginTop: "0.2rem" }}>
                       <div style={{ marginLeft: "1rem" }}>
                         Everyone can start a vote against anyone. If the
-                        majority votes yes in a vote against someone the game
+                        majority votes no or the vote is tied, the player stays
+                        in the game and the round continues. However, if the
+                        majority votes yes in a vote against someone the round
                         ends.
                       </div>
                       <div style={{ marginLeft: "2rem" }}>
@@ -116,8 +119,9 @@ export default function RulesPage() {
                 Strategy
               </h1>
               <div
-                className={`rules-scroll ${darkMode ? "dark-scroll" : "light-scroll"
-                  }`}
+                className={`rules-scroll ${
+                  darkMode ? "dark-scroll" : "light-scroll"
+                }`}
                 style={{
                   flex: 1,
                   overflowY: "auto",
@@ -186,8 +190,8 @@ export default function RulesPage() {
                           ones.
                         </li>
                         <li>
-                          When you&apos;re asked a question, adjust your answer based
-                          on what&apos;s been said so far:
+                          When you&apos;re asked a question, adjust your answer
+                          based on what&apos;s been said so far:
                           <ul
                             style={{
                               listStyleType: "circle",
@@ -196,20 +200,20 @@ export default function RulesPage() {
                             }}
                           >
                             <li>
-                              If you&apos;re unsure about the target image, give a
-                              vague but believable answer. Just be aware it
+                              If you&apos;re unsure about the target image, give
+                              a vague but believable answer. Just be aware it
                               might raise suspicion.
                             </li>
                             <li>
-                              If you&apos;ve narrowed down the options, shape your
-                              answer to fit the remaining images.
+                              If you&apos;ve narrowed down the options, shape
+                              your answer to fit the remaining images.
                             </li>
                           </ul>
                         </li>
                         <li>
-                          If you&apos;ve raised too much suspicion, and feel like you
-                          will be voted out, submit your best guess before it&apos;s
-                          too late.
+                          If you&apos;ve raised too much suspicion, and feel
+                          like you will be voted out, submit your best guess
+                          before it&apos;s too late.
                         </li>
                       </ul>
                     </div>

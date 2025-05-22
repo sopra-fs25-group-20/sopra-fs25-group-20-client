@@ -111,6 +111,7 @@ export const Chat = () => {
             onKeyDown={handleKeyDown}
             placeholder="Type to chat ..."
             className="chat-input"
+            maxLength={150}
           />
           {showDropdown && (
             <div className="mention-dropdown">
