@@ -57,8 +57,11 @@ export const SummaryCard = () => {
   return (
     <div className="summary-card">
       <div className="summary-header">
-        <div className="summary-title">The {summary?.winnerRole ?? "?"}s</div>
-        <div className="summary-subtitle">have won the game!</div>
+        <div className="summary-title">
+          {summary?.winnerRole === "SPY"
+            ? "The Spy has won the game!"
+            : "The Innocents have won the game!"}
+        </div>
       </div>
 
       <div className="summary-image-wrapper">
