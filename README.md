@@ -39,7 +39,7 @@ For the Client part of our application, we relied on the following tech stack:
 
 ### Home([page.tsx](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/blob/main/app/page.tsx))
 
-The `Home` page is the first page you see when you visit our [web-application](https://spyquest.whtvr.ch). From here you can register/Login via `Register` as a User or play as a guest via `Play as guest`. If you choose to play as a guest no user stats are safed to the profile.
+The `Home` page is the first page you see when you launch SpyQuest. From here you can register/Login via `Register` as a User or play as a guest via `Play as guest`. If you choose to play as a guest no user stats are safed to the profile.
 
 ### Lobby([lobby.tsx](https://github.com/sopra-fs25-group-20/sopra-fs25-group-20-client/blob/main/app/game/%5Bcode%5D/lobby.tsx))
 
@@ -57,7 +57,7 @@ In the `Game Summary` page the winner is displayed as well as the role of every 
 
 ### How to Run
 
-You can either play the [live version](https://spyquest.whtvr.ch/) of SpyQuest or deploy the frontend using Docker.
+Deploy the frontend using Docker.
 
 ### **Run with Default Backend**
 
@@ -81,7 +81,7 @@ docker run -p 3000:3000 -e BACKEND_URL=https://your-backend-url.com -e BROKER_UR
 	<img src="figures/home.png">
 </p>
 
-This is the `Home` page you see when visiting our [website](https://spyquest.whtvr.ch/) SpyQuest.
+This is the `Home` page you see when visiting SpyQuest.
 
 ---
 
